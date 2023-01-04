@@ -124,7 +124,7 @@ export function reverse(arr) {
 // reverse([1, 2, 3]);
 // [ 3, 2, 1 ]
 
-function sort(f, coll) {
+export function sort(f, coll) {
   if (coll === undefined) {
     coll = f;
     f = undefined;
@@ -133,3 +133,35 @@ function sort(f, coll) {
 }
 // sort([3, 4, 1, 2]);
 // [ 1, 2, 3, 4 ]
+
+export function shuffle(coll) {
+  return [...coll].sort(function (a, b) {
+    return Math.random() - 0.5;
+  });
+}
+// shuffle([1, 2, 3, 4]);
+// [ 1, 3, 4, 2 ]
+
+export function randInt(n) {
+  return Math.floor(Math.random() * n);
+}
+// randInt(10);
+// 4
+
+export function isTrue(x) {
+  return x === true;
+}
+// isTrue(true);
+// true
+
+export function isFalse(x) {
+  return x === false;
+}
+// isFalse(false);
+// true
+
+export function isSome(x) {
+  return !(x === null || x === undefined);
+}
+// isSome(true);
+// true
