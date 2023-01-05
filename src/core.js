@@ -165,3 +165,28 @@ export function isSome(x) {
 }
 // isSome(true);
 // true
+
+function pipe(isThreadFirst, first, ...args) {
+  return args.reduce((prev, next) => {
+    if (Array.isArray(next)) {
+      let [head, ...tail] = next;
+      return isThreadFirst
+        ? head.apply(this, [prev, ...tail])
+        : head.apply(this, tail.concat(prev));
+    } else {
+      return next.call(this, prev);
+    }
+  }, first);
+}
+
+export function threadFirst(first, ...args) {
+  return pipe(true, first, ...args);
+}
+
+export function threadLast(first, ...args) {
+  return pipe(false, first, ...args);
+}
+threadFirst("3", parseInt);
+// thread("3", parseInt);
+threadLast("3", parseInt);
+// thread("3", parseInt);
