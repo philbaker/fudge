@@ -60,8 +60,14 @@ export function not(expr) {
 // false
 
 export function isNil(val) {
-  return val == null;
+  return val === null;
 }
+// isNil(null);
+// true
+// isNil(false);
+// false
+// isNil(true);
+// false
 
 export function subvec(arr, start, end) {
   return arr.slice(start, end);
@@ -85,15 +91,15 @@ export function apply(f, ...args) {
 // 'str1str2str3'
 
 export function isEven(x) {
-  return x % 2 == 0;
+  return x % 2 === 0;
 }
 // isEven(2);
 // true
 
 export function isOdd(x) {
-  return !isEven(x);
+  return not(isEven(x));
 }
-// isOdd(2);
+ isOdd(2);
 // false
 
 export function complement(f) {
@@ -131,7 +137,7 @@ export function sort(f, coll) {
   }
   return [...coll].sort(f);
 }
-// sort([3, 4, 1, 2]);
+sort([3, 4, 1, 2]);
 // [ 1, 2, 3, 4 ]
 
 export function shuffle(coll) {
@@ -161,32 +167,19 @@ export function isFalse(x) {
 // true
 
 export function isSome(x) {
-  return !(x === null || x === undefined);
+  return not(x === null || x === undefined);
 }
 // isSome(true);
 // true
 
-function pipe(isThreadFirst, first, ...args) {
-  return args.reduce((prev, next) => {
-    if (Array.isArray(next)) {
-      let [head, ...tail] = next;
-      return isThreadFirst
-        ? head.apply(this, [prev, ...tail])
-        : head.apply(this, tail.concat(prev));
-    } else {
-      return next.call(this, prev);
-    }
-  }, first);
+export function threadFirst(value, ...fns) {
+  return fns.reduce((acc, fn) => fn(acc), value);
 }
-
-export function threadFirst(first, ...args) {
-  return pipe(true, first, ...args);
-}
-
-export function threadLast(first, ...args) {
-  return pipe(false, first, ...args);
-}
-threadFirst("3", parseInt);
+// threadFirst("3", parseInt);
 // thread("3", parseInt);
-threadLast("3", parseInt);
+
+export function threadLast(value, ...fns) {
+  return fns.reduceRight((acc, fn) => fn(acc), value);
+}
+// threadLast("3", parseInt);
 // thread("3", parseInt);
