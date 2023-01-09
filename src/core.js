@@ -1,3 +1,220 @@
+// -------------------------//
+//------- Data types -------//
+// -------------------------//
+const MAP_TYPE = 1;
+const ARRAY_TYPE = 2;
+const OBJECT_TYPE = 3;
+const LIST_TYPE = 4;
+const SET_TYPE = 5;
+const LAZY_ITERABLE_TYPE = 6;
+
+function emptyOfType(type) {
+  switch (type) {
+    case MAP_TYPE:
+      return new Map();
+    case ARRAY_TYPE:
+      return [];
+    case OBJECT_TYPE:
+      return {};
+    case LIST_TYPE:
+      return new List();
+    case SET_TYPE:
+      return new Set();
+    case LAZY_ITERABLE_TYPE:
+      return lazy(function* () {
+        return;
+      });
+  }
+  return undefined;
+}
+
+function typeConst(obj) {
+  if (obj instanceof Map) {
+    return MAP_TYPE;
+  }
+
+  if (obj instanceof Set) {
+    return SET_TYPE;
+  }
+
+  if (obj instanceof List) {
+    return LIST_TYPE;
+  }
+
+  if (obj instanceof Array) {
+    return ARRAY_TYPE;
+  }
+
+  if (obj instanceof LazyIterable) {
+    return LAZY_ITERABLE_TYPE;
+  }
+
+  if (obj instanceof Object) {
+    return OBJECT_TYPE;
+  }
+
+  return undefined;
+}
+
+class List extends Array {
+  constructor(...args) {
+    super();
+    this.push(...args);
+  }
+}
+
+// -------------------------//
+//---------- Seqs ----------//
+// -------------------------//
+export function isSeqable(x) {
+  return (
+    typeof x === "string" ||
+    x === null ||
+    x === undefined ||
+    Symbol.iterator in x
+  );
+}
+// isSeqable("hello");
+// true
+
+function iterable(x) {
+  if (x === null || x === undefined) {
+    return [];
+  }
+
+  if (isSeqable(x)) {
+    return x;
+  }
+
+  return Object.entries(x);
+}
+
+const IIterable = Symbol("Iterable");
+
+const IIterableIterator = Symbol.iterator;
+
+function iterator(coll) {
+  return coll[Symbol.iterator]();
+}
+
+function seq(x) {
+  let iter = iterable(x);
+
+  if (iter.length === 0 || iter.size === 0) {
+    return null;
+  }
+  return iter;
+}
+// seq(null);
+// null
+// seq("");
+// null
+// seq([1, 2]);
+// [ 1, 2 ]
+// seq({ name: "George", occupation: "Sofa tester" });
+// [
+//   ["name", "George"],
+//   ["occupation", "Sofa tester"],
+// ];
+
+class LazyIterable {
+  constructor(gen) {
+    this.gen = gen;
+  }
+  [IIterable] = true;
+  [Symbol.iterator]() {
+    return this.gen();
+  }
+}
+
+function lazy(f) {
+  return new LazyIterable(f);
+}
+
+function rest(coll) {
+  return lazy(function* () {
+    let first = true;
+    for (const x of iterable(coll)) {
+      if (first) {
+        first = false;
+      } else {
+        yield x;
+      }
+    }
+  });
+}
+rest([1, 2, 3]);
+// [...rest([1, 2, 3])];
+// [ 2, 3 ]
+
+// -------------------------//
+//------- Collections ------//
+// -------------------------//
+
+export function first(coll) {
+  let [first] = iterable(coll);
+  return first;
+}
+// first([1, 2, 3]);
+// 1
+// first("abc");
+// 'a'
+// first({name: "George", weight: 100})
+// [ 'name', 'George' ]
+
+export function second(coll) {
+  let [_, v] = iterable(coll);
+  return v;
+}
+// second([1, 2, 3]);
+// 2
+// second("abc");
+// "b"
+// second({name: "George", weight: 100})
+// "weight", 100
+
+export function ffirst(coll) {
+  return first(first(coll));
+}
+// ffirst({name: "George", weight: 100})
+// "name"
+
+function assocBang(coll, key, val, ...kvs) {
+  if (kvs.length % 2 !== 0) {
+    throw new Error('Illegal argument: assoc expects an odd number of arguments.');
+  }
+
+  switch (typeConst(coll)) {
+    case MAP_TYPE:
+      coll.set(key, val);
+
+      for (let i = 0; i < kvs.length; i += 2) {
+        coll.set(kvs[i], kvs[i + 1]);
+      }
+      break;
+    case ARRAY_TYPE:
+    case OBJECT_TYPE:
+      coll[key] = val;
+
+      for (let i = 0; i < kvs.length; i += 2) {
+        coll[kvs[i]] = kvs[i + 1];
+      }
+      break;
+    default:
+      throw new Error(
+        'Illegal argument: assoc! expects a Map, Array, or Object as the first argument.'
+      );
+  }
+
+  return coll;
+}
+// var someData = [1, 2, 5, 6, 8, 9];
+// assocBang(someData, 0, 77);
+// [ 77, 2, 5, 6, 8, 9 ]
+
+// -------------------------//
+//------- Utilities --------//
+// -------------------------//
 export function plus(...xs) {
   return xs.reduce((x, y) => x + y, 0);
 }
@@ -99,7 +316,7 @@ export function isEven(x) {
 export function isOdd(x) {
   return not(isEven(x));
 }
- isOdd(2);
+isOdd(2);
 // false
 
 export function complement(f) {
@@ -196,6 +413,9 @@ function isPos(x) {
 // isPos(5);
 // true
 
+// -------------------------//
+//---- Threading macros ----//
+// -------------------------//
 export function threadFirst(value, ...fns) {
   return fns.reduce((acc, fn) => fn(acc), value);
 }
@@ -207,4 +427,3 @@ export function threadLast(value, ...fns) {
 }
 // threadLast("3", parseInt);
 // thread("3", parseInt);
-
