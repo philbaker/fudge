@@ -172,6 +172,30 @@ export function isSome(x) {
 // isSome(true);
 // true
 
+export function booleans(x) {
+  return !!x;
+}
+// booleans("hello");
+// true
+
+export function isZero(x) {
+  return x === 0;
+}
+// isZero(3);
+// false
+
+export function isNeg(x) {
+  return x < 0;
+}
+// isNeg(-5);
+// true
+
+function isPos(x) {
+  return x > 0;
+}
+// isPos(5);
+// true
+
 export function threadFirst(value, ...fns) {
   return fns.reduce((acc, fn) => fn(acc), value);
 }
@@ -183,3 +207,4 @@ export function threadLast(value, ...fns) {
 }
 // threadLast("3", parseInt);
 // thread("3", parseInt);
+
