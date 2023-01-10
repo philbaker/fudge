@@ -575,35 +575,69 @@ export function isOdd(x) {
   return not(isEven(x));
 }
 
+/*
+complement() takes a fn f and returns a fn that takes the same arguments
+as f, has the same effects, if any, and returns the opposite truth value
+
+var testIsOdd = complement(isEven);
+testIsOdd(3);
+true
+
+*/
 export function complement(f) {
   return (...args) => not(f(...args));
 }
-// var testIsOdd = complement(isEven);
-// testIsOdd(3);
-// true
 
+/*
+isIdentical() tests if two arguments are the equal
+
+isIdentical(1, 1);
+true
+
+*/
 export function isIdentical(x, y) {
   return x === y;
 }
-// isIdentical(1, 1);
-// true
 
+/*
+partial() takes a function f and fewer than normal arguments to f. It returns a 
+fn that takes a variable number of additional args. When called, the
+returned function calls f with args plus additional args
+
+var hundredPlus = partial(plus, 100);
+hundredPlus(5);
+105
+
+*/
 export function partial(f, ...xs) {
   return function (...args) {
     return f(...xs, ...args);
   };
 }
-// var hundredPlus = partial(plus, 100);
-// hundredPlus(5);
-// 105
 
-export function reverse(arr) {
-  return arr.reverse();
+/*
+reverse() returns an array with items in reverse order
+
+reverse([1, 2, 3]);
+[ 3, 2, 1 ]
+
+
+*/
+function reverse(arr) {
+  return x.reverse();
 }
-// Reverse items in an array
-// reverse([1, 2, 3]);
-// [ 3, 2, 1 ]
 
+
+/*
+sort() returns a sorted sequence of the items in coll
+
+sort([3, 4, 1, 2]);
+[ 1, 2, 3, 4 ]
+
+sort((a, b) => b - a, [3, 4, 1, 2]);
+[ 4, 3, 2, 1 ]
+
+*/
 export function sort(f, coll) {
   if (coll === undefined) {
     coll = f;
@@ -611,75 +645,137 @@ export function sort(f, coll) {
   }
   return [...coll].sort(f);
 }
-sort([3, 4, 1, 2]);
-// [ 1, 2, 3, 4 ]
 
+/*
+shuffle() returns a random permutation of coll
+
+shuffle([1, 2, 3, 4]);
+[ 2, 1, 3, 4 ]
+
+*/
 export function shuffle(coll) {
-  return [...coll].sort(function (a, b) {
+  return [...coll].sort(function () {
     return Math.random() - 0.5;
   });
 }
-// shuffle([1, 2, 3, 4]);
-// [ 1, 3, 4, 2 ]
 
+/*
+randInt() returns a random integer between 0 and n
+
+randInt(30);
+27
+
+randInt(30);
+3
+
+*/
 export function randInt(n) {
   return Math.floor(Math.random() * n);
 }
-// randInt(10);
-// 4
 
+/*
+isTrue() returns true if x is true, false otherwise
+
+
+isTrue(1 > 0);
+true
+
+*/
 export function isTrue(x) {
   return x === true;
 }
-// isTrue(true);
-// true
 
+/*
+isFalse() returns true if x is false, false otherwise
+
+isFalse(1 > 0);
+false
+
+*/
 export function isFalse(x) {
   return x === false;
 }
-// isFalse(false);
-// true
 
+/*
+isSome() returns true if x is not null or undefined, false otherwise
+
+isSome(1 < 5);
+true
+
+*/
 export function isSome(x) {
   return not(x === null || x === undefined);
 }
-// isSome(true);
-// true
 
+/*
+booleans() coerces x to a boolean
+
+booleans("hello");
+true
+
+booleans(0)
+false
+
+*/
 export function booleans(x) {
   return !!x;
 }
-// booleans("hello");
-// true
 
+/*
+isZero() returns true if x is zero, false otherwise
+
+isZero(3);
+false
+
+*/
 export function isZero(x) {
   return x === 0;
 }
-// isZero(3);
-// false
 
+/*
+isNeg() returns true if x is less than zero, false otherwise
+
+isNeg(-5);
+true
+
+*/
 export function isNeg(x) {
   return x < 0;
 }
-// isNeg(-5);
-// true
 
+/*
+isPos() returns true if x is greater than zero, false otherwise
+
+isPos(5);
+true
+
+*/
 function isPos(x) {
   return x > 0;
 }
-// isPos(5);
-// true
 
 // Threading (pipe) functions
 
-export function threadFirst(value, ...fns) {
-  return fns.reduce((acc, fn) => fn(acc), value);
-}
-// threadFirst("3", parseInt);
-// thread("3", parseInt);
+/*
+threadFirst() threads x through the fns. Inserts x as the second item in the first
+function. It will do the same for following functions.
 
-export function threadLast(value, ...fns) {
-  return fns.reduceRight((acc, fn) => fn(acc), value);
+threadFirst("3", parseInt);
+3
+
+*/
+export function threadFirst(x, ...fns) {
+  return fns.reduce((acc, fn) => fn(acc), x);
 }
-// threadLast("3", parseInt);
-// thread("3", parseInt);
+
+/*
+threadLast() threads x through the fns. Inserts x as the last item in the first
+function. It will do the same for following functions
+
+threadLast("3", parseInt);
+3
+
+*/
+export function threadLast(x, ...fns) {
+  return fns.reduceRight((acc, fn) => fn(acc), x);
+}
