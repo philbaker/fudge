@@ -11,7 +11,7 @@
 - [ ] ns;Define a namespace at the top of a file.;49644
 - [X] ->;Thread-first macro.;46439
 - [ ] defn-;Define a function at the top level that is private to the namespace.;44741
-- [ ] first;Return the initial element of a seq.;37981
+- [X] first;Return the initial element of a seq.;37981
 - [ ] when;One-way conditional branch.;34247
 - [ ] testing;Add context text to enclosed assertions.;32891
 - [ ] or;Evaluate expressions in turn, returning the first that is truthy or nil otherwise.;31252
@@ -30,7 +30,7 @@
 - [ ] recur;Explicit tail recursion.;16569
 - [X] println;Print out all arguments and output a new line.;16419
 - [ ] do;Execute all expressions and return the value of the last expression.;15841
-- [ ] seq;Convert a value to a seq or nil if it's empty.;15683
+- [X] seq;Convert a value to a seq or nil if it's empty.;15683
 - [ ] doseq;Iterate over a seq, executing the body expressions for each element.;15442
 - [X] ->>;Thread last macro.;15004
 - [ ] throw;Raise an exception.;14419
@@ -70,7 +70,7 @@
 - [X] nth;Retrieve an element from a seq by numeric index.;7628
 - [ ] assert;Throw an AssertionError if expression is false.;7613
 - [ ] defproject;Define a Leiningen project.;7604
-- [ ] second;Return the second element of a seq.;7565
+- [X] second;Return the second element of a seq.;7565
 - [ ] are;Assert that multiple expressions are truthy in a test.;7445
 - [ ] contains?;Does a key appear in an associative data structure?;7300
 - [ ] update-in;Modify a value at a path in a nested data structure by applying a function to that value.;7266
