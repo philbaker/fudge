@@ -217,7 +217,7 @@ export function ffirst(coll) {
 // ffirst({name: "George", weight: 100})
 // "name"
 
-function assocBang(coll, key, val, ...kvs) {
+export function assocBang(coll, key, val, ...kvs) {
   if (kvs.length % 2 !== 0) {
     throw new Error(
       "Illegal argument: assoc expects an odd number of arguments."
