@@ -26,3 +26,26 @@ describe("plus", function () {
     expect(fc.plus(1, -2)).toBe(-1);
   });
 });
+
+describe("rest", function () {
+  it("returns all but the first element", function () {
+    expect([...fc.rest([1, 2, 3])]).toEqual([2, 3]);
+  });
+
+  it("returns an empty array if only one element in array", function () {
+    expect([...fc.rest([1])]).toEqual([]);
+  });
+
+  it("returns an empty array when given an empty array", function () {
+    expect([...fc.rest([])]).toEqual([]);
+  });
+
+  it("returns an empty array when given null", function () {
+    expect([...fc.rest(null)]).toEqual([]);
+  });
+
+  it("returns an empty array when given undefined", function () {
+    expect([...fc.rest(undefined)]).toEqual([]);
+  });
+});
+
