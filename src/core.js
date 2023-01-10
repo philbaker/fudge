@@ -1,6 +1,4 @@
-/*--------------------------*/
-/*------- Data types -------*/
-/*--------------------------*/
+// Data types
 
 const MAP_TYPE = 1;
 const ARRAY_TYPE = 2;
@@ -29,6 +27,17 @@ function emptyOfType(type) {
   return undefined;
 }
 
+/*
+Internal function
+typeConst() returns data type based by checking the object. 
+
+typeConst([1, 2, 3]);
+2
+
+typeConst({name: "George", occupation: "Cat"});
+3
+
+*/
 function typeConst(obj) {
   if (obj instanceof Map) {
     return MAP_TYPE;
@@ -57,6 +66,16 @@ function typeConst(obj) {
   return undefined;
 }
 
+/*
+List creates something similar to a Clojure's List structure using JavaScript arrays
+
+It's useful to have a seperate structure because the lists behave differently to
+vectors in some functions
+
+new List(1, 2, 3);
+List(3) [ 1, 2, 3 ]
+
+*/
 class List extends Array {
   constructor(...args) {
     super();
@@ -64,10 +83,15 @@ class List extends Array {
   }
 }
 
-/*--------------------------*/
-/*---------- Seqs ----------*/
-/*--------------------------*/
+// Seqs
 
+/*
+isSeqable returns true if the seq function is supported for x
+
+isSeqable("hello");
+true
+
+*/
 export function isSeqable(x) {
   return (
     typeof x === "string" ||
@@ -76,27 +100,10 @@ export function isSeqable(x) {
     Symbol.iterator in x
   );
 }
+
 /*
-Returns true if the seq function is supported for x
-
-isSeqable("hello");
-true
-
-*/
-
-function iterable(x) {
-  if (x === null || x === undefined) {
-    return [];
-  }
-
-  if (isSeqable(x)) {
-    return x;
-  }
-
-  return Object.entries(x);
-}
-/*
-Internal function. Ensures x can be iterated
+Internal function
+iterable() ensures x can be iterated
 
 iterable(null);
 []
@@ -111,25 +118,35 @@ iterable({ name: "George", occupation: "pet" });
 ];
 
 */
+function iterable(x) {
+  if (x === null || x === undefined) {
+    return [];
+  }
+
+  if (isSeqable(x)) {
+    return x;
+  }
+
+  return Object.entries(x);
+}
 
 const IIterable = Symbol("Iterable");
 
 const IIterableIterator = Symbol.iterator;
 
+/* 
+Internal function
+iterator([1, 2, 3]);
+
+Object [Array Iterator] {}
+
+*/
 function iterator(coll) {
   return coll[Symbol.iterator]();
 }
 
-function seq(x) {
-  let iter = iterable(x);
-
-  if (iter.length === 0 || iter.size === 0) {
-    return null;
-  }
-  return iter;
-}
 /*
-Returns a seq on the collection. If the collection is empty, returns null.
+seq() returns a sequence on the collection. If the collection is empty, returns null.
 Seq works with strings.
 
 seq(null);
@@ -148,7 +165,18 @@ seq({ name: "George", occupation: "Sofa tester" });
 ];
 
 */
+export function seq(x) {
+  let iter = iterable(x);
 
+  if (iter.length === 0 || iter.size === 0) {
+    return null;
+  }
+  return iter;
+}
+
+/*
+Enables lazy evaluation of sequences
+*/
 class LazyIterable {
   constructor(gen) {
     this.gen = gen;
@@ -163,9 +191,32 @@ function lazy(f) {
   return new LazyIterable(f);
 }
 
-function rest(coll) {
+// Collections
+
+/*
+rest() returns a LazyIterable collection containing a possibly empty seq of the items 
+after the first
+
+rest([1, 2, 3]);
+LazyIterable {
+  gen: [GeneratorFunction (anonymous)],
+  [Symbol(Iterable)]: true
+}
+
+[...rest([1, 2, 3])];
+[ 2, 3 ]
+
+[...rest([1])]
+[]
+
+[...rest(null)];
+[]
+
+*/
+export function rest(coll) {
   return lazy(function* () {
     let first = true;
+
     for (const x of iterable(coll)) {
       if (first) {
         first = false;
@@ -175,20 +226,9 @@ function rest(coll) {
     }
   });
 }
-rest([1, 2, 3]);
-// [...rest([1, 2, 3])];
-// [ 2, 3 ]
 
-// -------------------------//
-//------- Collections ------//
-// -------------------------//
-
-export function first(coll) {
-  let [first] = iterable(coll);
-  return first;
-}
 /* 
-Return first item of collection 
+first() returns the first item of collection 
 
 first([1, 2, 3]);
 1
@@ -196,27 +236,64 @@ first([1, 2, 3]);
 first("abc");
 "a"
 
+first([]);
+null
+
 first({name: "George", weight: 100})
 ["name", "George"]
 */
+export function first(coll) {
+  let [first] = iterable(coll);
 
+  return first || null;
+}
+
+
+/*
+second() returns the second item of a collection
+
+second([1, 2, 3]);
+2
+
+second("abc");
+"b"
+
+second({name: "George", weight: 100})
+"weight", 100
+
+second([1]);
+null
+
+second([]);
+null
+
+*/
 export function second(coll) {
   let [_, v] = iterable(coll);
-  return v;
-}
-// second([1, 2, 3]);
-// 2
-// second("abc");
-// "b"
-// second({name: "George", weight: 100})
-// "weight", 100
 
+  return v || null;
+}
+
+/*
+ffirst() is the same as first(first(coll))
+
+ffirst({name: "George", weight: 100})
+"name"
+
+*/
 export function ffirst(coll) {
   return first(first(coll));
 }
-// ffirst({name: "George", weight: 100})
-// "name"
 
+/*
+Mutator
+assocBang() adds a value to a structure by mutating the original
+
+var someData = [1, 2, 5, 6, 8, ];
+assocBang(someData, 0, 77);
+[ 77, 2, 5, 6, 8, 9 ]
+
+*/
 export function assocBang(coll, key, val, ...kvs) {
   if (kvs.length % 2 !== 0) {
     throw new Error(
@@ -248,50 +325,96 @@ export function assocBang(coll, key, val, ...kvs) {
 
   return coll;
 }
-// var someData = [1, 2, 5, 6, 8, 9];
-// assocBang(someData, 0, 77);
-// [ 77, 2, 5, 6, 8, 9 ]
 
-// -------------------------//
-//------- Utilities --------//
-// -------------------------//
+// Utilities
+
+/*
+plus() returns the sum of numbers
+
+plus(1, 2, 3);
+6
+
+*/
 export function plus(...xs) {
   return xs.reduce((x, y) => x + y, 0);
 }
-// plus(1, 2, 3);
-// 6
 
+/*
+minus() returns the subtraction of numbers 
+
+minus(5, 1, 2);
+2
+
+*/
 export function minus(...xs) {
   return xs.reduce((x, y) => x - y);
 }
-// minus(5, 1, 2);
-// 2
 
+/*
+identity() returns its argument
+
+identity([1]);
+[ 1 ]
+
+*/
 export function identity(x) {
   return x;
 }
-// identity([1]);
-// [ 1 ]
 
+/*
+inc() returns a number one greater than n
+
+inc(5);
+6
+
+*/
 export function inc(n) {
   return n + 1;
 }
-// inc(5);
-// 6
 
+/*
+dec() returns a number one less than n
+
+dec(5);
+4
+
+*/
 export function dec(n) {
   return n - 1;
 }
-// dec(5);
-// 4
 
+/*
+println() is a wrapper for console.log()
+
+println("Hello", "world");
+(out) Hello world
+
+*/
 export function println(...args) {
   console.log(...args);
 }
-// println("Hello", "world");
-// (out) Hello world
 
-export function nth(coll, index, orElse) {
+
+/*
+nth() returns the value at the index
+
+nth(["a", "b", "c", "d"], 0);
+"a"
+
+nth([1, 2, 3], 2, null)
+3
+
+nth([], 0);
+undefined
+
+nth([], 0, "nothing found");
+"nothing found"
+
+nth ([0, 1, 2], 77, 1337);
+1337
+
+*/
+export function nth(coll, index, notFound) {
   if (coll) {
     var element = coll[index];
 
@@ -299,65 +422,151 @@ export function nth(coll, index, orElse) {
       return element;
     }
   }
-  return orElse;
+  return notFound;
 }
-// nth([1, 2, 3], 2, null)
-// 3
 
+/*
+str() returns a string for single values and a concatenation of multiple values
+
+str()
+""
+
+str(null)
+""
+
+str(1);
+"1"
+
+str(1, 2, 3);
+"123"
+
+str("L", 5, "a");
+"L5a"
+
+*/
 export function str(...xs) {
   return xs.join("");
 }
-// str("Hello", " world");
-// 'Hello world'
 
-export function not(expr) {
-  return !expr;
+/*
+not() returns true if x is logical false, false otherwise
+
+not(true);
+false
+
+not(false);
+true
+
+not(null);
+true
+
+not(undefined);
+true
+
+not(1);
+false
+
+*/
+export function not(x) {
+  return !x;
 }
-// not(true);
-// false
 
-export function isNil(val) {
-  return val === null;
+/*
+isNil() returns true if x is null, false otherwise
+
+isNil(null);
+true
+
+isNil(false);
+false
+
+isNil(true);
+false
+
+*/
+export function isNil(x) {
+  return x === null;
 }
-// isNil(null);
-// true
-// isNil(false);
-// false
-// isNil(true);
-// false
 
+/*
+subvec() returns an array of the items in an array from start to end
+
+subvec([1, 2, 3, 4, 5, 6, 7], 2);
+[ 3, 4, 5, 6, 7 ]
+
+subvec([1, 2, 3, 4, 5, 6, 7], 2, 4);
+[ 3, 4 ]
+
+*/
 export function subvec(arr, start, end) {
   return arr.slice(start, end);
 }
-// subvec([1, 2, 3, 4], 1, 3);
-// [ 2, 3 ]
 
+/*
+vector() creates a new array containing args
+
+vector();
+[]
+
+vector(null);
+[ null ]
+
+vector(1, 2, 3);
+[ 1, 2, 3 ]
+
+*/
 export function vector(...args) {
   return args;
 }
-// vector(1, 2, 3);
-// [ 1, 2, 3 ]
 
+/*
+apply() applies fn f to the argument list formed by prepending intervening 
+arguments to args
+
+apply(str, ["str1", "str2", "str3"]);
+"str1str2str3"
+
+*/
 export function apply(f, ...args) {
   var xs = args.slice(0, args.length - 1);
   var coll = args[args.length - 1];
 
   return f(...xs, ...coll);
 }
-// apply(str, ["str1", "str2", "str3"]);
-// 'str1str2str3'
 
+/*
+isEven() returns true if x is even
+
+isEven(2);
+true
+
+isEven(null);
+Error
+
+*/
 export function isEven(x) {
+  if (typeof x !== "number") {
+    throw new Error(
+      `Illegal argument: ${x} is not a number`
+    );
+  }
+
   return x % 2 === 0;
 }
-// isEven(2);
-// true
 
+/*
+isOdd() returns true if x is odd
+
+isOdd(3);
+true
+
+isOdd(null);
+Error
+
+*/
 export function isOdd(x) {
   return not(isEven(x));
 }
-isOdd(2);
-// false
 
 export function complement(f) {
   return (...args) => not(f(...args));
@@ -454,9 +663,8 @@ function isPos(x) {
 // isPos(5);
 // true
 
-// -------------------------//
-//---- Threading macros ----//
-// -------------------------//
+// Threading (pipe) functions
+
 export function threadFirst(value, ...fns) {
   return fns.reduce((acc, fn) => fn(acc), value);
 }
