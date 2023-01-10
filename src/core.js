@@ -1,6 +1,7 @@
-// -------------------------//
-//------- Data types -------//
-// -------------------------//
+/*--------------------------*/
+/*------- Data types -------*/
+/*--------------------------*/
+
 const MAP_TYPE = 1;
 const ARRAY_TYPE = 2;
 const OBJECT_TYPE = 3;
@@ -63,9 +64,10 @@ class List extends Array {
   }
 }
 
-// -------------------------//
-//---------- Seqs ----------//
-// -------------------------//
+/*--------------------------*/
+/*---------- Seqs ----------*/
+/*--------------------------*/
+
 export function isSeqable(x) {
   return (
     typeof x === "string" ||
@@ -74,8 +76,13 @@ export function isSeqable(x) {
     Symbol.iterator in x
   );
 }
-// isSeqable("hello");
-// true
+/*
+Returns true if the seq function is supported for x
+
+isSeqable("hello");
+true
+
+*/
 
 function iterable(x) {
   if (x === null || x === undefined) {
@@ -88,6 +95,22 @@ function iterable(x) {
 
   return Object.entries(x);
 }
+/*
+Internal function. Ensures x can be iterated
+
+iterable(null);
+[]
+
+iterable("abc");
+"abc"
+
+iterable({ name: "George", occupation: "pet" });
+[
+  ["name", "George"],
+  ["occupation", "pet"],
+];
+
+*/
 
 const IIterable = Symbol("Iterable");
 
@@ -105,17 +128,26 @@ function seq(x) {
   }
   return iter;
 }
-// seq(null);
-// null
-// seq("");
-// null
-// seq([1, 2]);
-// [ 1, 2 ]
-// seq({ name: "George", occupation: "Sofa tester" });
-// [
-//   ["name", "George"],
-//   ["occupation", "Sofa tester"],
-// ];
+/*
+Returns a seq on the collection. If the collection is empty, returns null.
+Seq works with strings.
+
+seq(null);
+null
+
+seq("");
+null
+
+seq([1, 2]);
+[ 1, 2 ]
+
+seq({ name: "George", occupation: "Sofa tester" });
+[
+  ["name", "George"],
+  ["occupation", "Sofa tester"],
+];
+
+*/
 
 class LazyIterable {
   constructor(gen) {
@@ -155,12 +187,18 @@ export function first(coll) {
   let [first] = iterable(coll);
   return first;
 }
-// first([1, 2, 3]);
-// 1
-// first("abc");
-// 'a'
-// first({name: "George", weight: 100})
-// [ 'name', 'George' ]
+/* 
+Return first item of collection 
+
+first([1, 2, 3]);
+1
+
+first("abc");
+"a"
+
+first({name: "George", weight: 100})
+["name", "George"]
+*/
 
 export function second(coll) {
   let [_, v] = iterable(coll);
@@ -181,7 +219,9 @@ export function ffirst(coll) {
 
 function assocBang(coll, key, val, ...kvs) {
   if (kvs.length % 2 !== 0) {
-    throw new Error('Illegal argument: assoc expects an odd number of arguments.');
+    throw new Error(
+      "Illegal argument: assoc expects an odd number of arguments."
+    );
   }
 
   switch (typeConst(coll)) {
@@ -202,7 +242,7 @@ function assocBang(coll, key, val, ...kvs) {
       break;
     default:
       throw new Error(
-        'Illegal argument: assoc! expects a Map, Array, or Object as the first argument.'
+        "Illegal argument: assoc! expects a Map, Array, or Object as the first argument."
       );
   }
 
@@ -344,6 +384,7 @@ export function partial(f, ...xs) {
 export function reverse(arr) {
   return arr.reverse();
 }
+// Reverse items in an array
 // reverse([1, 2, 3]);
 // [ 3, 2, 1 ]
 
