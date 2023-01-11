@@ -278,7 +278,9 @@ describe("isEven", function () {
   });
 
   it("throws an error if x is not a number", function () {
-    expect(function() { fc.isEven(null) }).toThrowError("Illegal argument: null is not a number");
+    expect(function () {
+      fc.isEven(null);
+    }).toThrowError("Illegal argument: null is not a number");
   });
 });
 
@@ -288,7 +290,9 @@ describe("isOdd", function () {
   });
 
   it("throws an error if x is not a number", function () {
-    expect(function() { fc.isOdd(null) }).toThrowError("Illegal argument: null is not a number");
+    expect(function () {
+      fc.isOdd(null);
+    }).toThrowError("Illegal argument: null is not a number");
   });
 });
 
@@ -303,5 +307,32 @@ describe("partial", function () {
   it("It returns a function that takes a variable number of additional args", function () {
     var hundredPlus = fc.partial(fc.plus, 100);
     expect(hundredPlus(5)).toBe(105);
+  });
+});
+
+describe("sort", function () {
+  it("returns a sorted sequence of the items in coll", function () {
+    expect(fc.sort([3, 4, 1, 2])).toEqual([1, 2, 3, 4]);
+    expect(fc.sort((a, b) => b - a, [3, 4, 1, 2])).toEqual([4, 3, 2, 1]);
+  });
+});
+
+describe('isSome', () => {
+  it("returns true if x is not null or undefined, false otherwise", function () {
+    expect(fc.isSome(1 < 5)).toBe(true);
+    expect(fc.isSome(null)).toBe(false);
+    expect(fc.isSome(undefined)).toBe(false);
+  });
+})
+
+describe("threadFirst", function () {
+  it("threads x through the fns with x as the second argument", function () {
+    expect(fc.threadFirst("3", parseInt)).toBe(3);
+  });
+});
+
+describe("threadLast", function () {
+  it("threads x through the fns with x as the last argument", function () {
+    expect(fc.threadLast("3", parseInt)).toBe(3);
   });
 });
