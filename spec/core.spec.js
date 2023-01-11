@@ -49,3 +49,69 @@ describe("rest", function () {
   });
 });
 
+describe("first", function () {
+  it("returns first element in an array", function () {
+    expect(fc.first([1, 2, 3])).toBe(1);
+  });
+
+  it("returns first character of a string", function () {
+    expect(fc.first("abc")).toBe("a");
+  });
+
+  it("returns first key value pair of an object", function () {
+    expect(fc.first({ name: "George", weight: 100 })).toEqual([
+      "name",
+      "George",
+    ]);
+  });
+
+  it("returns null if array is empty", function () {
+    expect(fc.first([])).toBe(null);
+  });
+
+  it("returns null if object is empty", function () {
+    expect(fc.first({})).toBe(null);
+  });
+
+  it("returns null if string is empty", function () {
+    expect(fc.first("")).toBe(null);
+  });
+});
+
+describe("second", function () {
+  it("returns second element of array", function () {
+    expect(fc.second([1, 2, 3])).toBe(2);
+  });
+
+  it("returns second character of string", function () {
+    expect(fc.second("abc")).toBe("b");
+  });
+
+  it("returns second element of array", function () {
+    expect(fc.second({ name: "George", weight: 100 })).toEqual(["weight", 100]);
+  });
+
+  it("returns null if array is empty", function () {
+    expect(fc.second([])).toBe(null);
+  });
+
+  it("returns null if second element of array does not exist", function () {
+    expect(fc.second([1])).toBe(null);
+  });
+
+  it("returns null if object is empty", function () {
+    expect(fc.second({})).toBe(null);
+  });
+
+  it("returns null if second element of object does not exist", function () {
+    expect(fc.second({ name: "George" })).toBe(null);
+  });
+
+  it("returns null if string is empty", function () {
+    expect(fc.second("")).toBe(null);
+  });
+
+  it("returns null if second character of string does not exist", function () {
+    expect(fc.second("a")).toBe(null);
+  });
+});
