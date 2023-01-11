@@ -281,3 +281,27 @@ describe("isEven", function () {
     expect(function() { fc.isEven(null) }).toThrowError("Illegal argument: null is not a number");
   });
 });
+
+describe("isOdd", function () {
+  it("returns true if x is odd", function () {
+    expect(fc.isOdd(3)).toBe(true);
+  });
+
+  it("throws an error if x is not a number", function () {
+    expect(function() { fc.isOdd(null) }).toThrowError("Illegal argument: null is not a number");
+  });
+});
+
+describe("complement", function () {
+  it("returns the opposite truth value", function () {
+    var testIsOdd = fc.complement(fc.isEven);
+    expect(testIsOdd(3)).toBe(true);
+  });
+});
+
+describe("partial", function () {
+  it("It returns a function that takes a variable number of additional args", function () {
+    var hundredPlus = fc.partial(fc.plus, 100);
+    expect(hundredPlus(5)).toBe(105);
+  });
+});
