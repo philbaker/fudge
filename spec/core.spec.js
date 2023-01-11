@@ -116,10 +116,9 @@ describe("second", function () {
   });
 });
 
-
 describe("ffirst", function () {
   it("returns the first first element", function () {
-    expect(fc.ffirst({name: "George", weight: 100})).toBe("name");
+    expect(fc.ffirst({ name: "George", weight: 100 })).toBe("name");
   });
 
   it("returns null for empty array", function () {
@@ -128,5 +127,28 @@ describe("ffirst", function () {
 
   it("returns null for empty object", function () {
     expect(fc.ffirst({})).toBe(null);
+  });
+});
+
+describe("assocBang", function () {
+  it("adds a value to an array via mutation", function () {
+    var someData = [1, 2, 5, 6, 8, 9];
+    expect(fc.assocBang(someData, 0, 77)).toEqual([77, 2, 5, 6, 8, 9]);
+  });
+
+  it("adds a value to a map via mutation", function () {
+    var mapData = new Map();
+    mapData.set(0, "zero");
+    fc.assocBang(mapData, 1, "one");
+    expect(mapData.get(1)).toEqual("one");
+    expect(mapData.size).toEqual(2);
+  });
+
+  it("throws an error if given incorrect type", function () {
+    expect(function () {
+      fc.assocBang("", 0, "hi");
+    }).toThrowError(
+      "Illegal argument: assoc! expects a Map, Array, or Object as the first argument."
+    );
   });
 });

@@ -295,7 +295,7 @@ export function ffirst(coll) {
 Mutator
 assocBang() adds a value to a structure by mutating the original
 
-var someData = [1, 2, 5, 6, 8, ];
+var someData = [1, 2, 5, 6, 8, 9];
 assocBang(someData, 0, 77);
 [ 77, 2, 5, 6, 8, 9 ]
 
@@ -324,6 +324,7 @@ export function assocBang(coll, key, val, ...kvs) {
       }
       break;
     default:
+      console.log(coll);
       throw new Error(
         "Illegal argument: assoc! expects a Map, Array, or Object as the first argument."
       );
