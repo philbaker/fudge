@@ -255,7 +255,6 @@ export function first(coll) {
   return first || null;
 }
 
-
 /*
 second() returns the second item of a collection
 
@@ -400,7 +399,6 @@ println("Hello", "world");
 export function println(...args) {
   console.log(...args);
 }
-
 
 /*
 nth() returns the value at the index
@@ -553,9 +551,7 @@ Error
 */
 export function isEven(x) {
   if (typeof x !== "number") {
-    throw new Error(
-      `Illegal argument: ${x} is not a number`
-    );
+    throw new Error(`Illegal argument: ${x} is not a number`);
   }
 
   return x % 2 === 0;
@@ -626,7 +622,6 @@ reverse([1, 2, 3]);
 function reverse(arr) {
   return x.reverse();
 }
-
 
 /*
 sort() returns a sorted sequence of the items in coll

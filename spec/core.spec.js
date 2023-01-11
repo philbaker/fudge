@@ -115,3 +115,18 @@ describe("second", function () {
     expect(fc.second("a")).toBe(null);
   });
 });
+
+
+describe("ffirst", function () {
+  it("returns the first first element", function () {
+    expect(fc.ffirst({name: "George", weight: 100})).toBe("name");
+  });
+
+  it("returns null for empty array", function () {
+    expect(fc.ffirst([])).toBe(null);
+  });
+
+  it("returns null for empty object", function () {
+    expect(fc.ffirst({})).toBe(null);
+  });
+});
