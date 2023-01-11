@@ -17,16 +17,6 @@ describe("seq", function () {
   });
 });
 
-describe("plus", function () {
-  it("adds 1 + 2 to equal 3", function () {
-    expect(fc.plus(1, 2)).toBe(3);
-  });
-
-  it("adds 1 + -2 to equal -1", function () {
-    expect(fc.plus(1, -2)).toBe(-1);
-  });
-});
-
 describe("rest", function () {
   it("returns all but the first element", function () {
     expect([...fc.rest([1, 2, 3])]).toEqual([2, 3]);
@@ -131,11 +121,6 @@ describe("ffirst", function () {
 });
 
 describe("assocBang", function () {
-  it("adds a value to an array via mutation", function () {
-    var someData = [1, 2, 5, 6, 8, 9];
-    expect(fc.assocBang(someData, 0, 77)).toEqual([77, 2, 5, 6, 8, 9]);
-  });
-
   it("adds a value to a map via mutation", function () {
     var mapData = new Map();
     mapData.set(0, "zero");
@@ -144,11 +129,62 @@ describe("assocBang", function () {
     expect(mapData.size).toEqual(2);
   });
 
+  it("adds a value to an array via mutation", function () {
+    var arrData = [1, 2, 5, 6, 8, 9];
+    expect(fc.assocBang(arrData, 0, 77)).toEqual([77, 2, 5, 6, 8, 9]);
+  });
+
+  it("adds a value to an object via mutation", function () {
+    var objData = { name: "George", occupation: "Sofa tester" };
+    fc.assocBang(objData, "foodPreference", "fish");
+    expect(objData).toEqual({
+      name: "George",
+      occupation: "Sofa tester",
+      foodPreference: "fish",
+    });
+  });
+
   it("throws an error if given incorrect type", function () {
     expect(function () {
       fc.assocBang("", 0, "hi");
     }).toThrowError(
       "Illegal argument: assoc! expects a Map, Array, or Object as the first argument."
     );
+  });
+});
+
+describe("plus", function () {
+  it("adds two numbers", function () {
+    expect(fc.plus(1, 2)).toBe(3);
+  });
+
+  it("adds multiple numbers", function () {
+    expect(fc.plus(1, 2, 50)).toBe(53);
+  });
+
+  it("works with negative numbers", function () {
+    expect(fc.plus(1, -2)).toBe(-1);
+  });
+
+  it("works with decimal numbers", function () {
+    expect(fc.plus(1.5, 1)).toBe(2.5);
+  });
+});
+
+describe("minus", function () {
+  it("adds two numbers", function () {
+    expect(fc.minus(2, 1)).toBe(1);
+  });
+
+  it("adds multiple numbers", function () {
+    expect(fc.minus(5, 1, 2)).toBe(2);
+  });
+
+  it("works with negative numbers", function () {
+    expect(fc.minus(1, -2)).toBe(3);
+  });
+
+  it("works with decimal numbers", function () {
+    expect(fc.minus(1.5, 1)).toBe(0.5);
   });
 });
