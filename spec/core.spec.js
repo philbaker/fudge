@@ -317,13 +317,13 @@ describe("sort", function () {
   });
 });
 
-describe('isSome', () => {
+describe("isSome", function () {
   it("returns true if x is not null or undefined, false otherwise", function () {
     expect(fc.isSome(1 < 5)).toBe(true);
     expect(fc.isSome(null)).toBe(false);
     expect(fc.isSome(undefined)).toBe(false);
   });
-})
+});
 
 describe("threadFirst", function () {
   it("threads x through the fns with x as the second argument", function () {
