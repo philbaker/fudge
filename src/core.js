@@ -437,7 +437,7 @@ export function nth(coll, index, notFound) {
 /*
 str() returns a string for single values and a concatenation of multiple values
 
-str()
+str();
 ""
 
 str(null)

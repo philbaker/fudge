@@ -188,3 +188,96 @@ describe("minus", function () {
     expect(fc.minus(1.5, 1)).toBe(0.5);
   });
 });
+
+describe("identity", function () {
+  it("returns its argument", function () {
+    expect(fc.identity([1])).toEqual([1]);
+  });
+});
+
+describe("inc", function () {
+  it("returns a number one greater than n", function () {
+    expect(fc.inc(5)).toBe(6);
+  });
+});
+
+describe("dec", function () {
+  it("returns a number one less than n", function () {
+    expect(fc.dec(5)).toBe(4);
+  });
+});
+
+describe("nth", function () {
+  it("returns value from array based on index given", function () {
+    expect(fc.nth(["a", "b", "c", "d"], 0)).toBe("a");
+  });
+
+  it("returns undefined if no element is found and no notFound argument is provided", function () {
+    expect(fc.nth([], 0)).toBe(undefined);
+  });
+
+  it("returns notFound if no element is found and notFound argument is provided", function () {
+    expect(fc.nth([], 0, "nothing found")).toBe("nothing found");
+  });
+});
+
+describe("str", function () {
+  it("returns an empty string when no argument provided", function () {
+    expect(fc.str()).toBe("");
+  });
+
+  it("returns an empty string when null passed as argument", function () {
+    expect(fc.str(null)).toBe("");
+  });
+
+  it("converts a number into a string", function () {
+    expect(fc.str(1)).toBe("1");
+  });
+
+  it("concatenates multiple arguments", function () {
+    expect(fc.str(1, 2, 3)).toBe("123");
+    expect(fc.str("L", 5, "a")).toBe("L5a");
+  });
+});
+
+describe("not", function () {
+  it("returns true if x is logical false, false otherwise", function () {
+    expect(fc.not(true)).toBe(false);
+    expect(fc.not(false)).toBe(true);
+    expect(fc.not(null)).toBe(true);
+    expect(fc.not(undefined)).toBe(true);
+    expect(fc.not(1)).toBe(false);
+  });
+});
+
+describe("isNil", function () {
+  it("returns true if x is null, false otherwise", function () {
+    expect(fc.isNil(null)).toBe(true);
+    expect(fc.isNil(false)).toBe(false);
+    expect(fc.isNil(true)).toBe(false);
+  });
+});
+
+describe("vector", function () {
+  it("creates a new array containing arguments given", function () {
+    expect(fc.vector()).toEqual([]);
+    expect(fc.vector(null)).toEqual([null]);
+    expect(fc.vector(1, 2, 3)).toEqual([1, 2, 3]);
+  });
+});
+
+describe("apply", function () {
+  it("apply() applies fn f to the argument list formed by prepending intervening arguments to args", function () {
+    expect(fc.apply(fc.str, ["str1", "str2", "str3"])).toBe("str1str2str3");
+  });
+});
+
+describe("isEven", function () {
+  it("returns true if x is even", function () {
+    expect(fc.isEven(2)).toBe(true);
+  });
+
+  it("throws an error if x is not a number", function () {
+    expect(function() { fc.isEven(null) }).toThrowError("Illegal argument: null is not a number");
+  });
+});
