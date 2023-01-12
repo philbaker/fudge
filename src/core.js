@@ -76,7 +76,7 @@ new List(1, 2, 3);
 List(3) [ 1, 2, 3 ]
 
 */
-class List extends Array {
+export class List extends Array {
   constructor(...args) {
     super();
     this.push(...args);
@@ -166,7 +166,7 @@ seq({ name: "George", occupation: "Sofa tester" });
 
 */
 export function seq(x) {
-  let iter = iterable(x);
+  var iter = iterable(x);
 
   if (iter.length === 0 || iter.size === 0) {
     return null;
@@ -215,7 +215,7 @@ LazyIterable {
 */
 export function rest(coll) {
   return lazy(function* () {
-    let first = true;
+    var first = true;
 
     for (const x of iterable(coll)) {
       if (first) {
@@ -243,7 +243,7 @@ first({name: "George", weight: 100})
 ["name", "George"]
 */
 export function first(coll) {
-  let [first] = iterable(coll);
+  var [first] = iterable(coll);
 
   return first || null;
 }
@@ -268,7 +268,7 @@ null
 
 */
 export function second(coll) {
-  let [_, v] = iterable(coll);
+  var [_, v] = iterable(coll);
 
   return v || null;
 }
@@ -288,11 +288,11 @@ export function ffirst(coll) {
 Mutator
 assocBang() adds a value to a structure by mutating the original
 
-let arrData = [1, 2, 5, 6, 8, 9];
+var arrData = [1, 2, 5, 6, 8, 9];
 assocBang(someData, 0, 77);
 [ 77, 2, 5, 6, 8, 9 ]
 
-let objData = { name: "George", occupation: "Sofa tester" };
+var objData = { name: "George", occupation: "Sofa tester" };
 assocBang(objData, "foodPreference", "fish");
 { name: "George", occupation: "Sofa tester", foodPreference: "fish" }
 
@@ -308,7 +308,7 @@ export function assocBang(coll, key, val, ...kvs) {
     case MAP_TYPE:
       coll.set(key, val);
 
-      for (let i = 0; i < kvs.length; i += 2) {
+      for (var i = 0; i < kvs.length; i += 2) {
         coll.set(kvs[i], kvs[i + 1]);
       }
       break;
@@ -316,7 +316,7 @@ export function assocBang(coll, key, val, ...kvs) {
     case OBJECT_TYPE:
       coll[key] = val;
 
-      for (let i = 0; i < kvs.length; i += 2) {
+      for (var i = 0; i < kvs.length; i += 2) {
         coll[kvs[i]] = kvs[i + 1];
       }
       break;
@@ -364,7 +364,7 @@ assocInWith() allows for modification (mutation or copy) of nested structures
 
 */
 function assocInWith(f, fname, coll, keys, val) {
-  let baseType = typeConst(coll);
+  var baseType = typeConst(coll);
 
   if (
     baseType !== MAP_TYPE &&
@@ -377,11 +377,11 @@ function assocInWith(f, fname, coll, keys, val) {
   }
 
   const chain = [coll];
-  let lastInChain = coll;
+  var lastInChain = coll;
 
-  for (let i = 0; i < keys.length - 1; i += 1) {
-    let k = keys[i];
-    let chainVal;
+  for (var i = 0; i < keys.length - 1; i += 1) {
+    var k = keys[i];
+    var chainVal;
 
     if (lastInChain instanceof Map) {
       chainVal = lastInChain.get(k);
@@ -400,7 +400,7 @@ function assocInWith(f, fname, coll, keys, val) {
 
   chain.push(val);
 
-  for (let i = chain.length - 2; i >= 0; i -= 1) {
+  for (var i = chain.length - 2; i >= 0; i -= 1) {
     chain[i] = f(chain[i], keys[i], chain[i + 1]);
   }
 
@@ -411,7 +411,7 @@ function assocInWith(f, fname, coll, keys, val) {
 Mutator
 assocInBang() associates a value in a nested structure by mutating value
 
-let pets = [{name: "George", age: 12}, {name: "Lola", age: 11}];
+var pets = [{name: "George", age: 12}, {name: "Lola", age: 11}];
 
 assocInBang(pets, [0, "age"], 13);
 pets
@@ -466,16 +466,75 @@ export function comp(...fs) {
     return fs[0];
   }
 
-  let [f, ...more] = fs.slice().reverse();
+  var [f, ...more] = fs.slice().reverse();
 
   return function (...args) {
-    let x = f(...args);
+    var x = f(...args);
     for (const g of more) {
       x = g(x);
     }
 
     return x;
   };
+}
+
+/*
+Mutator
+conjBang() (conjoin) adds to a structure by mutation. The position of the addition
+depends on the structure type
+
+conjBang([1, 2, 3], 4);
+[ 1, 2, 3, 4 ]
+
+conjBang({name: "George", coat: "Tabby"}, {age: 12, nationality: "British"})
+{ name: 'George', coat: 'Tabby', age: 12, nationality: 'British' }
+
+*/
+export function conjBang(...xs) {
+  if (xs.length === 0) {
+    return vector();
+  }
+
+  var [coll, ...rest] = xs;
+
+  if (coll === null || coll === undefined) {
+    coll = [];
+  }
+
+  switch (typeConst(coll)) {
+    case SET_TYPE:
+      for (const x of rest) {
+        coll.add(x);
+      }
+      break;
+    case LIST_TYPE:
+      coll.unshift(...rest.reverse());
+      break;
+    case ARRAY_TYPE:
+      coll.push(...rest);
+      break;
+    case MAP_TYPE:
+      for (const x of rest) {
+        if (!(x instanceof Array))
+          iterable(x).forEach((kv) => {
+            coll.set(kv[0], kv[1]);
+          });
+        else coll.set(x[0], x[1]);
+      }
+      break;
+    case OBJECT_TYPE:
+      for (const x of rest) {
+        if (!(x instanceof Array)) Object.assign(coll, x);
+        else coll[x[0]] = x[1];
+      }
+      break;
+    default:
+      throw new Error(
+        'Illegal argument: conj! expects a Set, Array, List, Map, or Object as the first argument.'
+      );
+  }
+
+  return coll;
 }
 
 // Utilities
@@ -567,7 +626,7 @@ nth ([0, 1, 2], 77, 1337);
 */
 export function nth(coll, index, notFound) {
   if (coll) {
-    let element = coll[index];
+    var element = coll[index];
 
     if (element !== undefined) {
       return element;
@@ -679,8 +738,8 @@ apply(str, ["str1", "str2", "str3"]);
 
 */
 export function apply(f, ...args) {
-  let xs = args.slice(0, args.length - 1);
-  let coll = args[args.length - 1];
+  var xs = args.slice(0, args.length - 1);
+  var coll = args[args.length - 1];
 
   return f(...xs, ...coll);
 }
@@ -721,7 +780,7 @@ export function isOdd(x) {
 complement() takes a fn f and returns a fn that takes the same arguments
 as f, has the same effects, if any, and returns the opposite truth value
 
-let testIsOdd = complement(isEven);
+var testIsOdd = complement(isEven);
 testIsOdd(3);
 true
 
@@ -743,10 +802,10 @@ export function isIdentical(x, y) {
 
 /*
 partial() takes a function f and fewer than normal arguments to f. It returns a 
-fn that takes a letiable number of additional args. When called, the
+fn that takes a variable number of additional args. When called, the
 returned function calls f with args plus additional args
 
-let hundredPlus = partial(plus, 100);
+var hundredPlus = partial(plus, 100);
 hundredPlus(5);
 105
 

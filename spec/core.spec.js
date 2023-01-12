@@ -141,7 +141,7 @@ describe("ffirst", function () {
 
 describe("assocBang", function () {
   it("adds a value to a map via mutation", function () {
-    let mapData = new Map();
+    var mapData = new Map();
     mapData.set(0, "zero");
     fc.assocBang(mapData, 1, "one");
     expect(mapData.get(1)).toEqual("one");
@@ -149,12 +149,12 @@ describe("assocBang", function () {
   });
 
   it("adds a value to an array via mutation", function () {
-    let arrData = [1, 2, 5, 6, 8, 9];
+    var arrData = [1, 2, 5, 6, 8, 9];
     expect(fc.assocBang(arrData, 0, 77)).toEqual([77, 2, 5, 6, 8, 9]);
   });
 
   it("adds a value to an object via mutation", function () {
-    let objData = { name: "George", occupation: "Sofa tester" };
+    var objData = { name: "George", occupation: "Sofa tester" };
     fc.assocBang(objData, "foodPreference", "fish");
     expect(objData).toEqual({
       name: "George",
@@ -173,15 +173,15 @@ describe("assocBang", function () {
 });
 
 describe("assoc", function () {
-  it("it does not mutate original letiable", function () {
-    let arrData = [1, 2, 5, 6, 8, 9];
+  it("it does not mutate original variable", function () {
+    var arrData = [1, 2, 5, 6, 8, 9];
     expect(arrData).toEqual([1, 2, 5, 6, 8, 9]);
   });
 
   it("returns a new map with modified values", function () {
-    let mapData = new Map();
+    var mapData = new Map();
     mapData.set(0, "zero");
-    let updatedMap = fc.assoc(mapData, 1, "one");
+    var updatedMap = fc.assoc(mapData, 1, "one");
     expect(updatedMap.get(1)).toEqual("one");
     expect(updatedMap.size).toEqual(2);
   });
@@ -193,7 +193,7 @@ describe("assoc", function () {
   });
 
   it("returns a new object with modified values", function () {
-    let objData = fc.assoc(
+    var objData = fc.assoc(
       { name: "George", occupation: "Sofa tester" },
       "foodPreference",
       "fish"
@@ -220,7 +220,7 @@ describe("assoc", function () {
 
 describe("assocInBang", function () {
   it("associates a value in a nested map by mutating value", function () {
-    let petsMap = new Map();
+    var petsMap = new Map();
     petsMap.set(0, { name: "George", age: 12 });
     petsMap.set(1, { name: "Lola", age: 11 });
     fc.assocInBang(petsMap, [0, "age"], 13);
@@ -228,13 +228,13 @@ describe("assocInBang", function () {
   });
 
   it("associates a value in a nested array by mutating value", function () {
-    let nums = [1, 2, 3, [4, 5, 6]];
+    var nums = [1, 2, 3, [4, 5, 6]];
 
     expect(fc.assocInBang(nums, [3, 0], 100)).toEqual([1, 2, 3, [100, 5, 6]]);
   });
 
   it("associates a value in a nested object by mutating value", function () {
-    let pets = [
+    var pets = [
       { name: "George", age: 12 },
       { name: "Lola", age: 11 },
     ];
@@ -258,26 +258,26 @@ describe("assocInBang", function () {
 
 describe("assocIn", function () {
   it("associates a value in a nested map and returns a new map", function () {
-    let petsMap = new Map();
+    var petsMap = new Map();
     petsMap.set(0, { name: "George", age: 12 });
     petsMap.set(1, { name: "Lola", age: 11 });
-    let newPetsMap = fc.assocIn(petsMap, [0, "age"], 13);
+    var newPetsMap = fc.assocIn(petsMap, [0, "age"], 13);
     expect(petsMap.get(0).age).toEqual(12);
     expect(newPetsMap.get(0).age).toEqual(13);
   });
 
   it("associates a value in a nested array and returns a new array", function () {
-    let nums = [1, 2, 3, [4, 5, 6]];
+    var nums = [1, 2, 3, [4, 5, 6]];
     expect(nums).toEqual([1, 2, 3, [4, 5, 6]]);
     expect(fc.assocIn(nums, [3, 0], 100)).toEqual([1, 2, 3, [100, 5, 6]]);
   });
 
   it("associates a value in a nested object and returns a new object", function () {
-    let pets = [
+    var pets = [
       { name: "George", age: 12 },
       { name: "Lola", age: 11 },
     ];
-    let newPets = fc.assocIn(pets, [0, "age"], 13);
+    var newPets = fc.assocIn(pets, [0, "age"], 13);
     expect(pets).toEqual([
       { name: "George", age: 12 },
       { name: "Lola", age: 11 },
@@ -294,6 +294,56 @@ describe("assocIn", function () {
     }).toThrowError(
       "Illegal argument: assocIn expects a Map, Array or Object as the first argument."
     );
+  });
+});
+
+describe("conjBang", function () {
+  it("returns an empty array if no arguments passed", function () {
+    expect(fc.conjBang()).toEqual([]);
+  });
+
+  it("adds to the end of an array by mutation", function () {
+    expect(fc.conjBang([1, 2, 3], 4)).toEqual([1, 2, 3, 4]);
+  });
+
+  it("adds multiple items in argument order to the end of an array by mutation", function () {
+    expect(fc.conjBang([1, 2], 3, 4)).toEqual([1, 2, 3, 4]);
+  });
+
+  it("adds to the start of a List by mutation", function () {
+    var conjList = new fc.List(1, 2, 3);
+    expect(fc.conjBang(conjList, 4)).toEqual([4, 1, 2, 3]);
+  });
+
+  it("adds to the end of an object by mutation", function () {
+    expect(
+      fc.conjBang(
+        { name: "George", coat: "Tabby" },
+        { age: 12, nationality: "British" }
+      )
+    ).toEqual({
+      name: "George",
+      coat: "Tabby",
+      age: 12,
+      nationality: "British",
+    });
+  });
+
+  it("adds to a set by mutation", function () {
+    var conjSet = new Set();
+    conjSet.add(1);
+    conjSet.add(2);
+    conjSet.add(3);
+    fc.conjBang(conjSet, 4);
+    expect(conjSet.has(4)).toBe(true);
+  });
+
+  it("adds to a map by mutation", function () {
+    var conjMap = new Map();
+    conjMap.set("name", "George");
+    conjMap.set("coat", "Tabby");
+    fc.conjBang(conjMap, {age: 12, nationality: "British"});
+    expect(conjMap.get("age")).toBe(12);
   });
 });
 
@@ -442,14 +492,14 @@ describe("isOdd", function () {
 
 describe("complement", function () {
   it("returns the opposite truth value", function () {
-    let testIsOdd = fc.complement(fc.isEven);
+    var testIsOdd = fc.complement(fc.isEven);
     expect(testIsOdd(3)).toBe(true);
   });
 });
 
 describe("partial", function () {
-  it("It returns a function that takes a letiable number of additional args", function () {
-    let hundredPlus = fc.partial(fc.plus, 100);
+  it("It returns a function that takes a variable number of additional args", function () {
+    var hundredPlus = fc.partial(fc.plus, 100);
     expect(hundredPlus(5)).toBe(105);
   });
 });
