@@ -110,7 +110,7 @@ export function isSeqable(x) {
 
 /*
 Internal function
-iterable() ensures x can be iterated
+iterable() returns an iterable of x, even if it's empty
 
 iterable(null);
 []
@@ -142,7 +142,7 @@ const IIterable = Symbol("Iterable");
 const IIterableIterator = Symbol.iterator;
 
 /* 
-Internal function
+Internal function. See https://github.com/squint-cljs/squint/issues/22
 iterator([1, 2, 3]);
 
 Object [Array Iterator] {}
@@ -153,8 +153,8 @@ function iterator(coll) {
 }
 
 /*
-seq() returns a sequence on the collection. If the collection is empty, returns null.
-Seq works with strings.
+seq() takes a collection and returns an iterable of that collection, or nil if
+it's empty.
 
 seq(null);
 null
