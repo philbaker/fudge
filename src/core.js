@@ -360,8 +360,7 @@ export function assoc(coll, key, val, ...kvs) {
 
 /*
 Internal function
-
-assocInWith allows for modification (mutation or copy) of nested structures
+assocInWith() allows for modification (mutation or copy) of nested structures
 
 */
 function assocInWith(f, fname, coll, keys, val) {
@@ -409,7 +408,6 @@ function assocInWith(f, fname, coll, keys, val) {
 
 /*
 Mutator
-
 assocInBang() associates a value in a nested structure by mutating value
 
 var pets = [{name: "George", age: 12}, {name: "Lola", age: 11}];
