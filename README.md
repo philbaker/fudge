@@ -6,4 +6,6 @@ JavaScript projects.
 
 ## License
 
+Copyright © 2023 Phil Baker
+
 fc-js is licensed under EPL v1.0. See LICENSE for more details.
