@@ -394,6 +394,7 @@ function assocInWith(f, fname, coll, keys, val) {
     }
 
     chain.push(chainVal);
+
     lastInChain = chainVal;
   }
 
@@ -411,6 +412,7 @@ Mutator
 assocInBang() associates a value in a nested structure by mutating value
 
 var pets = [{name: "George", age: 12}, {name: "Lola", age: 11}];
+
 assocInBang(pets, [0, "age"], 13);
 pets
 [
@@ -421,6 +423,20 @@ pets
 */
 export function assocInBang(coll, keys, val) {
   return assocInWith(assocBang, "assocIn!", coll, keys, val);
+}
+
+/*
+assocIn() associates a value in a nested structure. It returns a new structure
+
+assocIn([{name: "George", age: 12}, {name: "Lola", age: 11}], [0, "age"], 13);
+[
+  { name: "George", age: 13 },
+  { name: "Lola", age: 11 },
+];
+
+*/
+export function assocIn(coll, keys, val) {
+  return assocInWith(assoc, "assocIn", coll, keys, val);
 }
 
 // Utilities

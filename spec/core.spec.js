@@ -237,6 +237,47 @@ describe("assocInBang", function () {
   });
 });
 
+describe("assocIn", function () {
+  it("associates a value in a nested map and returns a new map", function () {
+    var petsMap = new Map();
+    petsMap.set(0, { name: "George", age: 12 });
+    petsMap.set(1, { name: "Lola", age: 11 });
+    var newPetsMap = fc.assocIn(petsMap, [0, "age"], 13);
+    expect(petsMap.get(0).age).toEqual(12);
+    expect(newPetsMap.get(0).age).toEqual(13);
+  });
+
+  it("associates a value in a nested array and returns a new array", function () {
+    var nums = [1, 2, 3, [4, 5, 6]];
+    expect(nums).toEqual([1, 2, 3, [4, 5, 6]]);
+    expect(fc.assocIn(nums, [3, 0], 100)).toEqual([1, 2, 3, [100, 5, 6]]);
+  });
+
+  it("associates a value in a nested object and returns a new object", function () {
+    var pets = [
+      { name: "George", age: 12 },
+      { name: "Lola", age: 11 },
+    ];
+    var newPets = fc.assocIn(pets, [0, "age"], 13);
+    expect(pets).toEqual([
+      { name: "George", age: 12 },
+      { name: "Lola", age: 11 },
+    ]);
+    expect(newPets).toEqual([
+      { name: "George", age: 13 },
+      { name: "Lola", age: 11 },
+    ]);
+  });
+
+  it("throws an error if given incorrect type", function () {
+    expect(function () {
+      fc.assocIn(5, [0, "age"], 13);
+    }).toThrowError(
+      "Illegal argument: assocIn expects a Map, Array or Object as the first argument."
+    );
+  });
+});
+
 describe("plus", function () {
   it("adds two numbers", function () {
     expect(fc.plus(1, 2)).toBe(3);
