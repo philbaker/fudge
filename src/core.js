@@ -322,7 +322,7 @@ export function assocBang(coll, key, val, ...kvs) {
       break;
     default:
       throw new Error(
-        "Illegal argument: assoc! expects a Map, Array, or Object as the first argument."
+        "Illegal argument: assoc! expects a Map, Array or Object as the first argument."
       );
   }
 
@@ -353,9 +353,76 @@ export function assoc(coll, key, val, ...kvs) {
       return assocBang({ ...coll }, key, val, ...kvs);
     default:
       throw new Error(
-        "Illegal argument: assoc expects a Map, Array, or Object as the first argument."
+        "Illegal argument: assoc expects a Map, Array or Object as the first argument."
       );
   }
+}
+
+/*
+Internal function
+
+assocInWith allows for modification (mutation or copy) of nested structures
+
+*/
+function assocInWith(f, fname, coll, keys, val) {
+  let baseType = typeConst(coll);
+
+  if (
+    baseType !== MAP_TYPE &&
+    baseType !== ARRAY_TYPE &&
+    baseType !== OBJECT_TYPE
+  ) {
+    throw new Error(
+      `Illegal argument: ${fname} expects a Map, Array or Object as the first argument.`
+    );
+  }
+
+  const chain = [coll];
+  let lastInChain = coll;
+
+  for (let i = 0; i < keys.length - 1; i += 1) {
+    let k = keys[i];
+    let chainVal;
+
+    if (lastInChain instanceof Map) {
+      chainVal = lastInChain.get(k);
+    } else {
+      chainVal = lastInChain[k];
+    }
+
+    if (!chainVal) {
+      chainVal = emptyOfType(baseType);
+    }
+
+    chain.push(chainVal);
+    lastInChain = chainVal;
+  }
+
+  chain.push(val);
+
+  for (let i = chain.length - 2; i >= 0; i -= 1) {
+    chain[i] = f(chain[i], keys[i], chain[i + 1]);
+  }
+
+  return chain[0];
+}
+
+/*
+Mutator
+
+assocInBang() associates a value in a nested structure by mutating value
+
+var pets = [{name: "George", age: 12}, {name: "Lola", age: 11}];
+assocInBang(pets, [0, "age"], 13);
+pets
+[
+  { name: "George", age: 13 },
+  { name: "Lola", age: 11 },
+];
+
+*/
+export function assocInBang(coll, keys, val) {
+  return assocInWith(assocBang, "assocIn!", coll, keys, val);
 }
 
 // Utilities

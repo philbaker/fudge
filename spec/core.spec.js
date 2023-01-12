@@ -148,7 +148,7 @@ describe("assocBang", function () {
     expect(function () {
       fc.assocBang("", 0, "hi");
     }).toThrowError(
-      "Illegal argument: assoc! expects a Map, Array, or Object as the first argument."
+      "Illegal argument: assoc! expects a Map, Array or Object as the first argument."
     );
   });
 });
@@ -194,7 +194,45 @@ describe("assoc", function () {
     expect(function () {
       fc.assoc(5, 0, "hi");
     }).toThrowError(
-      "Illegal argument: assoc expects a Map, Array, or Object as the first argument."
+      "Illegal argument: assoc expects a Map, Array or Object as the first argument."
+    );
+  });
+});
+
+describe("assocInBang", function () {
+  it("associates a value in a nested map by mutating value", function () {
+    var petsMap = new Map();
+    petsMap.set(0, { name: "George", age: 12 });
+    petsMap.set(1, { name: "Lola", age: 11 });
+    fc.assocInBang(petsMap, [0, "age"], 13);
+    expect(petsMap.get(0).age).toEqual(13);
+  });
+
+  it("associates a value in a nested array by mutating value", function () {
+    var nums = [1, 2, 3, [4, 5, 6]];
+
+    expect(fc.assocInBang(nums, [3, 0], 100)).toEqual([1, 2, 3, [100, 5, 6]]);
+  });
+
+  it("associates a value in a nested object by mutating value", function () {
+    var pets = [
+      { name: "George", age: 12 },
+      { name: "Lola", age: 11 },
+    ];
+
+    fc.assocInBang(pets, [0, "age"], 13);
+
+    expect(pets).toEqual([
+      { name: "George", age: 13 },
+      { name: "Lola", age: 11 },
+    ]);
+  });
+
+  it("throws an error if given incorrect type", function () {
+    expect(function () {
+      fc.assocInBang(5, [0, "age"], 13);
+    }).toThrowError(
+      "Illegal argument: assocIn! expects a Map, Array or Object as the first argument."
     );
   });
 });
