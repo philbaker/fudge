@@ -153,6 +153,52 @@ describe("assocBang", function () {
   });
 });
 
+describe("assoc", function () {
+  it("it does not mutate original variable", function () {
+    var arrData = [1, 2, 5, 6, 8, 9];
+    expect(arrData).toEqual([1, 2, 5, 6, 8, 9]);
+  });
+
+  it("returns a new map with modified values", function () {
+    var mapData = new Map();
+    mapData.set(0, "zero");
+    var updatedMap = fc.assoc(mapData, 1, "one");
+    expect(updatedMap.get(1)).toEqual("one");
+    expect(updatedMap.size).toEqual(2);
+  });
+
+  it("returns a new array with modified values", function () {
+    expect(fc.assocBang([1, 2, 5, 6, 8, 9], 0, 77)).toEqual([
+      77, 2, 5, 6, 8, 9,
+    ]);
+  });
+
+  it("returns a new object with modified values", function () {
+    var objData = fc.assoc(
+      { name: "George", occupation: "Sofa tester" },
+      "foodPreference",
+      "fish"
+    );
+    expect(objData).toEqual({
+      name: "George",
+      occupation: "Sofa tester",
+      foodPreference: "fish",
+    });
+  });
+
+  it("returns a new object if falsy value passed", function () {
+    expect(fc.assoc(null, 0, "hi")).toEqual({ 0: "hi" });
+  });
+
+  it("throws an error if given incorrect type", function () {
+    expect(function () {
+      fc.assoc(5, 0, "hi");
+    }).toThrowError(
+      "Illegal argument: assoc expects a Map, Array, or Object as the first argument."
+    );
+  });
+});
+
 describe("plus", function () {
   it("adds two numbers", function () {
     expect(fc.plus(1, 2)).toBe(3);

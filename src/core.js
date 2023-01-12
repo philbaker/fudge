@@ -293,7 +293,7 @@ assocBang(someData, 0, 77);
 [ 77, 2, 5, 6, 8, 9 ]
 
 var objData = { name: "George", occupation: "Sofa tester" };
-fc.assocBang(objData, "foodPreference", "fish");
+assocBang(objData, "foodPreference", "fish");
 { name: "George", occupation: "Sofa tester", foodPreference: "fish" }
 
 */
@@ -327,6 +327,35 @@ export function assocBang(coll, key, val, ...kvs) {
   }
 
   return coll;
+}
+
+/*
+assoc() returns a new structure with a modified values
+
+assoc([1, 2, 5, 6, 8, 9], 0, 77);
+[ 77, 2, 5, 6, 8, 9 ]
+
+assocBang({ name: "George", occupation: "Sofa tester" }, "foodPreference", "fish");
+{ name: "George", occupation: "Sofa tester", foodPreference: "fish" }
+
+*/
+export function assoc(coll, key, val, ...kvs) {
+  if (!coll) {
+    coll = {};
+  }
+
+  switch (typeConst(coll)) {
+    case MAP_TYPE:
+      return assocBang(new Map(coll.entries()), key, val, ...kvs);
+    case ARRAY_TYPE:
+      return assocBang([...coll], key, val, ...kvs);
+    case OBJECT_TYPE:
+      return assocBang({ ...coll }, key, val, ...kvs);
+    default:
+      throw new Error(
+        "Illegal argument: assoc expects a Map, Array, or Object as the first argument."
+      );
+  }
 }
 
 // Utilities
