@@ -437,6 +437,34 @@ describe("disjBang", function () {
 
     expect(disjSet.has("b")).toBeFalse();
   });
+
+  it("removes multiple items from set", function () {
+    var disjSet = new Set(["a", "b", "c"]);
+    fc.disjBang(disjSet, "a", "b");
+
+    expect(disjSet.has("a")).toBeFalse();
+    expect(disjSet.has("b")).toBeFalse();
+  });
+});
+
+describe("disjBang", function () {
+  it("does not mutate the original set", function () {
+    var disjSet = new Set(["a", "b", "c"]);
+    var newDisjSet = fc.disj(disjSet, "b");
+
+    expect(disjSet.has("b")).toBeTrue();
+    expect(newDisjSet.has("b")).toBeFalse();
+  });
+
+  it("removes multiple items from set without mutation", function () {
+    var disjSet = new Set(["a", "b", "c"]);
+    var newDisjSet = fc.disj(disjSet, "a", "b");
+
+    expect(disjSet.has("a")).toBeTrue();
+    expect(disjSet.has("b")).toBeTrue();
+    expect(newDisjSet.has("a")).toBeFalse();
+    expect(newDisjSet.has("b")).toBeFalse();
+  });
 });
 
 describe("plus", function () {
