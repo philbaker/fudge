@@ -516,7 +516,9 @@ describe("dissoc", function () {
   });
 
   it("removes multiple items from an object without mutation", function () {
-    expect(fc.dissoc({ name: "George", salary: "Biscuits" }, "name", "salary")).toEqual({});
+    expect(
+      fc.dissoc({ name: "George", salary: "Biscuits" }, "name", "salary")
+    ).toEqual({});
   });
 });
 
@@ -585,6 +587,24 @@ describe("nth", function () {
 
   it("returns notFound if no element is found and notFound argument is provided", function () {
     expect(fc.nth([], 0, "nothing found")).toBe("nothing found");
+  });
+});
+
+describe("get", function () {
+  it("returns value from array based on key provided", function () {
+    expect(fc.get([1, 2, 3], 1)).toBe(2);
+  });
+
+  it("returns null if key not present", function () {
+    expect(fc.get([1, 2, 3], 5)).toBe(null);
+  });
+
+  it("returns value from object based on key provided", function () {
+    expect(fc.get({ a: 1, b: 2 }, "b")).toBe(2);
+  });
+
+  it("returns notFound if key provided is not present", function () {
+    expect(fc.get({ a: 1, b: 2 }, "z", "missing")).toBe("missing");
   });
 });
 

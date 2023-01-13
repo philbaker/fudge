@@ -786,6 +786,43 @@ export function nth(coll, index, notFound) {
 }
 
 /*
+get() returns the value mapped to key, notFound or null if the key 
+is not present
+
+get([1, 2, 3], 1);
+2
+
+get([1, 2, 3], 5);
+null
+
+*/
+export function get(coll, key, notFound = null) {
+  let val;
+
+  switch(typeConst(coll)) {
+    case SET_TYPE:
+      if (coll.has(key)) {
+        val = key;
+        break;
+      }
+    case MAP_TYPE:
+      val = coll.get(key);
+      break;
+    case undefined:
+      break;
+    default:
+      val = coll[key];
+      break;
+  }
+
+  if (val !== undefined) {
+    return val;
+  }
+
+  return notFound;
+}
+
+/*
 str() returns a string for single values and a concatenation of multiple values
 
 str();
