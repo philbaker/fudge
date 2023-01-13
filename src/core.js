@@ -103,7 +103,8 @@ export function isSeqable(x) {
 
 /*
 Internal function
-iterable() returns an iterable of x, even if it's empty
+iterable() returns an iterable of x, even if it's empty allowing for
+nil punning
 
 iterable(null);
 []
@@ -171,6 +172,7 @@ export function seq(x) {
   if (iter.length === 0 || iter.size === 0) {
     return null;
   }
+
   return iter;
 }
 
@@ -245,7 +247,7 @@ first({name: "George", weight: 100})
 export function first(coll) {
   var [first] = iterable(coll);
 
-  return first || null;
+  return first ?? null;
 }
 
 /*
@@ -270,7 +272,7 @@ null
 export function second(coll) {
   var [_, v] = iterable(coll);
 
-  return v || null;
+  return v ?? null;
 }
 
 /*
@@ -282,6 +284,31 @@ ffirst({name: "George", weight: 100})
 */
 export function ffirst(coll) {
   return first(first(coll));
+}
+
+/*
+last() returns the last item in a collection
+
+last([1, 2, 3, 4, 5]);
+5
+
+last({one: 1, two: 2, three: 3});
+[ "three", 3 ]
+
+*/
+export function last(coll) {
+  coll = iterable(coll);
+
+  switch (typeConst(coll)) {
+    case ARRAY_TYPE:
+      return coll[coll.length - 1] ?? null;
+    default:
+      let lastEl;
+      for (const x of coll) {
+        lastEl = x;
+      }
+      return lastEl;
+  }
 }
 
 /*
@@ -464,7 +491,7 @@ dissoc({name: "George", salary: "Biscuits"}, "name", "salary");
 
 */
 export function dissoc(obj, ...keys) {
-  let obj2 = {...obj};
+  let obj2 = { ...obj };
 
   for (const key of keys) {
     delete obj2[key];
@@ -676,7 +703,7 @@ true
 
 */
 export function contains(coll, val) {
-  switch(typeConst(coll)) {
+  switch (typeConst(coll)) {
     case SET_TYPE:
     case MAP_TYPE:
       return coll.has(val);
@@ -799,7 +826,7 @@ null
 export function get(coll, key, notFound = null) {
   let val;
 
-  switch(typeConst(coll)) {
+  switch (typeConst(coll)) {
     case SET_TYPE:
       if (coll.has(key)) {
         val = key;
@@ -1011,7 +1038,7 @@ reverse([1, 2, 3]);
 
 
 */
-function reverse(arr) {
+export function reverse(x) {
   return x.reverse();
 }
 

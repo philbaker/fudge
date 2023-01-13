@@ -139,6 +139,22 @@ describe("ffirst", function () {
   });
 });
 
+describe("last", function () {
+  it("returns the last item in an array", function () {
+    expect(fc.last([1, 2, 3, 4, 5])).toBe(5);
+    expect(fc.last(["a", "b", "c", "d", "e"])).toBe("e");
+  });
+
+  it("returns the last item in an object", function () {
+    expect(fc.last({ one: 1, two: 2, three: 3 })).toEqual(["three", 3]);
+  });
+
+  it("returns null if given an empty collection", function () {
+    expect(fc.last([])).toBe(null);
+    expect(fc.last({})).toBe(null);
+  });
+});
+
 describe("assocBang", function () {
   it("adds a value to a map via mutation", function () {
     var mapData = new Map();
