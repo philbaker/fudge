@@ -1075,35 +1075,3 @@ threadLast("3", parseInt);
 export function threadLast(x, ...fns) {
   return fns.reduceRight((acc, fn) => fn(acc), x);
 }
-
-/*
-Before
-
-conj({name: "George", coat: "Tabby"}, {age: 12})
-// { name: 'George', coat: 'Tabby', undefined: undefined }
-
-var conjMap = new Map();
-conjMap.set("name", "George");
-conjMap.set("coat", "Tabby");
-
-conj(conjMap, {age: 12});
-
-// Map(3) {
-//   'name' => 'George',
-//   'coat' => 'Tabby',
-//   undefined => undefined
-// }
-
-After
-
-conj({name: "George", coat: "Tabby"}, {age: 12})
-// { name: 'George', coat: 'Tabby', age: 12 }
-
-var conjMap = new Map();
-conjMap.set("name", "George");
-conjMap.set("coat", "Tabby");
-
-conj(conjMap, {age: 12});
-// Map(3) { 'name' => 'George', 'coat' => 'Tabby', 'age' => 12 }
-
-*/
