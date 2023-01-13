@@ -144,6 +144,7 @@ describe("assocBang", function () {
     var mapData = new Map();
     mapData.set(0, "zero");
     fc.assocBang(mapData, 1, "one");
+
     expect(mapData.get(1)).toEqual("one");
     expect(mapData.size).toEqual(2);
   });
@@ -303,21 +304,93 @@ describe("conjBang", function () {
   });
 
   it("adds to the end of an array by mutation", function () {
-    expect(fc.conjBang([1, 2, 3], 4)).toEqual([1, 2, 3, 4]);
+    var conjArr = [1, 2, 3];
+    fc.conjBang(conjArr, 4);
+
+    expect(conjArr).toEqual([1, 2, 3, 4]);
   });
 
   it("adds multiple items in argument order to the end of an array by mutation", function () {
-    expect(fc.conjBang([1, 2], 3, 4)).toEqual([1, 2, 3, 4]);
+    var conjArr = [1, 2];
+    fc.conjBang(conjArr, 3, 4);
+
+    expect(conjArr).toEqual([1, 2, 3, 4]);
   });
 
   it("adds to the start of a List by mutation", function () {
     var conjList = new fc.List(1, 2, 3);
-    expect(fc.conjBang(conjList, 4)).toEqual([4, 1, 2, 3]);
+    fc.conjBang(conjList, 4);
+
+    expect(conjList).toEqual([4, 1, 2, 3]);
   });
 
   it("adds to the end of an object by mutation", function () {
+    var conjObj = { name: "George", coat: "Tabby" };
+    fc.conjBang(conjObj, { age: 12, nationality: "British" });
+
+    expect(conjObj).toEqual({
+      name: "George",
+      coat: "Tabby",
+      age: 12,
+      nationality: "British",
+    });
+  });
+
+  it("adds to a set by mutation", function () {
+    var conjSet = new Set([1, 2, 3]);
+
+    fc.conjBang(conjSet, 4);
+
+    expect(conjSet.has(4)).toBe(true);
+  });
+
+  it("adds to a map by mutation", function () {
+    var conjMap = new Map();
+    conjMap.set("name", "George");
+    conjMap.set("coat", "Tabby");
+
+    fc.conjBang(conjMap, { age: 12, nationality: "British" });
+
+    expect(conjMap.get("age")).toBe(12);
+  });
+
+  it("throws an error if given incorrect type", function () {
+    expect(function () {
+      fc.conjBang(5, ["hello"]);
+    }).toThrowError(
+      "Illegal argument: conj! expects a Set, Array, List, Map, or Object as the first argument."
+    );
+  });
+});
+
+describe("conj", function () {
+  it("returns an empty array if no arguments passed", function () {
+    expect(fc.conj()).toEqual([]);
+  });
+
+  it("adds to the end of an array", function () {
+    expect(fc.conj([1, 2, 3], 4)).toEqual([1, 2, 3, 4]);
+  });
+
+  it("does not mutate the original array", function () {
+    var conjArr = [1, 2, 3];
+    fc.conj(conjArr, 4);
+
+    expect(conjArr).toEqual([1, 2, 3]);
+  });
+
+  it("adds multiple items in argument order to the end of an array", function () {
+    expect(fc.conj([1, 2], 3, 4)).toEqual([1, 2, 3, 4]);
+  });
+
+  it("adds to the start of a List", function () {
+    var conjList = new fc.List(1, 2, 3);
+    expect(fc.conj(conjList, 4)).toEqual([4, 1, 2, 3]);
+  });
+
+  it("adds to the end of an object", function () {
     expect(
-      fc.conjBang(
+      fc.conj(
         { name: "George", coat: "Tabby" },
         { age: 12, nationality: "British" }
       )
@@ -329,21 +402,31 @@ describe("conjBang", function () {
     });
   });
 
-  it("adds to a set by mutation", function () {
-    var conjSet = new Set();
-    conjSet.add(1);
-    conjSet.add(2);
-    conjSet.add(3);
-    fc.conjBang(conjSet, 4);
-    expect(conjSet.has(4)).toBe(true);
+  it("adds to a set", function () {
+    var conjSet = new Set([1, 2, 3]);
+
+    var newConjSet = fc.conj(conjSet, 4);
+
+    expect(newConjSet.has(4)).toBe(true);
   });
 
-  it("adds to a map by mutation", function () {
-    var conjMap = new Map();
-    conjMap.set("name", "George");
-    conjMap.set("coat", "Tabby");
-    fc.conjBang(conjMap, {age: 12, nationality: "British"});
-    expect(conjMap.get("age")).toBe(12);
+  it("adds to a map", function () {
+    var conjMap = new Map([
+      ["name", "George"],
+      ["coat", "Tabby"],
+    ]);
+
+    var newConjMap = fc.conj(conjMap, { age: 12, nationality: "British" });
+
+    expect(newConjMap.get("age")).toBe(12);
+  });
+
+  it("throws an error if given incorrect type", function () {
+    expect(function () {
+      fc.conj(5, ["hello"]);
+    }).toThrowError(
+      "Illegal argument: conj expects a Set, Array, List, Map, or Object as the first argument."
+    );
   });
 });
 

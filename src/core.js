@@ -524,17 +524,85 @@ export function conjBang(...xs) {
       break;
     case OBJECT_TYPE:
       for (const x of rest) {
-        if (!(x instanceof Array)) Object.assign(coll, x);
-        else coll[x[0]] = x[1];
+        if (!(x instanceof Array)) {
+          Object.assign(coll, x);
+        } else {
+          coll[x[0]] = x[1];
+        }
       }
       break;
     default:
       throw new Error(
-        'Illegal argument: conj! expects a Set, Array, List, Map, or Object as the first argument.'
+        "Illegal argument: conj! expects a Set, Array, List, Map, or Object as the first argument."
       );
   }
 
   return coll;
+}
+
+/*
+conj() (conjoin) adds to a structure and returns a copy. The position of the 
+addition depends on the structure type
+
+conj([1, 2, 3], 4);
+[ 1, 2, 3, 4 ]
+
+conj([1, 2, 3], 4, 5);
+[ 1, 2, 3, 4, 5 ]
+
+*/
+export function conj(...xs) {
+  if (xs.length === 0) {
+    return vector();
+  }
+
+  let [coll, ...rest] = xs;
+
+  if (coll === null || coll === undefined) {
+    coll = [];
+  }
+
+  switch (typeConst(coll)) {
+    case SET_TYPE:
+      return new Set([...coll, ...rest]);
+    case LIST_TYPE:
+      return new List(...rest.reverse(), ...coll);
+    case ARRAY_TYPE:
+      return [...coll, ...rest];
+    case MAP_TYPE:
+      const m = new Map(coll);
+
+      for (const x of rest) {
+        if (!(x instanceof Array))
+          iterable(x).forEach((kv) => {
+            m.set(kv[0], kv[1]);
+          });
+        else m.set(x[0], x[1]);
+      }
+
+      return m;
+    case LAZY_ITERABLE_TYPE:
+      return lazy(function* () {
+        yield* rest;
+        yield* coll;
+      });
+    case OBJECT_TYPE:
+      const coll2 = { ...coll };
+
+      for (const x of rest) {
+        if (!(x instanceof Array)) {
+          Object.assign(coll2, x);
+        } else {
+          coll2[x[0]] = x[1];
+        }
+      }
+
+      return coll2;
+    default:
+      throw new Error(
+        "Illegal argument: conj expects a Set, Array, List, Map, or Object as the first argument."
+      );
+  }
 }
 
 // Utilities
@@ -979,3 +1047,35 @@ threadLast("3", parseInt);
 export function threadLast(x, ...fns) {
   return fns.reduceRight((acc, fn) => fn(acc), x);
 }
+
+/*
+Before
+
+conj({name: "George", coat: "Tabby"}, {age: 12})
+// { name: 'George', coat: 'Tabby', undefined: undefined }
+
+var conjMap = new Map();
+conjMap.set("name", "George");
+conjMap.set("coat", "Tabby");
+
+conj(conjMap, {age: 12});
+
+// Map(3) {
+//   'name' => 'George',
+//   'coat' => 'Tabby',
+//   undefined => undefined
+// }
+
+After
+
+conj({name: "George", coat: "Tabby"}, {age: 12})
+// { name: 'George', coat: 'Tabby', age: 12 }
+
+var conjMap = new Map();
+conjMap.set("name", "George");
+conjMap.set("coat", "Tabby");
+
+conj(conjMap, {age: 12});
+// Map(3) { 'name' => 'George', 'coat' => 'Tabby', 'age' => 12 }
+
+*/
