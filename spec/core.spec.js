@@ -430,6 +430,15 @@ describe("conj", function () {
   });
 });
 
+describe("disjBang", function () {
+  it("removes an item from a set by mutation", function () {
+    var disjSet = new Set(["a", "b", "c"]);
+    fc.disjBang(disjSet, "b");
+
+    expect(disjSet.has("b")).toBeFalse();
+  });
+});
+
 describe("plus", function () {
   it("adds two numbers", function () {
     expect(fc.plus(1, 2)).toBe(3);

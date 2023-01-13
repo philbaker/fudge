@@ -605,6 +605,22 @@ export function conj(...xs) {
   }
 }
 
+/*
+Mutator
+disjBang() removes an item from a set via mutation
+
+var disjSet = new Set(["a", "b", "c"]);
+disjBang(disjSet, "b");
+Set(2) { 'a', 'c' }
+
+*/
+export function disjBang(set, ...xs) {
+  for (const x of xs) {
+    set.delete(x);
+  }
+  return set;
+}
+
 // Utilities
 
 /*
