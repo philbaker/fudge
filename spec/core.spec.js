@@ -474,7 +474,9 @@ describe("contains", function () {
   });
 
   it("checks objects by key", function () {
-    expect(fc.contains({name: "George", salary: "Biscuits"}, "name")).toBe(true);
+    expect(fc.contains({ name: "George", salary: "Biscuits" }, "name")).toBe(
+      true
+    );
   });
 
   it("checks for items in a set", function () {
@@ -487,6 +489,20 @@ describe("contains", function () {
     containsMap.set("salary", "Biscuits");
 
     expect(fc.contains(containsMap, "salary")).toBe(true);
+  });
+});
+
+describe("dissocBang", function () {
+  it("removes items from an object by mutation", function () {
+    var dissocObj = { name: "George", salary: "Biscuits" };
+
+    expect(fc.dissocBang(dissocObj, "name")).toEqual({ salary: "Biscuits" });
+  });
+
+  it("removes multiple items from an object", function () {
+    var dissocObj = { name: "George", salary: "Biscuits" };
+
+    expect(fc.dissocBang(dissocObj, "name", "salary")).toEqual({});
   });
 });
 

@@ -440,6 +440,23 @@ export function assocIn(coll, keys, val) {
 }
 
 /*
+Mutator
+dissocBang removes item(s) from an object by key name
+
+var dissocObj = {name: "George", salary: "Biscuits"};
+dissocBang(dissocObj, "name", "salary");
+{}
+  
+*/
+export function dissocBang(obj, ...keys) {
+  for (const key of keys) {
+    delete obj[key];
+  }
+
+  return obj;
+}
+
+/*
 Takes a set of functions and returns a fn that is the composition
 of those fns
 
