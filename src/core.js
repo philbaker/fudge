@@ -633,6 +633,26 @@ export function disj(set, ...xs) {
   return disjBang(set1, ...xs);
 }
 
+/*
+contains() returns true if key is present in the given collection,
+otherwise false. For arrays the key is the index.
+
+contains({name: "George", salary: "Biscuits"}, "name");
+true
+
+*/
+export function contains(coll, val) {
+  switch(typeConst(coll)) {
+    case SET_TYPE:
+    case MAP_TYPE:
+      return coll.has(val);
+    case undefined:
+      return false;
+    default:
+      return val in coll;
+  }
+}
+
 // Utilities
 
 /*

@@ -467,6 +467,29 @@ describe("disjBang", function () {
   });
 });
 
+describe("contains", function () {
+  it("checks for array index as key", function () {
+    expect(fc.contains([1, 2, 3], 0)).toBe(true);
+    expect(fc.contains([1, 2, 3], 3)).toBe(false);
+  });
+
+  it("checks objects by key", function () {
+    expect(fc.contains({name: "George", salary: "Biscuits"}, "name")).toBe(true);
+  });
+
+  it("checks for items in a set", function () {
+    expect(fc.contains(new Set(["a", "b", "c"]), "b")).toBe(true);
+  });
+
+  it("checks for items in a map", function () {
+    var containsMap = new Map();
+    containsMap.set("name", "George");
+    containsMap.set("salary", "Biscuits");
+
+    expect(fc.contains(containsMap, "salary")).toBe(true);
+  });
+});
+
 describe("plus", function () {
   it("adds two numbers", function () {
     expect(fc.plus(1, 2)).toBe(3);
