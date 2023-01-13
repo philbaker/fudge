@@ -457,6 +457,23 @@ export function dissocBang(obj, ...keys) {
 }
 
 /*
+dissoc returns a copy of an object with item(s) removed by key name
+
+dissoc({name: "George", salary: "Biscuits"}, "name", "salary");
+{}
+
+*/
+export function dissoc(obj, ...keys) {
+  let obj2 = {...obj};
+
+  for (const key of keys) {
+    delete obj2[key];
+  }
+
+  return obj2;
+}
+
+/*
 Takes a set of functions and returns a fn that is the composition
 of those fns
 

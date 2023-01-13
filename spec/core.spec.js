@@ -506,6 +506,20 @@ describe("dissocBang", function () {
   });
 });
 
+describe("dissoc", function () {
+  it("does not mutate the original object", function () {
+    var dissocObj = { name: "George", salary: "Biscuits" };
+    var newDissocObj = fc.dissoc(dissocObj, "name");
+
+    expect(dissocObj).toEqual({ name: "George", salary: "Biscuits" });
+    expect(newDissocObj).toEqual({ salary: "Biscuits" });
+  });
+
+  it("removes multiple items from an object without mutation", function () {
+    expect(fc.dissoc({ name: "George", salary: "Biscuits" }, "name", "salary")).toEqual({});
+  });
+});
+
 describe("plus", function () {
   it("adds two numbers", function () {
     expect(fc.plus(1, 2)).toBe(3);
