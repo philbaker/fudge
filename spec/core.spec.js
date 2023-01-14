@@ -26,23 +26,58 @@ describe("cons", function () {
 
 describe("map", function () {
   it("applies a given function to each element of a collection", function () {
-  expect([...fc.map(fc.inc, [1, 2, 3, 4, 5])]).toEqual([ 2, 3, 4, 5, 6 ]);
+    expect([...fc.map(fc.inc, [1, 2, 3, 4, 5])]).toEqual([2, 3, 4, 5, 6]);
 
-  expect([...fc.map(fc.last, {x: 1, y: 2, z: 3})]).toEqual([ 1, 2, 3 ]);
+    expect([...fc.map(fc.last, { x: 1, y: 2, z: 3 })]).toEqual([1, 2, 3]);
 
-  expect([...fc.map(function(item) { return item.toUpperCase(); }, "hello")]).toEqual([ 'H', 'E', 'L', 'L', 'O' ]);
+    expect([
+      ...fc.map(function (item) {
+        return item.toUpperCase();
+      }, "hello"),
+    ]).toEqual(["H", "E", "L", "L", "O"]);
 
-  var months = ["jan", "feb", "mar"];
-  var temps = [5, 7, 12];
-  function unify(month, temp) {
-    return {
-      month,
-      temp
+    var months = ["jan", "feb", "mar"];
+    var temps = [5, 7, 12];
+    function unify(month, temp) {
+      return {
+        month,
+        temp,
+      };
     }
-  }
-  expect([...fc.map(unify, months, temps)]).toEqual([{ month: 'jan', temp: 5 }, { month: 'feb', temp: 7 }, { month: 'mar', temp: 12 } ]);
+    expect([...fc.map(unify, months, temps)]).toEqual([
+      { month: "jan", temp: 5 },
+      { month: "feb", temp: 7 },
+      { month: "mar", temp: 12 },
+    ]);
 
-  expect([...fc.map(fc.vector, [1, 2, 3, 4], ["a", "b", "c", "d"])]).toEqual([ [ 1, 'a' ], [ 2, 'b' ], [ 3, 'c' ], [ 4, 'd' ] ]);
+    expect([...fc.map(fc.vector, [1, 2, 3, 4], ["a", "b", "c", "d"])]).toEqual([
+      [1, "a"],
+      [2, "b"],
+      [3, "c"],
+      [4, "d"],
+    ]);
+  });
+});
+
+describe("filter", function () {
+  it("filters an array", function () {
+    expect([...fc.filter(fc.isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])]).toEqual([
+      0, 2, 4, 6, 8, 10,
+    ]);
+  });
+
+  it("filters an object", function () {
+    expect([
+      ...fc.filter(
+        function (key, val) {
+          return fc.isEven(+key[0]);
+        },
+        { 1: "a", 2: "b", 3: "c", 4: "d" }
+      ),
+    ]).toEqual([
+      ["2", "b"],
+      ["4", "d"],
+    ]);
   });
 });
 

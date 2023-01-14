@@ -277,6 +277,34 @@ export function map(f, ...colls) {
 }
 
 /*
+filter() returns a lazy sequence of the items in coll for which
+pred(item) returns true
+
+[...filter(isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])];
+[ 0, 2, 4, 6, 8, 10 ]
+
+[
+  ...filter(
+    function (key, val) {
+      return isEven(+key[0]);
+    },
+    { 1: "a", 2: "b", 3: "c", 4: "d" }
+  ),
+];
+[ [ '2', 'b' ], [ '4', 'd' ] ]
+
+*/
+export function filter(pred, coll) {
+  return lazy(function* () {
+    for (const x of iterable(coll)) {
+      if (pred(x)) {
+        yield x;
+      }
+    }
+  });
+}
+
+/*
 rest() returns a LazyIterable collection containing a possibly empty seq of the items 
 after the first
 
