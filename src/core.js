@@ -193,7 +193,23 @@ function lazy(f) {
   return new LazyIterable(f);
 }
 
-// Collections
+/*
+cons() returns a new LazyIterable where x is the first item and
+coll is the rest
+
+[...cons(1, [2, 3, 4, 5, 6])];
+[ 1, 2, 3, 4, 5, 6 ]
+
+[...cons([1, 2], [4, 5, 6])];
+[ [ 1, 2 ], 4, 5, 6 ]
+
+*/
+export function cons(x, coll) {
+  return lazy(function* () {
+    yield x;
+    yield* iterable(coll);
+  });
+}
 
 /*
 rest() returns a LazyIterable collection containing a possibly empty seq of the items 

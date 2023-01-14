@@ -17,6 +17,13 @@ describe("seq", function () {
   });
 });
 
+describe("cons", function () {
+  it("returns x as the first item and coll as the rest", function () {
+    expect([...fc.cons(1, [2, 3, 4, 5, 6])]).toEqual([ 1, 2, 3, 4, 5, 6 ]);
+    expect([...fc.cons([1, 2], [4, 5, 6])]).toEqual([ [ 1, 2 ], 4, 5, 6 ]);
+  });
+});
+
 describe("comp", function () {
   it("can be passed a single function", function () {
     expect(fc.comp(fc.isZero)(5)).toBe(false);
