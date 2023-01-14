@@ -244,7 +244,7 @@ function unify(month, temp) {
 // [ [ 1, 'a' ], [ 2, 'b' ], [ 3, 'c' ], [ 4, 'd' ] ]
 
 */
-function map(f, ...colls) {
+export function map(f, ...colls) {
   switch (colls.length) {
     case 0:
       throw new Error("map with one argument is not supported");
