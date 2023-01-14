@@ -212,6 +212,71 @@ export function cons(x, coll) {
 }
 
 /*
+map() applies a given function to each element of a collection
+
+[...map(inc, [1, 2, 3, 4, 5])];
+[ 2, 3, 4, 5, 6 ]
+
+[...map(last, {x: 1, y: 2, z: 3})];
+[ 1, 2, 3 ]
+
+[...map(function(item) { return item.toUpperCase(); }, "hello")]; 
+[ 'H', 'E', 'L', 'L', 'O' ]
+
+var months = ["jan", "feb", "mar"];
+var temps = [5, 7, 12];
+
+function unify(month, temp) {
+  return {
+    month,
+    temp
+  }
+}
+
+[...map(unify, months, temps)];
+[
+  { month: 'jan', temp: 5 },
+  { month: 'feb', temp: 7 },
+  { month: 'mar', temp: 12 }
+]
+
+[...map(vector, [1, 2, 3, 4], ["a", "b", "c", "d"])]
+// [ [ 1, 'a' ], [ 2, 'b' ], [ 3, 'c' ], [ 4, 'd' ] ]
+
+*/
+function map(f, ...colls) {
+  switch (colls.length) {
+    case 0:
+      throw new Error("map with one argument is not supported");
+    case 1:
+      return lazy(function* () {
+        for (const x of iterable(colls[0])) {
+          yield f(x);
+        }
+      });
+    default:
+      return lazy(function* () {
+        const iters = colls.map((coll) => iterator(iterable(coll)));
+
+        while (true) {
+          let args = [];
+          for (const i of iters) {
+            const nextVal = i.next();
+
+            if (nextVal.done) {
+              return;
+            }
+
+            args.push(nextVal.value);
+          }
+
+          yield f(...args);
+        }
+      });
+  }
+}
+
+/*
 rest() returns a LazyIterable collection containing a possibly empty seq of the items 
 after the first
 
