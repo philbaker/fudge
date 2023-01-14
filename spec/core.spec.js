@@ -103,6 +103,28 @@ describe("filterv", function () {
   });
 });
 
+describe("remove", function () {
+  it("filters an array", function () {
+    expect([
+      ...fc.remove(fc.isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
+    ]).toEqual([1, 3, 5, 7, 9]);
+  });
+
+  it("filters an object", function () {
+    expect([
+      ...fc.remove(
+        function (key, val) {
+          return fc.isEven(+key[0]);
+        },
+        { 1: "a", 2: "b", 3: "c", 4: "d" }
+      ),
+    ]).toEqual([
+      ["1", "a"],
+      ["3", "c"],
+    ]);
+  });
+});
+
 describe("comp", function () {
   it("can be passed a single function", function () {
     expect(fc.comp(fc.isZero)(5)).toBe(false);
