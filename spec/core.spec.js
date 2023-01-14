@@ -155,6 +155,23 @@ describe("last", function () {
   });
 });
 
+describe("reduce", function () {
+  it("sums numbers in an array", function () {
+    expect(fc.reduce(fc.plus, [1, 2, 3, 4, 5])).toBe(15);
+    expect(fc.reduce(fc.plus, [1])).toBe(1);
+    expect(fc.reduce(fc.plus, [1, 2])).toBe(3);
+    expect(fc.reduce(fc.plus, 1, [])).toBe(1);
+    expect(fc.reduce(fc.plus, 1, [2, 3])).toBe(6);
+  });
+
+  it("works with other functions", function () {
+    expect(fc.reduce(fc.conj, [1, 2, 3], [4, 5, 6])).toEqual([
+      1, 2, 3, 4, 5, 6,
+    ]);
+    expect(fc.reduce(fc.str, "hello ", "world")).toBe("hello world");
+  });
+});
+
 describe("assocBang", function () {
   it("adds a value to a map via mutation", function () {
     var mapData = new Map();
@@ -539,6 +556,10 @@ describe("dissoc", function () {
 });
 
 describe("plus", function () {
+  it("returns 0 if no argument provided", function () {
+    expect(fc.plus()).toBe(0);
+  });
+
   it("adds two numbers", function () {
     expect(fc.plus(1, 2)).toBe(3);
   });

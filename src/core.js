@@ -311,6 +311,70 @@ export function last(coll) {
   }
 }
 
+class Reduced {
+  value;
+  constructor(x) {
+    this.value = x;
+  }
+  _deref() {
+    return this.value;
+  }
+}
+
+function reduced(x) {
+  return new Reduced(x);
+}
+
+function isReduced(x) {
+  return x instanceof Reduced;
+}
+
+/*
+reduce() iterates over a collection and applies a function to each
+element, returning a single result
+
+reduce(plus, [1, 2, 3, 4, 5]);
+15
+
+reduce(plus, [1]);
+1
+
+*/
+export function reduce(f, arg1, arg2) {
+  let coll, val;
+
+  // TODO: fix in upstream
+  if (arg1.length === 0 && arg2 === undefined) {
+    return f();
+  }
+
+  if (arg2 === undefined) {
+    // (reduce f coll)
+    let iter = iterable(arg1)[Symbol.iterator]();
+    val = iter.next().value;
+    coll = iter;
+  } else {
+    // (reduce f val coll)
+    val = arg1;
+    coll = iterable(arg2);
+  }
+
+  if (val instanceof Reduced) {
+    return val.value;
+  }
+
+  for (const x of coll) {
+    val = f(val, x);
+
+    if (val instanceof Reduced) {
+      val = val.value;
+      break;
+    }
+  }
+
+  return val;
+}
+
 /*
 Mutator
 assocBang() adds a value to a structure by mutating the original
@@ -713,8 +777,6 @@ export function contains(coll, val) {
       return val in coll;
   }
 }
-
-// Utilities
 
 /*
 plus() returns the sum of numbers
