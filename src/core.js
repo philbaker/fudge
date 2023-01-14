@@ -500,12 +500,12 @@ export function reduce(f, arg1, arg2) {
   }
 
   if (arg2 === undefined) {
-    // (reduce f coll)
+    // reduce(f, coll)
     let iter = iterable(arg1)[Symbol.iterator]();
     val = iter.next().value;
     coll = iter;
   } else {
-    // (reduce f val coll)
+    // reduce(f, val, coll)
     val = arg1;
     coll = iterable(arg2);
   }
