@@ -305,6 +305,26 @@ export function filter(pred, coll) {
 }
 
 /*
+filterv() returns an array of the items in coll for which
+pred(item) returns true
+
+filterv(isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+[ 0, 2, 4, 6, 8, 10 ]
+
+filterv(
+  function (key, val) {
+    return isEven(+key[0]);
+  },
+  { 1: "a", 2: "b", 3: "c", 4: "d" }
+);
+[ [ "2", "b" ], [ "4", "d" ] ]
+
+*/
+export function filterv(pred, coll) {
+  return [...filter(pred, coll)];
+}
+
+/*
 rest() returns a LazyIterable collection containing a possibly empty seq of the items 
 after the first
 

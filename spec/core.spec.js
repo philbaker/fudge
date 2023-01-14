@@ -61,9 +61,9 @@ describe("map", function () {
 
 describe("filter", function () {
   it("filters an array", function () {
-    expect([...fc.filter(fc.isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])]).toEqual([
-      0, 2, 4, 6, 8, 10,
-    ]);
+    expect([
+      ...fc.filter(fc.isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
+    ]).toEqual([0, 2, 4, 6, 8, 10]);
   });
 
   it("filters an object", function () {
@@ -75,6 +75,28 @@ describe("filter", function () {
         { 1: "a", 2: "b", 3: "c", 4: "d" }
       ),
     ]).toEqual([
+      ["2", "b"],
+      ["4", "d"],
+    ]);
+  });
+});
+
+describe("filterv", function () {
+  it("filters an array", function () {
+    expect(fc.filterv(fc.isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])).toEqual([
+      0, 2, 4, 6, 8, 10,
+    ]);
+  });
+
+  it("filters an object", function () {
+    expect(
+      fc.filterv(
+        function (key, val) {
+          return fc.isEven(+key[0]);
+        },
+        { 1: "a", 2: "b", 3: "c", 4: "d" }
+      )
+    ).toEqual([
       ["2", "b"],
       ["4", "d"],
     ]);
