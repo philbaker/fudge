@@ -1203,7 +1203,7 @@ prn({name: "George", salary: "Biscuits"});
 "{"name":"George","salary":"Biscuits"}"
 
 */
-function prn(...xs) {
+export function prn(...xs) {
   println(prStr(...xs));
 }
 
