@@ -107,7 +107,7 @@ list(1, 2, 3);
 List(3) [ 1, 2, 3 ]
 
 */
-function list(...args) {
+export function list(...args) {
   return new List(...args);
 }
 
