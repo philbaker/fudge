@@ -125,6 +125,32 @@ describe("remove", function () {
   });
 });
 
+describe("mapIndexed", function () {
+  it("returns an indexed array with each item in a collection", function () {
+    expect(
+      fc.mapIndexed(function (index, item) {
+        return [index, item];
+      }, "foobar")
+    ).toEqual([
+      [0, "f"],
+      [1, "o"],
+      [2, "o"],
+      [3, "b"],
+      [4, "a"],
+      [5, "r"],
+    ]);
+
+    expect(fc.mapIndexed(fc.vector, "foobar")).toEqual([
+      [0, "f"],
+      [1, "o"],
+      [2, "o"],
+      [3, "b"],
+      [4, "a"],
+      [5, "r"],
+    ]);
+  });
+});
+
 describe("comp", function () {
   it("can be passed a single function", function () {
     expect(fc.comp(fc.isZero)(5)).toBe(false);

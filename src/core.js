@@ -347,6 +347,45 @@ export function remove(pred, coll) {
 }
 
 /*
+mapIndexed() returns an array of the result of applying f to 0 and the first 
+item of coll, followed by applying f to 1 and the second item in the coll etc
+
+mapIndexed(function (index, item) {
+  return [index, item];
+}, "foobar");
+[
+  [0, "f"],
+  [1, "o"],
+  [2, "o"],
+  [3, "b"],
+  [4, "a"],
+  [5, "r"],
+];
+
+mapIndexed(vector, "foobar");
+[
+  [0, "f"],
+  [1, "o"],
+  [2, "o"],
+  [3, "b"],
+  [4, "a"],
+  [5, "r"],
+];
+
+*/
+export function mapIndexed(f, coll) {
+  let ret = [];
+  let i = 0;
+
+  for (const x of iterable(coll)) {
+    ret.push(f(i, x));
+    i++;
+  }
+
+  return ret;
+}
+
+/*
 rest() returns a LazyIterable collection containing a possibly empty seq of the items 
 after the first
 
