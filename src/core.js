@@ -1,5 +1,3 @@
-// Data types
-
 const MAP_TYPE = 1;
 const ARRAY_TYPE = 2;
 const OBJECT_TYPE = 3;
