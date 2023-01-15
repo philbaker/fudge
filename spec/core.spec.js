@@ -1,5 +1,23 @@
 import * as fc from "../src/core.js";
 
+describe("concat", function () {
+  it("returns a lazy sequence of concatenated elements from coll", function () {
+    expect([...fc.concat([1, 2], [3, 4])]).toEqual([1, 2, 3, 4]);
+
+    expect([...fc.concat(["a", "b"], null, [1, [2, 3], 4])]).toEqual([
+      "a",
+      "b",
+      1,
+      [2, 3],
+      4,
+    ]);
+
+    expect([
+      ...fc.concat([1], [2], fc.list(3, 4), [5, 6, 7], fc.set([9, 10, 8])),
+    ]).toEqual([1, 2, 3, 4, 5, 6, 7, 9, 10, 8]);
+  });
+});
+
 describe("seq", function () {
   it("returns null when given null", function () {
     expect(fc.seq(null)).toBe(null);

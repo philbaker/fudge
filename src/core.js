@@ -112,6 +112,29 @@ export function list(...args) {
 }
 
 /*
+concat() returns a lazy sequence of the concatenation of elements in
+colls
+
+[...concat([1, 2], [3, 4])];
+[ 1, 2, 3, 4 ]
+
+[...concat(["a", "b"], null, [1, [2, 3], 4])];
+[ 'a', 'b', 1, [ 2, 3 ], 4 ]
+
+
+[...concat([1], [2], list(3, 4), [5, 6, 7], set([9, 10, 8]))];
+[ 1, 2, 3, 4, 5, 6, 7, 9, 10, 8 ]
+
+*/
+export function concat(...colls) {
+  return lazy(function* () {
+    for (const coll of colls) {
+      yield* iterable(coll);
+    }
+  });
+}
+
+/*
 isSeqable returns true if the seq function is supported for x
 
 isSeqable("hello");
