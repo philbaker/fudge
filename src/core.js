@@ -1260,6 +1260,37 @@ export function swapBang(atom, f, ...args) {
 }
 
 /*
+range() a lazy sequence of numbers from start to end
+
+[...range(10)];
+[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+
+[...range(-5, 5)];
+[ -5, -4, -3, -2, -1, 0,  1,  2,  3,  4 ]
+
+*/
+export function range(begin, end, step) {
+  return lazy(function* () {
+    let b = begin;
+    let e = end;
+    let s = step;
+
+    if (end === undefined) {
+      b = 0;
+      e = begin;
+    }
+
+    let i = b || 0;
+    s = step || 1;
+
+    while (e === undefined || i < e) {
+      yield i;
+      i += s;
+    }
+  });
+}
+
+/*
 subvec() returns an array of the items in an array from start to end
 
 subvec([1, 2, 3, 4, 5, 6, 7], 2);
