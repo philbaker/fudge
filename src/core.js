@@ -1291,6 +1291,35 @@ export function range(begin, end, step) {
 }
 
 /*
+reMatches() returns the match, if any, of string to pattern using
+RegExp.prototype.exec()
+
+reMatches(/hello, world/gi, "hello, world");
+'hello, world'
+
+reMatches(/quick\s(?<color>brown).+?(jumps)/dgi, "The Quick Brown Fox Jumps Over The Lazy Dog");
+[ 'Quick Brown Fox Jumps', 'Brown', 'Jumps' ]
+
+*/
+export function reMatches(re, s) {
+  let matches = re.exec(s);
+
+  if (matches.length === 1) {
+    if (matches && s === matches[0]) {
+      return matches[0];
+    }
+  }
+
+  if (matches.length > 1) {
+    return matches.map(function (match) {
+      return match;
+    });
+  }
+
+  return null;
+}
+
+/*
 subvec() returns an array of the items in an array from start to end
 
 subvec([1, 2, 3, 4, 5, 6, 7], 2);

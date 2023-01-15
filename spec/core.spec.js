@@ -873,6 +873,27 @@ describe("range", function () {
   });
 });
 
+describe("reMatches", function () {
+  it("returns null if no match found", function () {
+    expect(fc.reMatches(/hello/gi, "hello, world")).toBe(null);
+  });
+
+  it("returns a single match as a string", function () {
+    expect(fc.reMatches(/hello, world/gi, "hello, world")).toBe("hello, world");
+    expect(fc.reMatches(/hello.*/gi, "hello, world")).toBe("hello, world");
+    expect(fc.reMatches(/ab.*/g, "abbcdefabh")).toBe("abbcdefabh");
+  });
+
+  it("returns multiple matches in an array", function () {
+    expect(
+      fc.reMatches(
+        /quick\s(?<color>brown).+?(jumps)/dgi,
+        "The Quick Brown Fox Jumps Over The Lazy Dog"
+      )
+    ).toEqual(["Quick Brown Fox Jumps", "Brown", "Jumps"]);
+  });
+});
+
 describe("vector", function () {
   it("creates a new array containing arguments given", function () {
     expect(fc.vector()).toEqual([]);
