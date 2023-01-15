@@ -1192,6 +1192,29 @@ export function prStr(...xs) {
   return xs.map(prStr1).join("");
 }
 
+/*
+prn() turns a collectin into a string and prints to console
+returns undefined
+
+prn([1, 2, 3, 4, 5]);
+"[1,2,3,4,5]"
+
+prn({name: "George", salary: "Biscuits"});
+"{"name":"George","salary":"Biscuits"}"
+
+var petsMap = new Map();
+petsMap.set(0, { name: "George", age: 12 });
+petsMap.set(1, { name: "Lola", age: 11 });
+
+prn(petsMap);
+'{"0":{"name":"George","age":12},"1":{"name":"Lola","age":11}}'
+
+prn(new Set([1, 2, 3]));
+'[1,2,3]'
+
+prn(cons(1, [2, 3, 4, 5, 6]));
+'[1,2,3,4,5,6]'
+*/
 function prn(...xs) {
   println(prStr(...xs));
 }
