@@ -1351,6 +1351,45 @@ export function vector(...args) {
 }
 
 /*
+isVector() check if x is an array
+
+isVector([1, 2, 3]);
+true
+
+isVector("hello");
+false
+
+*/
+export function isVector(x) {
+  return typeConst(x) === ARRAY_TYPE;
+}
+
+/*
+mapv() returns the results of map() in an array
+
+mapv(inc, [1, 2, 3, 4, 5]);
+[ 2, 3, 4, 5, 6 ]
+
+*/
+export function mapv(...args) {
+  return [...map(...args)];
+}
+
+/*
+vec() creates a new array containing iterable of coll
+
+vec(null);
+[]
+
+vec({a: 1, b: 2, c: 3});
+[[ "a", 1 ], [ "b", 2 ], [ "c", 3 ]]
+
+*/
+export function vec(coll) {
+  return [...iterable(coll)];
+}
+
+/*
 apply() applies fn f to the argument list formed by prepending intervening 
 arguments to args
 

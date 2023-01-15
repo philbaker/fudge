@@ -894,6 +894,30 @@ describe("reMatches", function () {
   });
 });
 
+describe("vec", function () {
+  it("creates a new array containing the contents", function () {
+    expect(fc.vec(null)).toEqual([]);
+
+    expect(fc.vec({ a: 1, b: 2, c: 3 })).toEqual([
+      ["a", 1],
+      ["b", 2],
+      ["c", 3],
+    ]);
+
+    expect(fc.vec({ a: 1, b: 2, c: 3 })).toEqual([
+      ["a", 1],
+      ["b", 2],
+      ["c", 3],
+    ]);
+
+    expect(fc.vec(new fc.List())).toEqual([]);
+
+    expect(fc.vec("hello")).toEqual(["h", "e", "l", "l", "o"]);
+
+    expect(fc.vec(new Set([1, 2, 3]))).toEqual([1, 2, 3]);
+  });
+});
+
 describe("vector", function () {
   it("creates a new array containing arguments given", function () {
     expect(fc.vector()).toEqual([]);
