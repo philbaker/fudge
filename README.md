@@ -9,6 +9,7 @@ for JavaScript projects.
 ## Inspired by
 - [Squint](https://github.com/squint-cljs/squint)
 - [Clojure](https://github.com/clojure/clojure)
+- [ClojureDocs](https://clojuredocs.org)
 - [Atomic](https://github.com/mlanza/atomic)
 - [Grokking Simplicity](https://www.manning.com/books/grokking-simplicity)
 

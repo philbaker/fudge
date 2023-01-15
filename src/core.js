@@ -1,3 +1,7 @@
+/*
+Core data types
+
+*/
 const MAP_TYPE = 1;
 const ARRAY_TYPE = 2;
 const OBJECT_TYPE = 3;
@@ -5,6 +9,11 @@ const LIST_TYPE = 4;
 const SET_TYPE = 5;
 const LAZY_ITERABLE_TYPE = 6;
 
+/*
+Internal function
+emptyOfType() returns a new empty collection based on type
+
+*/
 function emptyOfType(type) {
   switch (type) {
     case MAP_TYPE:
@@ -236,6 +245,11 @@ class LazyIterable {
   }
 }
 
+/*
+Internal function
+lazy() returns a new instance of LazyIterable
+
+*/
 function lazy(f) {
   return new LazyIterable(f);
 }
@@ -548,6 +562,10 @@ export function last(coll) {
   }
 }
 
+/*
+Internal class for reduce()
+
+*/
 class Reduced {
   value;
   constructor(x) {
@@ -558,11 +576,48 @@ class Reduced {
   }
 }
 
-function reduced(x) {
+/*
+reduced() wraps x so that reduce will terminate with the value x
+
+reduce(function (a, v) {
+  return plus(a, v);
+}, range(10));
+45
+
+reduce(function (a, v) {
+  if (a < 100) {
+    return plus(a, v);
+  } else {
+    return reduced("big");
+  }
+}, range(10));
+45
+
+reduce(function (a, v) {
+  if (a < 100) {
+    return plus(a, v);
+  } else {
+    return reduced("big");
+  }
+}, range(20));
+"big"
+
+*/
+export function reduced(x) {
   return new Reduced(x);
 }
 
-function isReduced(x) {
+/*
+isReduced() returns true if x is the result of a call to reduced
+
+isReduced("foo");
+false
+
+isReduced(reduced("foo"));
+true
+
+*/
+export function isReduced(x) {
   return x instanceof Reduced;
 }
 
@@ -802,7 +857,7 @@ export function dissoc(obj, ...keys) {
 }
 
 /*
-Takes a set of functions and returns a fn that is the composition
+comp() takes a set of functions and returns a fn that is the composition
 of those fns
 
 comp(isZero)(5);

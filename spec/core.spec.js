@@ -307,6 +307,36 @@ describe("last", function () {
   });
 });
 
+describe("reduced", function () {
+  it("wraps x so that reduce will terminate the value with x", function () {
+    expect(
+      fc.reduce(function (a, v) {
+        return fc.plus(a, v);
+      }, fc.range(10))
+    ).toBe(45);
+
+    expect(
+      fc.reduce(function (a, v) {
+        if (a < 100) {
+          return fc.plus(a, v);
+        } else {
+          return fc.reduced("big");
+        }
+      }, fc.range(10))
+    ).toBe(45);
+
+    expect(
+      fc.reduce(function (a, v) {
+        if (a < 100) {
+          return fc.plus(a, v);
+        } else {
+          return fc.reduced("big");
+        }
+      }, fc.range(20))
+    ).toBe("big");
+  });
+});
+
 describe("reduce", function () {
   it("sums numbers in an array", function () {
     expect(fc.reduce(fc.plus, [1, 2, 3, 4, 5])).toBe(15);
