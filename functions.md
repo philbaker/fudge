@@ -7,7 +7,7 @@
 - [ ] def;Define a top level Var.;68451
 - [X] str;Convert the arguments to strings and concatenate them.;65937
 - [ ] deftest;Define a test.;62985
-- [ ] map;Create a seq whose elements are the result of applying a function to the elements of another seq.;52295
+- [X] map;Create a seq whose elements are the result of applying a function to the elements of another seq.;52295
 - [ ] ns;Define a namespace at the top of a file.;49644
 - [X] ->;Thread-first macro.;46439
 - [ ] defn-;Define a function at the top level that is private to the namespace.;44741
@@ -16,7 +16,7 @@
 - [ ] testing;Add context text to enclosed assertions.;32891
 - [ ] or;Evaluate expressions in turn, returning the first that is truthy or nil otherwise.;31252
 - [X] apply;Call a function on a seq of arguments.;30907
-- [ ] assoc;Add one or more key/value pairs to an associative data structure such as a hashmap or vector.;29215
+- [X] assoc;Add one or more key/value pairs to an associative data structure such as a hashmap or vector.;29215
 - [ ] count;Return the number of elements in the given collection.;28660
 - [ ] and;Evaluate expressions in turn, returning the first that is not truthy, or the last one otherwise.;26442
 - [X] not;Return true if the argument is falsey, false otherwise.;24785
@@ -24,7 +24,7 @@
 - [ ] defmethod;Define a method in a multimethod.;20983
 - [X] +;Add all arguments numerically.;19170
 - [ ] defmacro;Define a new macro.;18829
-- [ ] get;Return the value associated with the key in an associative data structure.;18547
+- [X] get;Return the value associated with the key in an associative data structure.;18547
 - [ ] *;Multiply all arguments numerically.;16945
 - [ ] cond;Multi-way conditional branch.;16672
 - [ ] recur;Explicit tail recursion.;16569
@@ -34,39 +34,39 @@
 - [ ] doseq;Iterate over a seq, executing the body expressions for each element.;15442
 - [X] ->>;Thread last macro.;15004
 - [ ] throw;Raise an exception.;14419
-- [ ] atom;Create a Atom.;14024
-- [ ] reduce;Starting with an initial value, apply a function to that value and successive elements of a seq.;13785
+- [X] atom;Create a Atom.;14024
+- [X] reduce;Starting with an initial value, apply a function to that value and successive elements of a seq.;13785
 - [X] -;Subtract arguments numerically, or negate a number.;13236
 - [ ] name;Return the non-namespace part of a keyword or symbol as a string, or the argument itself if it's a string.;12880
 - [ ] instance?;Check if a value is an instance of a class or interface.;12674
 - [ ] conj;Add an element to a collection.;12548
 - [ ] if-let;Two-way conditional branch with binding of the test result.;12483
 - [X] inc;Add one to a number.;12482
-- [ ] swap!;Replace an Atom's value with the result of applying a function to the current value.;12462
+- [X] swap!;Replace an Atom's value with the result of applying a function to the current value.;12462
 - [ ] into;Add elements of a seq to a collection.;11580
-- [ ] range;Create a seq of numbers from start to end.;11124
-- [ ] filter;Keep elements of a seq that are truthy for a given predicate.;10851
+- [X] range;Create a seq of numbers from start to end.;11124
+- [X] filter;Keep elements of a seq that are truthy for a given predicate.;10851
 - [ ] get-in;Get the value from a nested associative data structure at a path.;10604
 - [ ] merge;Add key/value pairs from one map into another.;10506
 - [ ] empty?;Returns true if there are no elements in a collection, false otherwise.;10495
 - [ ] loop;Create a scope for tail recursion.;10419
 - [ ] for;List comprehension.;10234
 - [ ] try;Create a point for catching exception.;9680
-- [ ] list;Create a list.;9523
+- [X] list;Create a list.;9523
 - [ ] format;Create a string using java.lang.String.format.;9508
 - [ ] catch;Declare what to do when a particular class of exception is caught.;9105
 - [ ] when-not;Negative one-way conditional branch.;8992
-- [ ] rest;Return a seq of elements from a collection excluding the first.;8766
+- [X] rest;Return a seq of elements from a collection excluding the first.;8766
 - [ ] <;Mathematical less than.;8618
-- [ ] vec;Convert a collection to a vector.;8601
+- [X] vec;Convert a collection to a vector.;8601
 - [X] partial;Take a function and arguments and make a new function that has those arguments already applied.;8595
-- [ ] concat;String seqs together in order.;8334
-- [ ] reset!;Set the value of an Atom without regard to the current value.;8122
-- [ ] set;Convert a collection to a set.;8071
+- [X] concat;String seqs together in order.;8334
+- [X] reset!;Set the value of an Atom without regard to the current value.;8122
+- [X] set;Convert a collection to a set.;8071
 - [ ] when-let;One-way conditional branch with binding of the test result.;8040
 - [ ] /;Numeric division.;8033
 - [ ] int;Convert a number to an integer.;7811
-- [ ] cons;Add an element to the beginning of a seq.;7652
+- [X] cons;Add an element to the beginning of a seq.;7652
 - [X] nth;Retrieve an element from a seq by numeric index.;7628
 - [ ] assert;Throw an AssertionError if expression is false.;7613
 - [ ] defproject;Define a Leiningen project.;7604
@@ -91,9 +91,9 @@
 - [ ] symbol;Create a symbol from a string or a namespace and name.;5839
 - [ ] binding;Create thread-local bindings for dynamic vars.;5829
 - [X] dec;Subtract one from a number.;5823
-- [ ] dissoc;Remove a key/value from an associative data structure.;5720
+- [X] dissoc;Remove a key/value from an associative data structure.;5720
 - [ ] defrecord;Create a new record type.;5409
-- [ ] comp;Compose two or more functions.;5305
+- [X] comp;Compose two or more functions.;5305
 - [ ] not=;Return true if the arguments are not equal, false otherwise.;5286
 - [ ] thrown?;A special form in clojure.test/is expressions to check if an exception is thrown.;5249
 - [ ] float;Convert a number to a Java float.;5175
