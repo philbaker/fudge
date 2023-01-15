@@ -6,6 +6,12 @@ to make it suitable for direct usage in JavaScript.
 It is intended to be the [functional core](https://www.destroyallsoftware.com/screencasts/catalog/functional-core-imperative-shell) 
 for JavaScript projects.
 
+## Inspired by
+- [Squint](https://github.com/squint-cljs/squint)
+- [Clojure](https://github.com/clojure/clojure)
+- [Atomic](https://github.com/mlanza/atomic)
+- [Grokking Simplicity](https://www.manning.com/books/grokking-simplicity)
+
 ## License
 
 Copyright © 2023 Phil Baker
