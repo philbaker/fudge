@@ -1390,6 +1390,20 @@ export function vec(coll) {
 }
 
 /*
+set() returns a set of the distinct elements of coll
+
+set([1, 2, 3, 4, 5]);
+Set(5) { 1, 2, 3, 4, 5 }
+
+set("abcd")
+Set(4) { 'a', 'b', 'c', 'd' }
+
+*/
+export function set(coll) {
+  return new Set(iterable(coll));
+}
+
+/*
 apply() applies fn f to the argument list formed by prepending intervening 
 arguments to args
 

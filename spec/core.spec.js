@@ -926,6 +926,21 @@ describe("vector", function () {
   });
 });
 
+describe("set", function () {
+  it("returns a set of the distinct elements of coll", function () {
+    var set1 = fc.set([1, 2, 3]);
+    expect(set1.has(1)).toBe(true);
+    expect(set1.has(2)).toBe(true);
+    expect(set1.has(3)).toBe(true);
+    expect(set1.size).toBe(3);
+
+    var set2 = fc.set(["a", "b"]);
+    expect(set2.has("a")).toBe(true);
+    expect(set2.has("b")).toBe(true);
+    expect(set2.size).toBe(2);
+  });
+});
+
 describe("apply", function () {
   it("apply() applies fn f to the argument list formed by prepending intervening arguments to args", function () {
     expect(fc.apply(fc.str, ["str1", "str2", "str3"])).toBe("str1str2str3");
