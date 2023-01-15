@@ -828,11 +828,33 @@ describe("prStr", function () {
     petsMap.set(0, { name: "George", age: 12 });
     petsMap.set(1, { name: "Lola", age: 11 });
 
-    expect(fc.prStr(petsMap)).toBe('{"0":{"name":"George","age":12},"1":{"name":"Lola","age":11}}');
+    expect(fc.prStr(petsMap)).toBe(
+      '{"0":{"name":"George","age":12},"1":{"name":"Lola","age":11}}'
+    );
 
     expect(fc.prStr(new Set([1, 2, 3]))).toBe("[1,2,3]");
 
     expect(fc.prStr(fc.cons(1, [2, 3, 4, 5, 6]))).toBe("[1,2,3,4,5,6]");
+  });
+});
+
+describe("Atoms", function () {
+  it("allows creation, updating and resetting of atoms", function () {
+    var myAtom = fc.atom(0);
+
+    expect(myAtom.value).toBe(0);
+
+    expect(fc.swapBang(myAtom, fc.inc)).toBe(1);
+
+    expect(
+      fc.swapBang(myAtom, function (n) {
+        return (n + n) * 2;
+      })
+    ).toBe(4);
+
+    fc.resetBang(myAtom, 0);
+
+    expect(myAtom.value).toBe(0);
   });
 });
 

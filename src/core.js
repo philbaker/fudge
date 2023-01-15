@@ -1207,6 +1207,58 @@ export function prn(...xs) {
   println(prStr(...xs));
 }
 
+function Atom(init) {
+  this.value = init;
+  this._deref = () => this.value;
+  this._resetBang = (x) => (this.value = x);
+}
+
+/*
+  Atoms provide a way to manage shared, synchronous, independent
+  state
+
+  var myAtom = atom(0);
+  myAtom;
+  Atom {
+    value: 0,
+    _deref: [Function (anonymous)],
+    _resetBang: [Function (anonymous)]
+  }
+
+  myAtom.value;
+  0
+
+  swapBang(myAtom, inc);
+  1
+
+  swapBang(myAtom, function(n) { return (n + n) * 2 });
+  4
+
+  resetBang(myAtom, 0);
+
+  myAtom.value;
+  0
+
+*/
+export function atom(init) {
+  return new Atom(init);
+}
+
+export function deref(ref) {
+  return ref._deref();
+}
+
+export function resetBang(atom, val) {
+  atom._resetBang(val);
+}
+
+export function swapBang(atom, f, ...args) {
+  const val = f(deref(atom), ...args);
+  resetBang(atom, val);
+
+  return val;
+}
+
 /*
 subvec() returns an array of the items in an array from start to end
 
