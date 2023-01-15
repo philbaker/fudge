@@ -1473,7 +1473,7 @@ boring("hello");
 10
 
 */
-function constantly(x) {
+export function constantly(x) {
   return (..._) => x;
 }
 
