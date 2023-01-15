@@ -1464,6 +1464,20 @@ export function complement(f) {
 }
 
 /*
+constantly returns a function that takes any number of arguments and returns x
+
+var boring = constantly(10);
+boring() 
+
+boring("hello");
+10
+
+*/
+function constantly(x) {
+  return (..._) => x;
+}
+
+/*
 isIdentical() tests if two arguments are the equal
 
 isIdentical(1, 1);
