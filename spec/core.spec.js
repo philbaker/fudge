@@ -816,6 +816,26 @@ describe("isNil", function () {
   });
 });
 
+describe("prStr", function () {
+  it("turns a collection into a string and returns it", function () {
+    expect(fc.prStr([1, 2, 3, 4, 5])).toBe("[1,2,3,4,5]");
+
+    expect(fc.prStr({ name: "George", salary: "Biscuits" })).toBe(
+      '{"name":"George","salary":"Biscuits"}'
+    );
+
+    var petsMap = new Map();
+    petsMap.set(0, { name: "George", age: 12 });
+    petsMap.set(1, { name: "Lola", age: 11 });
+
+    expect(fc.prStr(petsMap)).toBe('{"0":{"name":"George","age":12},"1":{"name":"Lola","age":11}}');
+
+    expect(fc.prStr(new Set([1, 2, 3]))).toBe("[1,2,3]");
+
+    expect(fc.prStr(fc.cons(1, [2, 3, 4, 5, 6]))).toBe("[1,2,3,4,5,6]");
+  });
+});
+
 describe("vector", function () {
   it("creates a new array containing arguments given", function () {
     expect(fc.vector()).toEqual([]);

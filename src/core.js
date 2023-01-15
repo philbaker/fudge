@@ -1164,6 +1164,38 @@ export function isNil(x) {
   return x === null;
 }
 
+function prStr1(x) {
+  return JSON.stringify(x, (_key, val) => {
+    switch (typeConst(val)) {
+      case SET_TYPE:
+      case LAZY_ITERABLE_TYPE:
+        return [...val];
+      case MAP_TYPE:
+        return Object.fromEntries(val);
+      default:
+        return val;
+    }
+  });
+}
+
+/*
+prStr() turns a collection into a string and returns it
+
+prStr([1, 2, 3, 4, 5]);
+"[1,2,3,4,5]"
+
+prStr({name: "George", salary: "Biscuits"});
+"{"name":"George","salary":"Biscuits"}"
+
+*/
+export function prStr(...xs) {
+  return xs.map(prStr1).join("");
+}
+
+function prn(...xs) {
+  println(prStr(...xs));
+}
+
 /*
 subvec() returns an array of the items in an array from start to end
 
