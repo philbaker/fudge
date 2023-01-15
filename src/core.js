@@ -83,7 +83,33 @@ export class List extends Array {
   }
 }
 
-// Seqs
+/*
+isList() checks if x is a List
+
+isList(new List(1, 2, 3));
+true
+
+isList("hello");
+false
+
+*/
+export function isList(x) {
+  return typeConst(x) === LIST_TYPE;
+}
+
+/*
+list() creates a new List containing args
+
+list("a", "b", "c");
+List(3) [ 'a', 'b', 'c' ]
+
+list(1, 2, 3);
+List(3) [ 1, 2, 3 ]
+
+*/
+function list(...args) {
+  return new List(...args);
+}
 
 /*
 isSeqable returns true if the seq function is supported for x
@@ -1351,7 +1377,7 @@ export function vector(...args) {
 }
 
 /*
-isVector() check if x is an array
+isVector() checks if x is an array
 
 isVector([1, 2, 3]);
 true
