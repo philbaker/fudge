@@ -1173,6 +1173,36 @@ export function interpose(sep, coll) {
 }
 
 /*
+selectKeys() returns a map containing only those entries in the map
+whose key is in keys
+
+selectKeys({a: 1, b: 2}, ["a"]);
+{ a: 1 }
+
+selectKeys({a: 1, b: 2}, ["a", "c"]);
+{ a: 1 }
+
+selectKeys({a: 1, b: 2, c: 3}, ["a", "c"]);
+{ a: 1, c: 3 }
+
+*/
+export function selectKeys(coll, keys) {
+  const type = typeConst(coll);
+
+  const ret = emptyOfType(type);
+
+  for (const key of keys) {
+    const val = get(coll, key);
+
+    if (val !== undefined && val !== null) {
+      assocBang(ret, key, val);
+    }
+  }
+
+  return ret;
+}
+
+/*
 inc() returns a number one greater than n
 
 inc(5);

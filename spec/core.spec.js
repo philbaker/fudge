@@ -83,6 +83,16 @@ describe("interpose", function () {
   });
 });
 
+describe("selectKeys", function () {
+  it("returns a map containing only those entries in the map whose key is in keys", function () {
+    expect(fc.selectKeys({a: 1, b: 2}, ["a"])).toEqual({ a: 1 });
+
+    expect(fc.selectKeys({a: 1, b: 2}, ["a", "c"])).toEqual({ a: 1 });
+
+    expect(fc.selectKeys({a: 1, b: 2, c: 3}, ["a", "c"])).toEqual({ a: 1, c: 3 });
+  });
+});
+
 describe("seq", function () {
   it("returns null when given null", function () {
     expect(fc.seq(null)).toBe(null);
