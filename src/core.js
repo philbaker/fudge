@@ -1952,15 +1952,15 @@ sayHelloWithDefaults("universe");
 'Hello universe'
 
 */
-export function fnil(fn, ...defaultValues) {
+export function fnil(f, ...xs) {
   return function (...args) {
     for (let i = 0; i < args.length; i++) {
       if (args[i] === null || args[i] === undefined) {
-        args[i] = defaultValues[i] || defaultValues[defaultValues.length - 1];
+        args[i] = xs[i] || xs[xs.length - 1];
       }
     }
 
-    return apply(fn, args);
+    return apply(f, args);
   };
 }
 
