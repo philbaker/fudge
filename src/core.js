@@ -2014,10 +2014,23 @@ export function getIn(coll, path, notFound = null) {
 /*
 updateIn() updates a value in a nested structure
 
+var pets = [{name: "George", age: 11}, {name: "Lola", age: 10}];
+updateIn(pets, [1, "age"], inc);
+[ { name: 'George', age: 11 }, { name: 'Lola', age: 11 } ]
+
+
+function charCount(s) {
+  return reduce((m, k) => updateIn(m, [k], fnil(inc, 0)), {}, s);
+}
+
+charCount("foo-bar");
+{ f: 1, o: 2, '-': 1, b: 1, a: 1, r: 1 }
+
 */
-// function updateIn(coll, path, f, ...args) {
-//   return assocIn(coll, path, f(getIn(coll, path), ...args));
-// }
+export function updateIn(coll, path, f, ...args) {
+  return assocIn(coll, path, f(getIn(coll, path), ...args));
+}
+
 
 /*
 fnil() takes a function f, and returns a function that calls f, replacing

@@ -1190,13 +1190,43 @@ describe("getIn", function () {
         name: "George V",
         address: { city: "London", street: "Tabby lane" },
       },
-    }
+    };
 
-    expect(fc.getIn(pet, ["profile", "name"])).toBe('George V');
+    expect(fc.getIn(pet, ["profile", "name"])).toBe("George V");
 
-    expect(fc.getIn(pet, ["profile", "address", "city"])).toBe('London');
+    expect(fc.getIn(pet, ["profile", "address", "city"])).toBe("London");
 
     expect(fc.getIn(pet, ["profile", "address", "postcode"])).toBe(null);
+  });
+});
+
+describe("updateIn", function () {
+  it("updates a value in a nested structure", function () {
+    var pets = [
+      { name: "George", age: 11 },
+      { name: "Lola", age: 10 },
+    ];
+    expect(fc.updateIn(pets, [1, "age"], fc.inc)).toEqual([
+      { name: "George", age: 11 },
+      { name: "Lola", age: 11 },
+    ]);
+
+    function charCount(s) {
+      return fc.reduce(
+        (m, k) => fc.updateIn(m, [k], fc.fnil(fc.inc, 0)),
+        {},
+        s
+      );
+    }
+
+    expect(charCount("foo-bar")).toEqual({
+      f: 1,
+      o: 2,
+      "-": 1,
+      b: 1,
+      a: 1,
+      r: 1,
+    });
   });
 });
 
