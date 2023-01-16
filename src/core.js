@@ -142,6 +142,25 @@ export function concat(...colls) {
 }
 
 /*
+mapcat() returns a LazyIterable of applying concat to the result of 
+applying map to f and colls
+
+[...mapcat(reverse, [[3, 2, 1, 0], [6, 5, 4], [9, 8, 7]])];
+[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+
+[...mapcat(list, ["a", "b", "c"], [1, 2, 3])];
+[ "a", 1, "b", 2, "c", 3 ]
+
+[...mapcat(function(x) { return [x, (2 * x)] }, range(5))]
+[ 0, 0, 1, 2, 2, 4, 3, 6, 4, 8]
+
+
+*/
+export function mapcat(f, ...colls) {
+  return concat(...map(f, ...colls));
+}
+
+/*
 isSeqable returns true if the seq function is supported for x
 
 isSeqable("hello");

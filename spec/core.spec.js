@@ -18,6 +18,16 @@ describe("concat", function () {
   });
 });
 
+describe("mapcat", function () {
+  it("applies concat to the result of applying map to f and colls", function () {
+    expect([...fc.mapcat(fc.reverse, [[3, 2, 1, 0], [6, 5, 4], [9, 8, 7]])]).toEqual([ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+
+    expect([...fc.mapcat(fc.list, ["a", "b", "c"], [1, 2, 3])]).toEqual([ "a", 1, "b", 2, "c", 3 ]);
+
+    expect([...fc.mapcat(function(x) { return [x, (2 * x)] }, fc.range(5))]).toEqual([ 0, 0, 1, 2, 2, 4, 3, 6, 4, 8]);
+  });
+});
+
 describe("seq", function () {
   it("returns null when given null", function () {
     expect(fc.seq(null)).toBe(null);
