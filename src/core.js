@@ -1158,6 +1158,14 @@ export function interleave(...colls) {
 }
 
 /*
+interpose() returns a lazy sequence of the elements of coll separated
+by sep
+
+interpose(", ", ["one", "two", "three"]);
+
+*/
+
+/*
 inc() returns a number one greater than n
 
 inc(5);
@@ -1642,6 +1650,37 @@ true
 */
 export function isIdentical(x, y) {
   return x === y;
+}
+
+/*
+repeat() returns a lazy sequence of args
+
+[...repeat(5, "x")];
+[ "x", "x", "x", "x", "x" ]
+
+*/
+export function repeat(...args) {
+  if (args.length === 0 || args.length > 2) {
+    throw new Error(`Invalid arity: ${args.length}`);
+  }
+
+  return {
+    [IIterable]: true,
+    [IIterableIterator]:
+      args.length == 1
+        ? function* () {
+            let x = args[0];
+            while (true) {
+              yield x;
+            }
+          }
+        : function* () {
+            let [n, x] = args;
+            for (var i = 0; i < n; i++) {
+              yield x;
+            }
+          },
+  };
 }
 
 /*

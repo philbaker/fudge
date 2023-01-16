@@ -1075,6 +1075,12 @@ describe("complement", function () {
   });
 });
 
+describe("repeat", function () {
+  it("returs a lazy sequence of args", function () {
+    expect([...fc.repeat(5, "x")]).toEqual(["x", "x", "x", "x", "x"]);
+  });
+});
+
 describe("partial", function () {
   it("It returns a function that takes a variable number of additional args", function () {
     var hundredPlus = fc.partial(fc.plus, 100);
