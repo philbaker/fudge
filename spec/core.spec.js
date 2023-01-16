@@ -67,6 +67,22 @@ describe("interleave", function () {
   });
 });
 
+describe("interpose", function () {
+  it("returns a lazy sequence of the elements of coll separated by sep", function () {
+    expect([...fc.interpose(", ", ["one", "two", "three"])]).toEqual([
+      "one",
+      ", ",
+      "two",
+      ", ",
+      "three",
+    ]);
+
+    expect(fc.apply(fc.str, fc.interpose(", ", ["one", "two", "three"]))).toBe(
+      "one, two, three"
+    );
+  });
+});
+
 describe("seq", function () {
   it("returns null when given null", function () {
     expect(fc.seq(null)).toBe(null);

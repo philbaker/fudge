@@ -1161,9 +1161,16 @@ export function interleave(...colls) {
 interpose() returns a lazy sequence of the elements of coll separated
 by sep
 
-interpose(", ", ["one", "two", "three"]);
+[...interpose(", ", ["one", "two", "three"])];
+[ "one", ", ", "two", ", ", "three" ]
+
+apply(str, interpose(", ", ["one", "two", "three"]));
+"one, two, three"
 
 */
+export function interpose(sep, coll) {
+  return drop(1, interleave(repeat(sep), coll));
+}
 
 /*
 inc() returns a number one greater than n
