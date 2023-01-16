@@ -1824,6 +1824,42 @@ export function drop(n, xs) {
 }
 
 /*
+dropWhile() returns a lazy sequence of the items in coll starting from
+the first item for which pred(value) returns false
+
+[...dropWhile((x) => 3 > x, [1, 2, 3, 4, 5, 6])];
+[ 3, 4, 5, 6 ]
+
+[...dropWhile((x) => 3 >= x, [1, 2, 3, 4, 5, 6])];
+[ 4, 5, 6 ]
+
+[...dropWhile(isNeg, [-1, -2, -6, -7, 1, 2, 3, 4, -5, -6, 0, 1])];
+[ 1,  2, 3, 4, -5, -6, 0, 1 ]
+
+*/
+export function dropWhile(pred, xs) {
+  return lazy(function* () {
+    let iter = iterator(iterable(xs));
+
+    while (true) {
+      let nextItem = iter.next();
+
+      if (nextItem.done) {
+        break;
+      }
+
+      let value = nextItem.value;
+
+      if (!pred(value)) {
+        yield value;
+        break;
+      }
+    }
+    yield* iter;
+  });
+}
+
+/*
 threadFirst() threads x through the fns. Inserts x as the second item in the first
 function. It will do the same for following functions.
 

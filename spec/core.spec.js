@@ -1099,17 +1099,33 @@ describe("isSome", function () {
 
 describe("drop", function () {
   it("does nothing for negative numbers and zero", function () {
-    expect([...fc.drop(-1, [1, 2, 3, 4])]).toEqual([ 1, 2, 3, 4 ]);
+    expect([...fc.drop(-1, [1, 2, 3, 4])]).toEqual([1, 2, 3, 4]);
 
-    expect([...fc.drop(0, [1, 2, 3, 4])]).toEqual([ 1, 2, 3, 4 ]);
+    expect([...fc.drop(0, [1, 2, 3, 4])]).toEqual([1, 2, 3, 4]);
   });
 
   it("drops the correct number of items", function () {
-    expect([...fc.drop(2, [1, 2, 3, 4])]).toEqual([ 3, 4 ]);
+    expect([...fc.drop(2, [1, 2, 3, 4])]).toEqual([3, 4]);
   });
 
   it("returns an empty array if larger number than items given", function () {
     expect([...fc.drop(5, [1, 2, 3, 4])]).toEqual([]);
+  });
+});
+
+describe("dropWhile", function () {
+  it("returns a lazy sequence of the items in coll starting from the first item for which pred(value) returns false", function () {
+    expect([...fc.dropWhile((x) => 3 > x, [1, 2, 3, 4, 5, 6])]).toEqual([
+      3, 4, 5, 6,
+    ]);
+
+    expect([...fc.dropWhile((x) => 3 >= x, [1, 2, 3, 4, 5, 6])]).toEqual([
+      4, 5, 6,
+    ]);
+
+    expect([
+      ...fc.dropWhile(fc.isNeg, [-1, -2, -6, -7, 1, 2, 3, 4, -5, -6, 0, 1]),
+    ]).toEqual([1, 2, 3, 4, -5, -6, 0, 1]);
   });
 });
 
