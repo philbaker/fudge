@@ -1798,7 +1798,30 @@ function isPos(x) {
   return x > 0;
 }
 
-// Threading (pipe) functions
+/*
+drop() returns a lazy sequence of all but the first n items in coll
+
+[...drop(-1, [1, 2, 3, 4])];
+[ 1, 2, 3, 4 ]
+
+[...drop(2, [1, 2, 3, 4])];
+[ 3, 4 ]
+
+[...drop(5, [1, 2, 3, 4])];
+[]
+
+*/
+export function drop(n, xs) {
+  return lazy(function* () {
+    let iter = iterator(iterable(xs));
+
+    for (let x = 0; x < n; x++) {
+      iter.next();
+    }
+
+    yield* iter;
+  });
+}
 
 /*
 threadFirst() threads x through the fns. Inserts x as the second item in the first

@@ -1097,6 +1097,22 @@ describe("isSome", function () {
   });
 });
 
+describe("drop", function () {
+  it("does nothing for negative numbers and zero", function () {
+    expect([...fc.drop(-1, [1, 2, 3, 4])]).toEqual([ 1, 2, 3, 4 ]);
+
+    expect([...fc.drop(0, [1, 2, 3, 4])]).toEqual([ 1, 2, 3, 4 ]);
+  });
+
+  it("drops the correct number of items", function () {
+    expect([...fc.drop(2, [1, 2, 3, 4])]).toEqual([ 3, 4 ]);
+  });
+
+  it("returns an empty array if larger number than items given", function () {
+    expect([...fc.drop(5, [1, 2, 3, 4])]).toEqual([]);
+  });
+});
+
 describe("threadFirst", function () {
   it("threads x through the fns with x as the second argument", function () {
     expect(fc.threadFirst("3", parseInt)).toBe(3);
