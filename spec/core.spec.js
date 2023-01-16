@@ -1172,11 +1172,47 @@ describe("fnil", function () {
 
     var sayHelloWithDefaults = fc.fnil(sayHello, "world");
 
-    expect(sayHelloWithDefaults()).toBe("Hello world");
-
     expect(sayHelloWithDefaults(null)).toBe("Hello world");
 
     expect(sayHelloWithDefaults("universe")).toBe("Hello universe");
+  });
+
+  it("works with more arguments", function () {
+    function sayHello2(name, world) {
+      return fc.str("Hello ", name, " ", world);
+    }
+
+    var sayHelloWithDefaults2 = fc.fnil(sayHello2, "world", "planet");
+
+    expect(sayHelloWithDefaults2("universe", null)).toBe(
+      "Hello universe planet"
+    );
+
+    expect(sayHelloWithDefaults2(null, "planet")).toBe("Hello world planet");
+
+    expect(sayHelloWithDefaults2(null, null)).toBe("Hello world planet");
+
+    function sayHello3(name, world, wee) {
+      return fc.str("Hello ", name, " ", world, " ", wee);
+    }
+
+    var sayHelloWithDefaults3 = fc.fnil(sayHello3, "world", "planet", "stars");
+
+    expect(sayHelloWithDefaults3("universe", null, null)).toBe(
+      "Hello universe planet stars"
+    );
+
+    expect(sayHelloWithDefaults3("universe", null, "hi")).toBe(
+      "Hello universe planet hi"
+    );
+
+    expect(sayHelloWithDefaults3("universe", "metaverse", "hi")).toBe(
+      "Hello universe metaverse hi"
+    );
+
+    expect(sayHelloWithDefaults3(null, "metaverse", null)).toBe(
+      "Hello world metaverse stars"
+    );
   });
 });
 
