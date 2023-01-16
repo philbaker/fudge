@@ -1955,6 +1955,23 @@ export function distinct(coll) {
   });
 }
 
+/*
+update() returns a new structure with a value updated by f 
+
+var pet = {name: "George", age: 11};
+update(pet, "age", inc);
+{ name: 'George', age: 12 }
+
+update([1, 2, 3], 0, inc);
+[ 2, 2, 3 ]
+
+update([], 0, function(item) { return str("foo", item); });
+[ 'foo' ]
+
+*/
+export function update(coll, key, f, ...args) {
+  return assoc(coll, key, f(get(coll, key), ...args));
+}
 
 /*
 fnil() takes a function f, and returns a function that calls f, replacing

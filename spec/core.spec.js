@@ -1166,7 +1166,19 @@ describe("dropWhile", function () {
 
 describe("distinct", function () {
   it("returns new array with duplicates removed", function () {
-    expect([...fc.distinct([1, 2, 1, 3, 1, 4, 1, 5])]).toEqual([ 1, 2, 3, 4, 5 ]);
+    expect([...fc.distinct([1, 2, 1, 3, 1, 4, 1, 5])]).toEqual([1, 2, 3, 4, 5]);
+  });
+});
+
+describe("update", function () {
+  it("returns a new structure with a value updated by f", function () {
+    var pet = { name: "George", age: 11 };
+
+    expect(fc.update(pet, "age", fc.inc)).toEqual({ name: "George", age: 12 });
+
+    expect(fc.update([1, 2, 3], 0, fc.inc)).toEqual([2, 2, 3]);
+
+    expect(fc.update([], 0, (item) => fc.str("foo", item))).toEqual(["foo"]);
   });
 });
 
