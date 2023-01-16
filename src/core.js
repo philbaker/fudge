@@ -1936,6 +1936,27 @@ export function dropWhile(pred, xs) {
 }
 
 /*
+distinct() returns a lazy sequnce of the elements of coll with duplicates removed
+
+[...distinct([1, 2, 1, 3, 1, 4, 1, 5])];
+[ 1, 2, 3, 4, 5 ]
+
+*/
+export function distinct(coll) {
+  return lazy(function* () {
+    let seen = new Set();
+    for (const x of iterable(coll)) {
+      if (!seen.has(x)) {
+        yield x;
+      }
+      seen.add(x);
+    }
+    return;
+  });
+}
+
+
+/*
 fnil() takes a function f, and returns a function that calls f, replacing
 a null first argument to f with the supplied value x
 
@@ -1950,6 +1971,8 @@ sayHelloWithDefaults(null);
 
 sayHelloWithDefaults("universe");
 'Hello universe'
+
+// TODO: fix in upstream to add support for multi-arity
 
 */
 export function fnil(f, ...xs) {

@@ -1164,6 +1164,12 @@ describe("dropWhile", function () {
   });
 });
 
+describe("distinct", function () {
+  it("returns new array with duplicates removed", function () {
+    expect([...fc.distinct([1, 2, 1, 3, 1, 4, 1, 5])]).toEqual([ 1, 2, 3, 4, 5 ]);
+  });
+});
+
 describe("fnil", function () {
   it("works with three arguments", function () {
     function sayHello(name) {
