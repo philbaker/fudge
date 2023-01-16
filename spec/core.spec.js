@@ -1182,6 +1182,24 @@ describe("update", function () {
   });
 });
 
+describe("getIn", function () {
+  it("returns a value from a nested structure", function () {
+    var pet = {
+      name: "George",
+      profile: {
+        name: "George V",
+        address: { city: "London", street: "Tabby lane" },
+      },
+    }
+
+    expect(fc.getIn(pet, ["profile", "name"])).toBe('George V');
+
+    expect(fc.getIn(pet, ["profile", "address", "city"])).toBe('London');
+
+    expect(fc.getIn(pet, ["profile", "address", "postcode"])).toBe(null);
+  });
+});
+
 describe("fnil", function () {
   it("works with three arguments", function () {
     function sayHello(name) {

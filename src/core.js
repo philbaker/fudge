@@ -1974,6 +1974,52 @@ export function update(coll, key, f, ...args) {
 }
 
 /*
+getIn() returns a selected value from a nested structure
+
+var pet = {
+  name: "George",
+  profile: {
+    name: "George V",
+    address: { city: "London", street: "Tabby lane" },
+  },
+}
+
+getIn(pet, ["profile", "name"]);
+'George V'
+
+getIn(pet, ["profile", "address", "city"]);
+'London'
+
+getIn(pet, ["profile", "address", "postcode"]);
+null
+
+getIn(pet, ["profile", "address", "postcode"], "no postcode");
+'no postcode'
+
+*/
+export function getIn(coll, path, notFound = null) {
+  let entry = coll;
+
+  for (const item of path) {
+    entry = get(entry, item);
+  }
+
+  if (entry === undefined || entry === null) {
+    return notFound;
+  }
+
+  return entry;
+}
+
+/*
+updateIn() updates a value in a nested structure
+
+*/
+// function updateIn(coll, path, f, ...args) {
+//   return assocIn(coll, path, f(getIn(coll, path), ...args));
+// }
+
+/*
 fnil() takes a function f, and returns a function that calls f, replacing
 a null first argument to f with the supplied value x
 
