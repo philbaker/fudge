@@ -1936,6 +1936,37 @@ export function dropWhile(pred, xs) {
 }
 
 /*
+fnil() takes a function f, and returns a function that calls f, replacing
+a null first argument to f with the supplied value x. This version only supports (f, x, y).
+
+function sayHello(name) {
+  return str("Hello ", name);
+}
+
+var sayHelloWithDefaults = fnil(sayHello, "world");
+
+sayHelloWithDefaults();
+'Hello world'
+
+sayHelloWithDefaults(null);
+'Hello world'
+
+sayHelloWithDefaults("universe");
+'Hello universe'
+
+*/
+export function fnil(f, x, y) {
+  return function (a, b) {
+    if (!a) {
+      return f(x, y, b);
+    } else {
+      return f(a, y, b);
+    }
+  }
+}
+
+
+/*
 threadFirst() threads x through the fns. Inserts x as the second item in the first
 function. It will do the same for following functions.
 

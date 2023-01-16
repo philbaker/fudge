@@ -85,11 +85,14 @@ describe("interpose", function () {
 
 describe("selectKeys", function () {
   it("returns a map containing only those entries in the map whose key is in keys", function () {
-    expect(fc.selectKeys({a: 1, b: 2}, ["a"])).toEqual({ a: 1 });
+    expect(fc.selectKeys({ a: 1, b: 2 }, ["a"])).toEqual({ a: 1 });
 
-    expect(fc.selectKeys({a: 1, b: 2}, ["a", "c"])).toEqual({ a: 1 });
+    expect(fc.selectKeys({ a: 1, b: 2 }, ["a", "c"])).toEqual({ a: 1 });
 
-    expect(fc.selectKeys({a: 1, b: 2, c: 3}, ["a", "c"])).toEqual({ a: 1, c: 3 });
+    expect(fc.selectKeys({ a: 1, b: 2, c: 3 }, ["a", "c"])).toEqual({
+      a: 1,
+      c: 3,
+    });
   });
 });
 
@@ -1158,6 +1161,22 @@ describe("dropWhile", function () {
     expect([
       ...fc.dropWhile(fc.isNeg, [-1, -2, -6, -7, 1, 2, 3, 4, -5, -6, 0, 1]),
     ]).toEqual([1, 2, 3, 4, -5, -6, 0, 1]);
+  });
+});
+
+describe("fnil", function () {
+  it("works with three arguments", function () {
+    function sayHello(name) {
+      return fc.str("Hello ", name);
+    }
+
+    var sayHelloWithDefaults = fc.fnil(sayHello, "world");
+
+    expect(sayHelloWithDefaults()).toBe("Hello world");
+
+    expect(sayHelloWithDefaults(null)).toBe("Hello world");
+
+    expect(sayHelloWithDefaults("universe")).toBe("Hello universe");
   });
 });
 
