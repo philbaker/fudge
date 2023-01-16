@@ -91,16 +91,16 @@ export class List extends Array {
 }
 
 /*
-isList() checks if x is a List
+listQmark() checks if x is a List
 
-isList(new List(1, 2, 3));
+listQmark(new List(1, 2, 3));
 true
 
-isList("hello");
+listQmark("hello");
 false
 
 */
-export function isList(x) {
+export function listQmark(x) {
   return typeConst(x) === LIST_TYPE;
 }
 
@@ -161,13 +161,13 @@ export function mapcat(f, ...colls) {
 }
 
 /*
-isSeqable returns true if the seq function is supported for x
+seqableQmark returns true if the seq function is supported for x
 
-isSeqable("hello");
+seqableQmark("hello");
 true
 
 */
-export function isSeqable(x) {
+export function seqableQmark(x) {
   return (
     typeof x === "string" ||
     x === null ||
@@ -199,7 +199,7 @@ function iterable(x) {
     return [];
   }
 
-  if (isSeqable(x)) {
+  if (seqableQmark(x)) {
     return x;
   }
 
@@ -360,13 +360,13 @@ export function map(f, ...colls) {
 filter() returns a lazy sequence of the items in coll for which
 pred(item) returns true
 
-[...filter(isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])];
+[...filter(evenQmark, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])];
 [ 0, 2, 4, 6, 8, 10 ]
 
 [
   ...filter(
     function (key, val) {
-      return isEven(+key[0]);
+      return evenQmark(+key[0]);
     },
     { 1: "a", 2: "b", 3: "c", 4: "d" }
   ),
@@ -388,12 +388,12 @@ export function filter(pred, coll) {
 filterv() returns an array of the items in coll for which
 pred(item) returns true
 
-filterv(isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+filterv(evenQmark, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 [ 0, 2, 4, 6, 8, 10 ]
 
 filterv(
   function (key, val) {
-    return isEven(+key[0]);
+    return evenQmark(+key[0]);
   },
   { 1: "a", 2: "b", 3: "c", 4: "d" }
 );
@@ -408,13 +408,13 @@ export function filterv(pred, coll) {
 remove() returns a lazy sequence of the items in coll for which
 pred(item) returns false
 
-[...remove(isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])];
+[...remove(evenQmark, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])];
 [ 1, 3, 5, 7, 9 ]
 
 [
   ...remove(
     function (key, val) {
-      return isEven(+key[0]);
+      return evenQmark(+key[0]);
     },
     { 1: "a", 2: "b", 3: "c", 4: "d" }
   ),
@@ -627,16 +627,16 @@ export function reduced(x) {
 }
 
 /*
-isReduced() returns true if x is the result of a call to reduced
+reducedQmark() returns true if x is the result of a call to reduced
 
-isReduced("foo");
+reducedQmark("foo");
 false
 
-isReduced(reduced("foo"));
+reducedQmark(reduced("foo"));
 true
 
 */
-export function isReduced(x) {
+export function reducedQmark(x) {
   return x instanceof Reduced;
 }
 
@@ -879,7 +879,7 @@ export function dissoc(obj, ...keys) {
 comp() takes a set of functions and returns a fn that is the composition
 of those fns
 
-comp(isZero)(5);
+comp(zeroQmark)(5);
 false
 
 comp(str, plus)(8, 8, 8);
@@ -1349,19 +1349,19 @@ export function not(x) {
 }
 
 /*
-isNil() returns true if x is null, false otherwise
+nilQmark() returns true if x is null, false otherwise
 
-isNil(null);
+nilQmark(null);
 true
 
-isNil(false);
+nilQmark(false);
 false
 
-isNil(true);
+nilQmark(true);
 false
 
 */
-export function isNil(x) {
+export function nilQmark(x) {
   return x === null;
 }
 
@@ -1552,16 +1552,16 @@ export function vector(...args) {
 }
 
 /*
-isVector() checks if x is an array
+vectorQmark() checks if x is an array
 
-isVector([1, 2, 3]);
+vectorQmark([1, 2, 3]);
 true
 
-isVector("hello");
+vectorQmark("hello");
 false
 
 */
-export function isVector(x) {
+export function vectorQmark(x) {
   return typeConst(x) === ARRAY_TYPE;
 }
 
@@ -1620,16 +1620,16 @@ export function apply(f, ...args) {
 }
 
 /*
-isEven() returns true if x is even
+evenQmark() returns true if x is even
 
-isEven(2);
+evenQmark(2);
 true
 
-isEven(null);
+evenQmark(null);
 Error
 
 */
-export function isEven(x) {
+export function evenQmark(x) {
   if (typeof x !== "number") {
     throw new Error(`Illegal argument: ${x} is not a number`);
   }
@@ -1638,24 +1638,24 @@ export function isEven(x) {
 }
 
 /*
-isOdd() returns true if x is odd
+oddQmark() returns true if x is odd
 
-isOdd(3);
+oddQmark(3);
 true
 
-isOdd(null);
+oddQmark(null);
 Error
 
 */
-export function isOdd(x) {
-  return not(isEven(x));
+export function oddQmark(x) {
+  return not(evenQmark(x));
 }
 
 /*
 complement() takes a fn f and returns a fn that takes the same arguments
 as f, has the same effects, if any, and returns the opposite truth value
 
-var testIsOdd = complement(isEven);
+var testIsOdd = complement(evenQmark);
 testIsOdd(3);
 true
 
@@ -1679,13 +1679,13 @@ export function constantly(x) {
 }
 
 /*
-isIdentical() tests if two arguments are the equal
+identicalQmark() tests if two arguments are the equal
 
-isIdentical(1, 1);
+identicalQmark(1, 1);
 true
 
 */
-export function isIdentical(x, y) {
+export function identicalQmark(x, y) {
   return x === y;
 }
 
@@ -1794,36 +1794,36 @@ export function randInt(n) {
 }
 
 /*
-isTrue() returns true if x is true, false otherwise
+trueQmark() returns true if x is true, false otherwise
 
 
-isTrue(1 > 0);
+trueQmark(1 > 0);
 true
 
 */
-export function isTrue(x) {
+export function trueQmark(x) {
   return x === true;
 }
 
 /*
-isFalse() returns true if x is false, false otherwise
+falseQmark() returns true if x is false, false otherwise
 
-isFalse(1 > 0);
+falseQmark(1 > 0);
 false
 
 */
-export function isFalse(x) {
+export function falseQmark(x) {
   return x === false;
 }
 
 /*
-isSome() returns true if x is not null or undefined, false otherwise
+someQmark() returns true if x is not null or undefined, false otherwise
 
-isSome(1 < 5);
+someQmark(1 < 5);
 true
 
 */
-export function isSome(x) {
+export function someQmark(x) {
   return not(x === null || x === undefined);
 }
 
@@ -1842,35 +1842,35 @@ export function booleans(x) {
 }
 
 /*
-isZero() returns true if x is zero, false otherwise
+zeroQmark() returns true if x is zero, false otherwise
 
-isZero(3);
+zeroQmark(3);
 false
 
 */
-export function isZero(x) {
+export function zeroQmark(x) {
   return x === 0;
 }
 
 /*
-isNeg() returns true if x is less than zero, false otherwise
+negQmark() returns true if x is less than zero, false otherwise
 
-isNeg(-5);
+negQmark(-5);
 true
 
 */
-export function isNeg(x) {
+export function negQmark(x) {
   return x < 0;
 }
 
 /*
-isPos() returns true if x is greater than zero, false otherwise
+posQmark() returns true if x is greater than zero, false otherwise
 
-isPos(5);
+posQmark(5);
 true
 
 */
-function isPos(x) {
+function posQmark(x) {
   return x > 0;
 }
 
@@ -1909,7 +1909,7 @@ the first item for which pred(value) returns false
 [...dropWhile((x) => 3 >= x, [1, 2, 3, 4, 5, 6])];
 [ 4, 5, 6 ]
 
-[...dropWhile(isNeg, [-1, -2, -6, -7, 1, 2, 3, 4, -5, -6, 0, 1])];
+[...dropWhile(negQmark, [-1, -2, -6, -7, 1, 2, 3, 4, -5, -6, 0, 1])];
 [ 1,  2, 3, 4, -5, -6, 0, 1 ]
 
 */
@@ -2062,6 +2062,10 @@ export function fnil(f, ...xs) {
     return apply(f, args);
   };
 }
+
+/*
+
+*/
 
 /*
 threadFirst() threads x through the fns. Inserts x as the second item in the first

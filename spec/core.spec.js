@@ -158,7 +158,7 @@ describe("map", function () {
 describe("filter", function () {
   it("filters an array", function () {
     expect([
-      ...fc.filter(fc.isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
+      ...fc.filter(fc.evenQmark, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
     ]).toEqual([0, 2, 4, 6, 8, 10]);
   });
 
@@ -166,7 +166,7 @@ describe("filter", function () {
     expect([
       ...fc.filter(
         function (key, val) {
-          return fc.isEven(+key[0]);
+          return fc.evenQmark(+key[0]);
         },
         { 1: "a", 2: "b", 3: "c", 4: "d" }
       ),
@@ -179,7 +179,7 @@ describe("filter", function () {
 
 describe("filterv", function () {
   it("filters an array", function () {
-    expect(fc.filterv(fc.isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])).toEqual([
+    expect(fc.filterv(fc.evenQmark, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])).toEqual([
       0, 2, 4, 6, 8, 10,
     ]);
   });
@@ -188,7 +188,7 @@ describe("filterv", function () {
     expect(
       fc.filterv(
         function (key, val) {
-          return fc.isEven(+key[0]);
+          return fc.evenQmark(+key[0]);
         },
         { 1: "a", 2: "b", 3: "c", 4: "d" }
       )
@@ -202,7 +202,7 @@ describe("filterv", function () {
 describe("remove", function () {
   it("filters an array", function () {
     expect([
-      ...fc.remove(fc.isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
+      ...fc.remove(fc.evenQmark, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
     ]).toEqual([1, 3, 5, 7, 9]);
   });
 
@@ -210,7 +210,7 @@ describe("remove", function () {
     expect([
       ...fc.remove(
         function (key, val) {
-          return fc.isEven(+key[0]);
+          return fc.evenQmark(+key[0]);
         },
         { 1: "a", 2: "b", 3: "c", 4: "d" }
       ),
@@ -249,7 +249,7 @@ describe("mapIndexed", function () {
 
 describe("comp", function () {
   it("can be passed a single function", function () {
-    expect(fc.comp(fc.isZero)(5)).toBe(false);
+    expect(fc.comp(fc.zeroQmark)(5)).toBe(false);
   });
 
   it("composes multiple functions", function () {
@@ -934,11 +934,11 @@ describe("not", function () {
   });
 });
 
-describe("isNil", function () {
+describe("nilQmark", function () {
   it("returns true if x is null, false otherwise", function () {
-    expect(fc.isNil(null)).toBe(true);
-    expect(fc.isNil(false)).toBe(false);
-    expect(fc.isNil(true)).toBe(false);
+    expect(fc.nilQmark(null)).toBe(true);
+    expect(fc.nilQmark(false)).toBe(false);
+    expect(fc.nilQmark(true)).toBe(false);
   });
 });
 
@@ -1073,33 +1073,33 @@ describe("apply", function () {
   });
 });
 
-describe("isEven", function () {
+describe("evenQmark", function () {
   it("returns true if x is even", function () {
-    expect(fc.isEven(2)).toBe(true);
+    expect(fc.evenQmark(2)).toBe(true);
   });
 
   it("throws an error if x is not a number", function () {
     expect(function () {
-      fc.isEven(null);
+      fc.evenQmark(null);
     }).toThrowError("Illegal argument: null is not a number");
   });
 });
 
-describe("isOdd", function () {
+describe("oddQmark", function () {
   it("returns true if x is odd", function () {
-    expect(fc.isOdd(3)).toBe(true);
+    expect(fc.oddQmark(3)).toBe(true);
   });
 
   it("throws an error if x is not a number", function () {
     expect(function () {
-      fc.isOdd(null);
+      fc.oddQmark(null);
     }).toThrowError("Illegal argument: null is not a number");
   });
 });
 
 describe("complement", function () {
   it("returns the opposite truth value", function () {
-    var testIsOdd = fc.complement(fc.isEven);
+    var testIsOdd = fc.complement(fc.evenQmark);
     expect(testIsOdd(3)).toBe(true);
   });
 });
@@ -1124,11 +1124,11 @@ describe("sort", function () {
   });
 });
 
-describe("isSome", function () {
+describe("someQmark", function () {
   it("returns true if x is not null or undefined, false otherwise", function () {
-    expect(fc.isSome(1 < 5)).toBe(true);
-    expect(fc.isSome(null)).toBe(false);
-    expect(fc.isSome(undefined)).toBe(false);
+    expect(fc.someQmark(1 < 5)).toBe(true);
+    expect(fc.someQmark(null)).toBe(false);
+    expect(fc.someQmark(undefined)).toBe(false);
   });
 });
 
@@ -1159,7 +1159,7 @@ describe("dropWhile", function () {
     ]);
 
     expect([
-      ...fc.dropWhile(fc.isNeg, [-1, -2, -6, -7, 1, 2, 3, 4, -5, -6, 0, 1]),
+      ...fc.dropWhile(fc.negQmark, [-1, -2, -6, -7, 1, 2, 3, 4, -5, -6, 0, 1]),
     ]).toEqual([1, 2, 3, 4, -5, -6, 0, 1]);
   });
 });
