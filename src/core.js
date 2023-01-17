@@ -1814,6 +1814,24 @@ export function partial(f, ...xs) {
 }
 
 /*
+cycle() returns a lazy sequence of repetitions from items in coll
+
+[...take(5, cycle(["a", "b"]))];
+[ 'a', 'b', 'a', 'b', 'a' ]
+
+[...take(10, cycle(range(0, 3)))];
+[ 0, 1, 2, 0, 1, 2, 0, 1, 2, 0 ]
+
+*/
+export function cycle(coll) {
+  return lazy(function* () {
+    while (true) {
+      yield* coll;
+    }
+  });
+}
+
+/*
 reverse() returns an array with items in reverse order
 
 reverse([1, 2, 3]);

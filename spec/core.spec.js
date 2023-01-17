@@ -1169,6 +1169,22 @@ describe("partial", function () {
   });
 });
 
+describe("cycle", function () {
+  it("returns a sequence of repetitions from items in coll", function () {
+    expect([...fc.take(5, fc.cycle(["a", "b"]))]).toEqual([
+      "a",
+      "b",
+      "a",
+      "b",
+      "a",
+    ]);
+
+    expect([...fc.take(10, fc.cycle(fc.range(0, 3)))]).toEqual([
+      0, 1, 2, 0, 1, 2, 0, 1, 2, 0,
+    ]);
+  });
+});
+
 describe("reverse", function () {
   it("reverses an array", function () {
     expect(fc.reverse([1, 2, 3])).toEqual([3, 2, 1]);
