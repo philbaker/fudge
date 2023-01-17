@@ -1117,6 +1117,18 @@ describe("partial", function () {
   });
 });
 
+describe("reverse", function () {
+  it("reverses an array", function () {
+    expect(fc.reverse([1, 2, 3])).toEqual([3, 2, 1]);
+  });
+
+  it("works with strings", function () {
+    expect(fc.reverse("hello")).toEqual(["o", "l", "l", "e", "h"]);
+
+    expect(fc.apply(fc.str, fc.reverse("hello"))).toBe("olleh");
+  });
+});
+
 describe("sort", function () {
   it("returns a sorted sequence of the items in coll", function () {
     expect(fc.sort([3, 4, 1, 2])).toEqual([1, 2, 3, 4]);

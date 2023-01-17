@@ -1742,10 +1742,16 @@ reverse() returns an array with items in reverse order
 reverse([1, 2, 3]);
 [ 3, 2, 1 ]
 
+reverse("hello");
+[ "o", "l", "l", "e", "h" ]
 
 */
-export function reverse(x) {
-  return x.reverse();
+export function reverse(coll) {
+  if (coll instanceof Array) {
+    return coll.reverse();
+  } else {
+    return [...coll].reverse();
+  }
 }
 
 /*
