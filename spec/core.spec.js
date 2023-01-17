@@ -1372,6 +1372,16 @@ describe("replace", function () {
   });
 });
 
+describe("emptyQmark", function () {
+  it("returns true if coll has no items", function () {
+    expect(fc.emptyQmark(fc.list())).toBe(true);
+
+    expect(fc.emptyQmark(fc.list(1))).toBe(false);
+
+    expect(fc.everyQmark(fc.emptyQmark, ["", [], fc.list(), {}, fc.set(), null])).toBe(true);
+  });
+});
+
 describe("threadFirst", function () {
   it("threads x through the fns with x as the second argument", function () {
     expect(fc.threadFirst("3", parseInt)).toBe(3);

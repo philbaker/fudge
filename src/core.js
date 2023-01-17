@@ -2107,9 +2107,9 @@ export function everyQmark(pred, coll) {
     if (!pred(x)) {
       return false;
     }
-
-    return true;
   }
+
+  return true;
 }
 
 /*
@@ -2206,6 +2206,23 @@ export function replace(smap, coll) {
       return x;
     }
   }, coll);
+}
+
+/*
+emptyQmark() returns true if coll has no items
+
+emptyQmark(list());
+true
+
+emptyQmark(list(1));
+false
+
+everyQmark(emptyQmark, ["", [], list(), {}, set(), null]);
+true
+
+*/
+export function emptyQmark(coll) {
+  return seq(coll) ? false : true;
 }
 
 /*
