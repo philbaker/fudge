@@ -1282,6 +1282,14 @@ describe("fnil", function () {
   });
 });
 
+describe("everyQmark", function () {
+  it("returns true if pred(x) is true for every x in coll", function () {
+    expect(fc.everyQmark(fc.evenQmark, [2, 4, 6])).toBe(true);
+
+    expect(fc.everyQmark(fc.evenQmark, [1, 2, 3])).toBe(false);
+  });
+});
+
 describe("threadFirst", function () {
   it("threads x through the fns with x as the second argument", function () {
     expect(fc.threadFirst("3", parseInt)).toBe(3);

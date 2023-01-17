@@ -2064,8 +2064,25 @@ export function fnil(f, ...xs) {
 }
 
 /*
+everyQmark() returns true if pred(x) is true for every x in coll,
+otherwise false
+
+everyQmark(evenQmark, [2, 4, 6]);
+true
+
+everyQmark(evenQmark, [1, 2, 3]);
+false
 
 */
+export function everyQmark(pred, coll) {
+  for (let x of iterable(coll)) {
+    if (!pred(x)) {
+      return false;
+    }
+
+    return true;
+  }
+}
 
 /*
 threadFirst() threads x through the fns. Inserts x as the second item in the first
