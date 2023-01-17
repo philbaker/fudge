@@ -1282,13 +1282,41 @@ describe("update", function () {
   });
 });
 
-
 describe("updateBang", function () {
   it("mutates existing structure with a value updated by f", function () {
     var pet = { name: "George", age: 11 };
     fc.updateBang(pet, "age", fc.inc);
 
     expect(pet).toEqual({ name: "George", age: 12 });
+  });
+});
+
+describe("groupBy", function () {
+  it("returns an object of the elements of coll keyed by the result of f on each element", function () {
+    expect(
+      fc.groupBy(fc.count, ["a", "as", "asd", "aa", "asdf", "qwer"])
+    ).toEqual({ 1: ["a"], 2: ["as", "aa"], 3: ["asd"], 4: ["asdf", "qwer"] });
+
+    expect(fc.groupBy(fc.oddQmark, fc.range(10))).toEqual({
+      false: [0, 2, 4, 6, 8],
+      true: [1, 3, 5, 7, 9],
+    });
+  });
+});
+
+describe("count", function () {
+  it("returns the number of items in a collection", function () {
+    expect(fc.count(null)).toBe(0);
+
+    expect(fc.count([])).toBe(0);
+
+    expect(fc.count([1, 2, 3])).toBe(3);
+
+    expect(fc.count({ one: 1, two: 2 })).toBe(2);
+
+    expect(fc.count([1, "string", [1, 2], { foo: "bar" }])).toBe(4);
+
+    expect(fc.count("string")).toBe(6);
   });
 });
 

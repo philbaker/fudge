@@ -2109,6 +2109,60 @@ export function updateBang(coll, key, f, ...args) {
 }
 
 /*
+groupBy() returns an object of the elements of coll keyed by the
+result of f on each element
+
+groupBy(count, ["a", "as", "asd", "aa", "asdf", "qwer"]);
+{
+  '1': [ 'a' ],
+  '2': [ 'as', 'aa' ],
+  '3': [ 'asd' ],
+  '4': [ 'asdf', 'qwer' ]
+}
+
+groupBy(oddQmark, range(10));
+{ false: [ 0, 2, 4, 6, 8 ], true: [ 1, 3, 5, 7, 9 ] }
+
+*/
+export function groupBy(f, coll) {
+  const res = {};
+
+  for (const x of iterable(coll)) {
+    const key = f(x);
+    updateBang(res, key, fnil(conjBang, []), x);
+  }
+
+  return res;
+}
+
+/*
+count() returns the number of items in the collection
+
+count([1, 2, 3]);
+3
+
+*/
+export function count(coll) {
+  if (!coll) {
+    return 0;
+  }
+
+  const len = coll.length || coll.size;
+
+  if (typeof len === "number") {
+    return len;
+  }
+
+  let ret = 0;
+
+  for (const x of iterable(coll)) {
+    ret++;
+  }
+
+  return ret;
+}
+
+/*
 getIn() returns a selected value from a nested structure
 
 var pet = {
