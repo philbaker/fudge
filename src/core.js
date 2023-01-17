@@ -2181,6 +2181,34 @@ export function keep(pred, coll) {
 }
 
 /*
+replace() turns collection with any elements equal to a key in smap replaced with the
+corresponding val in smap
+
+replace(["zeroth", "first", "second", "third", "fourth"], [0, 2, 4, 0])
+[ 'zeroth', 'second', 'fourth', 'zeroth' ]
+
+replace({0: "ZERO", 1: "ONE", 2: "TWO"}, list("This is the code", 0, 1, 2, 0))
+[ 'This is the code', 'ZERO', 'ONE', 'TWO', 'ZERO' ]
+
+replace({2: "a", 4: "b"}, [1, 2, 3, 4]);
+[ 1, 'a', 3, 'b' ]
+
+*/
+export function replace(smap, coll) {
+  let mapf = coll instanceof Array ? mapv : map;
+
+  return mapf((x) => {
+    const repl = smap[x];
+
+    if (repl !== undefined) {
+      return repl;
+    } else {
+      return x;
+    }
+  }, coll);
+}
+
+/*
 threadFirst() threads x through the fns. Inserts x as the second item in the first
 function. It will do the same for following functions.
 

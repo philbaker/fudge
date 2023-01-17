@@ -1350,6 +1350,28 @@ describe("keep", function () {
   });
 });
 
+describe("replace", function () {
+  it("replaces values in a collection", function () {
+    expect(
+      fc.replace(["zeroth", "first", "second", "third", "fourth"], [0, 2, 4, 0])
+    ).toEqual(["zeroth", "second", "fourth", "zeroth"]);
+
+    expect(
+      fc.replace(
+        { 0: "ZERO", 1: "ONE", 2: "TWO" },
+        fc.list("This is the code", 0, 1, 2, 0)
+      )
+    ).toEqual(["This is the code", "ZERO", "ONE", "TWO", "ZERO"]);
+
+    expect(fc.replace({ 2: "a", 4: "b" }, [1, 2, 3, 4])).toEqual([
+      1,
+      "a",
+      3,
+      "b",
+    ]);
+  });
+});
+
 describe("threadFirst", function () {
   it("threads x through the fns with x as the second argument", function () {
     expect(fc.threadFirst("3", parseInt)).toBe(3);
