@@ -1136,15 +1136,29 @@ describe("take", function () {
 
 describe("takeWhile", function () {
   it("returns a sequence of successive items from coll while pred(item) returns true", function () {
-    expect([...fc.takeWhile(fc.negQmark, [-2, -1, 0, 1, 2, 3])]).toEqual([ -2, -1 ]);
+    expect([...fc.takeWhile(fc.negQmark, [-2, -1, 0, 1, 2, 3])]).toEqual([
+      -2, -1,
+    ]);
 
-    expect([...fc.takeWhile(fc.negQmark, [-2, -1, 0, -1, -2, -3])]).toEqual([ -2, -1 ]);
+    expect([...fc.takeWhile(fc.negQmark, [-2, -1, 0, -1, -2, -3])]).toEqual([
+      -2, -1,
+    ]);
 
     expect([...fc.takeWhile(fc.negQmark, [0, 1, 2, 3])]).toEqual([]);
 
     expect([...fc.takeWhile(fc.negQmark, [])]).toEqual([]);
 
     expect([...fc.takeWhile(fc.negQmark, null)]).toEqual([]);
+  });
+});
+
+describe("takeNth", function () {
+  it("returns a lazy sequence of every nth item in coll", function () {
+    expect([...fc.takeNth(2, fc.range(10))]).toEqual([0, 2, 4, 6, 8]);
+
+    expect([...fc.take(3, fc.takeNth(0, fc.range(2)))]).toEqual([0, 0, 0]);
+
+    expect([...fc.take(3, fc.takeNth(-10, fc.range(2)))]).toEqual([0, 0, 0]);
   });
 });
 

@@ -1768,6 +1768,36 @@ export function takeWhile(pred, coll) {
 }
 
 /*
+takeNth() returns a lazy sequence of every nth item in coll
+
+[...takeNth(2, range(10))];
+[ 0, 2, 4, 6, 8 ]
+
+[...take(3, takeNth(0, range(2)))];
+[ 0, 0, 0 ]
+
+[...take(3, takeNth(-10, range(2)))];
+[ 0, 0, 0 ]
+
+*/
+export function takeNth(n, coll) {
+  if (n <= 0) {
+    return repeat(first(coll));
+  }
+
+  return lazy(function* () {
+    let i = 0;
+
+    for (let x of iterable(coll)) {
+      if (i % n === 0) {
+        yield x;
+      }
+      i++;
+    }
+  });
+}
+
+/*
 partial() takes a function f and fewer than normal arguments to f. It returns a 
 fn that takes a variable number of additional args. When called, the
 returned function calls f with args plus additional args
