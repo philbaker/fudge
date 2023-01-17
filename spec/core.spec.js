@@ -1136,6 +1136,26 @@ describe("sort", function () {
   });
 });
 
+describe("some", function () {
+  it("returns the first true value of pred(x) for coll else null", function () {
+    expect(fc.some(fc.evenQmark, [1, 2, 3, 4])).toBe(true);
+
+    expect(fc.some(fc.evenQmark, [1, 3, 5, 7])).toBe(null);
+
+    expect(fc.some(fc.trueQmark, [false, false, false])).toBe(null);
+
+    expect(fc.some(fc.trueQmark, [true, true, true])).toBe(true);
+
+    expect(fc.some((x) => x === 5, [1, 2, 3, 4, 5])).toBe(true);
+
+    expect(fc.some((x) => x === 5, [6, 7, 8, 9, 10])).toBe(null);
+
+    expect(fc.some((x) => x !== 5, [1, 2, 3, 4, 5])).toBe(true);
+
+    expect(fc.some((x) => x !== 5, [6, 7, 8, 9, 10])).toBe(true);
+  });
+});
+
 describe("someQmark", function () {
   it("returns true if x is not null or undefined, false otherwise", function () {
     expect(fc.someQmark(1 < 5)).toBe(true);

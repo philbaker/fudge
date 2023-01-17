@@ -1786,6 +1786,29 @@ export function shuffle(coll) {
 }
 
 /*
+some() returns the first true value of pred(x) for any x in coll,
+otherwise null
+
+some(evenQmark, [1, 2, 3, 4]);
+true
+
+some(evenQmark, [1, 3, 5, 7]);
+null
+
+*/
+export function some(pred, coll) {
+  for (const x of iterable(coll)) {
+    const res = pred(x);
+
+    if (res) {
+      return res;
+    }
+  }
+
+  return null;
+}
+
+/*
 randInt() returns a random integer between 0 and n
 
 randInt(30);
