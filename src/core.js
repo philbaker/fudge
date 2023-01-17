@@ -2031,7 +2031,6 @@ export function updateIn(coll, path, f, ...args) {
   return assocIn(coll, path, f(getIn(coll, path), ...args));
 }
 
-
 /*
 fnil() takes a function f, and returns a function that calls f, replacing
 a null first argument to f with the supplied value x
@@ -2097,6 +2096,38 @@ true
 */
 export function notEveryQmark(pred, coll) {
   return !everyQmark(pred, coll);
+}
+
+/*
+keep() returns a lazy sequence of the non-nil results of f(item)
+
+[...keep(evenQmark, range(1, 10))];
+[ false, true,  false, true,  false, true, false, true,  false ]
+
+[
+  ...keep(function (x) {
+    if (oddQmark(x)) {
+      return x;
+    }
+  }, range(10)),
+];
+[ 1, 3, 5, 7, 9 ]
+
+[...keep(seq, [list(), [], ["a", "b"], null])];
+[ [ 'a', 'b' ] ]
+
+*/
+export function keep(pred, coll) {
+  return lazy(function* () {
+    for (const x of iterable(coll)) {
+      const res = pred(x);
+
+      // TODO: this is different in squint core
+      if (res !== null && res !== undefined) {
+        yield res;
+      }
+    }
+  });
 }
 
 /*

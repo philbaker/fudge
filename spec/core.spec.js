@@ -179,9 +179,9 @@ describe("filter", function () {
 
 describe("filterv", function () {
   it("filters an array", function () {
-    expect(fc.filterv(fc.evenQmark, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])).toEqual([
-      0, 2, 4, 6, 8, 10,
-    ]);
+    expect(
+      fc.filterv(fc.evenQmark, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+    ).toEqual([0, 2, 4, 6, 8, 10]);
   });
 
   it("filters an object", function () {
@@ -1287,6 +1287,34 @@ describe("everyQmark", function () {
     expect(fc.everyQmark(fc.evenQmark, [2, 4, 6])).toBe(true);
 
     expect(fc.everyQmark(fc.evenQmark, [1, 2, 3])).toBe(false);
+  });
+});
+
+describe("keep", function () {
+  it("returns a sequence of the non-nil results of f(item)", function () {
+    expect([...fc.keep(fc.evenQmark, fc.range(1, 10))]).toEqual([
+      false,
+      true,
+      false,
+      true,
+      false,
+      true,
+      false,
+      true,
+      false,
+    ]);
+
+    expect([
+      ...fc.keep(function (x) {
+        if (fc.oddQmark(x)) {
+          return x;
+        }
+      }, fc.range(10)),
+    ]).toEqual([1, 3, 5, 7, 9]);
+
+    expect([...fc.keep(fc.seq, [fc.list(), [], ["a", "b"], null])]).toEqual([
+      ["a", "b"],
+    ]);
   });
 });
 
