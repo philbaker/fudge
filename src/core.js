@@ -2098,6 +2098,17 @@ export function update(coll, key, f, ...args) {
 }
 
 /*
+Mutator
+updateBang() updates a collection with a value updated by f 
+
+*/
+export function updateBang(coll, key, f, ...args) {
+  const val = get(coll, key);
+
+  return assocBang(coll, key, f(val, ...args));
+}
+
+/*
 getIn() returns a selected value from a nested structure
 
 var pet = {
@@ -2208,42 +2219,6 @@ export function everyQmark(pred, coll) {
 }
 
 /*
-Internal function
-_repeatedly() is a helper for repeatedly()
-
-*/
-function _repeatedly(f) {
-  return lazy(function* () {
-    while (true) {
-      yield f();
-    }
-  });
-}
-
-/*
-repeatedly() takes a function of no args and returns it with n calls
-to it
-
-[...repeatedly(5, () => randInt(11))];
-[ 7, 7, 7, 6, 4 ]
-
-*/
-export function repeatedly(n, f) {
-  if (f === undefined) {
-    f = n;
-    n = undefined;
-  }
-
-  const res = _repeatedly(f);
-
-  if (n) {
-    return take(n, res);
-  } else {
-    return res;
-  }
-}
-
-/*
 notEveryQmark() returns false if pred(x) is true for every x in coll,
 otherwise true
 
@@ -2277,6 +2252,42 @@ false
 */
 export function notAnyQmark(pred, coll) {
   return !some(pred, coll);
+}
+
+/*
+Internal function
+_repeatedly() is a helper for repeatedly()
+
+*/
+function _repeatedly(f) {
+  return lazy(function* () {
+    while (true) {
+      yield f();
+    }
+  });
+}
+
+/*
+repeatedly() takes a function of no args and returns it with n calls
+to it
+
+[...repeatedly(5, () => randInt(11))];
+[ 7, 7, 7, 6, 4 ]
+
+*/
+export function repeatedly(n, f) {
+  if (f === undefined) {
+    f = n;
+    n = undefined;
+  }
+
+  const res = _repeatedly(f);
+
+  if (n) {
+    return take(n, res);
+  } else {
+    return res;
+  }
 }
 
 /*

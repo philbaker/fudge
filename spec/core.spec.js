@@ -1282,6 +1282,16 @@ describe("update", function () {
   });
 });
 
+
+describe("updateBang", function () {
+  it("mutates existing structure with a value updated by f", function () {
+    var pet = { name: "George", age: 11 };
+    fc.updateBang(pet, "age", fc.inc);
+
+    expect(pet).toEqual({ name: "George", age: 12 });
+  });
+});
+
 describe("getIn", function () {
   it("returns a value from a nested structure", function () {
     var pet = {
