@@ -1110,6 +1110,30 @@ describe("repeat", function () {
   });
 });
 
+describe("take", function () {
+  it("returns a sequence of first n items in coll", function () {
+    expect([...fc.take(3, [1, 2, 3, 4, 5, 6])]).toEqual([1, 2, 3]);
+
+    expect([...fc.take(3, [1, 2])]).toEqual([1, 2]);
+
+    expect([...fc.take(3, fc.drop(5, fc.range(1, 11)))]).toEqual([6, 7, 8]);
+  });
+
+  it("returns all items if there are fewer than n", function () {
+    expect([...fc.take(3, [1])]).toEqual([1]);
+  });
+
+  it("returns empty collection if no items to select", function () {
+    expect([...fc.take(1, [])]).toEqual([]);
+
+    expect([...fc.take(1, null)]).toEqual([]);
+
+    expect([...fc.take(0, [1])]).toEqual([]);
+
+    expect([...fc.take(-1, [1])]).toEqual([]);
+  });
+});
+
 describe("partial", function () {
   it("It returns a function that takes a variable number of additional args", function () {
     var hundredPlus = fc.partial(fc.plus, 100);
@@ -1378,7 +1402,9 @@ describe("emptyQmark", function () {
 
     expect(fc.emptyQmark(fc.list(1))).toBe(false);
 
-    expect(fc.everyQmark(fc.emptyQmark, ["", [], fc.list(), {}, fc.set(), null])).toBe(true);
+    expect(
+      fc.everyQmark(fc.emptyQmark, ["", [], fc.list(), {}, fc.set(), null])
+    ).toBe(true);
   });
 });
 

@@ -1721,6 +1721,33 @@ export function repeat(...args) {
 }
 
 /*
+take() returns a lazy sequence of the first n items in coll, or
+all items if there are fewer than n
+
+[...take(3, [1, 2, 3, 4, 5, 6])];
+[ 1, 2, 3 ]
+
+[...take(3, [1, 2])];
+[ 1, 2 ]
+
+*/
+export function take(n, coll) {
+  return lazy(function* () {
+    let i = n - 1;
+
+    for (const x of iterable(coll)) {
+      if (i-- >= 0) {
+        yield x;
+      }
+
+      if (i < 0) {
+        return;
+      }
+    }
+  });
+}
+
+/*
 partial() takes a function f and fewer than normal arguments to f. It returns a 
 fn that takes a variable number of additional args. When called, the
 returned function calls f with args plus additional args
@@ -2111,6 +2138,38 @@ export function everyQmark(pred, coll) {
 
   return true;
 }
+
+/*
+Internal function
+_repeatedly() is a helper for repeatedly()
+
+*/
+function _repeatedly(f) {
+  return lazy(function* () {
+    while (true) {
+      yield f();
+    }
+  });
+}
+
+/*
+repeatedly()
+
+*/
+// function repeatedly(n, f) {
+//   if (f === undefined) {
+//     f = n;
+//     n = undefined;
+//   }
+
+//   const res = _repeatedly(f);
+
+//   if (n) {
+//     return take(n, res);
+//   } else {
+//     return res;
+//   }
+// }
 
 /*
 notEveryQmark() returns false if pred(x) is true for every x in coll,
