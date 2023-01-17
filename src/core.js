@@ -1748,6 +1748,26 @@ export function take(n, coll) {
 }
 
 /*
+takeWhile() returns a lazy sequence of successive items from coll
+while pred(item) returns true
+
+[...takeWhile(negQmark, [-2, -1, 0, 1, 2, 3])];
+[ -2, -1 ]
+
+*/
+export function takeWhile(pred, coll) {
+  return lazy(function* () {
+    for (const x of iterable(coll)) {
+      if (pred(x)) {
+        yield x;
+      } else {
+        return;
+      }
+    }
+  });
+}
+
+/*
 partial() takes a function f and fewer than normal arguments to f. It returns a 
 fn that takes a variable number of additional args. When called, the
 returned function calls f with args plus additional args

@@ -1134,6 +1134,20 @@ describe("take", function () {
   });
 });
 
+describe("takeWhile", function () {
+  it("returns a sequence of successive items from coll while pred(item) returns true", function () {
+    expect([...fc.takeWhile(fc.negQmark, [-2, -1, 0, 1, 2, 3])]).toEqual([ -2, -1 ]);
+
+    expect([...fc.takeWhile(fc.negQmark, [-2, -1, 0, -1, -2, -3])]).toEqual([ -2, -1 ]);
+
+    expect([...fc.takeWhile(fc.negQmark, [0, 1, 2, 3])]).toEqual([]);
+
+    expect([...fc.takeWhile(fc.negQmark, [])]).toEqual([]);
+
+    expect([...fc.takeWhile(fc.negQmark, null)]).toEqual([]);
+  });
+});
+
 describe("partial", function () {
   it("It returns a function that takes a variable number of additional args", function () {
     var hundredPlus = fc.partial(fc.plus, 100);
