@@ -2128,6 +2128,27 @@ export function notEveryQmark(pred, coll) {
 }
 
 /*
+notAnyQmark() returns false if pred(x) is true for any x in coll,
+otherwise true
+
+notAnyQmark(oddQmark, [2, 4, 6]);
+true
+
+notAnyQmark(oddQmark, [1, 2, 3]);
+false
+
+notAnyQmark(nilQmark, [true, false, false]);
+true
+
+notAnyQmark(nilQmark, [true, false, null]);
+false
+
+*/
+export function notAnyQmark(pred, coll) {
+  return !some(pred, coll);
+}
+
+/*
 keep() returns a lazy sequence of the non-nil results of f(item)
 
 [...keep(evenQmark, range(1, 10))];
