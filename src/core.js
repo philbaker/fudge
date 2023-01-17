@@ -2085,6 +2085,21 @@ export function everyQmark(pred, coll) {
 }
 
 /*
+notEveryQmark() returns false if pred(x) is true for every x in coll,
+otherwise true
+
+notEveryQmark(evenQmark, [2, 4, 6]);
+false
+
+notEveryQmark(evenQmark, [1, 2, 3]);
+true
+
+*/
+function notEveryQmark(pred, coll) {
+  return !everyQmark(pred, coll);
+}
+
+/*
 threadFirst() threads x through the fns. Inserts x as the second item in the first
 function. It will do the same for following functions.
 
