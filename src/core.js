@@ -2095,7 +2095,7 @@ notEveryQmark(evenQmark, [1, 2, 3]);
 true
 
 */
-function notEveryQmark(pred, coll) {
+export function notEveryQmark(pred, coll) {
   return !everyQmark(pred, coll);
 }
 
