@@ -887,20 +887,20 @@ describe("disjBang", function () {
   });
 });
 
-describe("contains", function () {
+describe("containsQmark", function () {
   it("checks for array index as key", function () {
-    expect(fc.contains([1, 2, 3], 0)).toBe(true);
-    expect(fc.contains([1, 2, 3], 3)).toBe(false);
+    expect(fc.containsQmark([1, 2, 3], 0)).toBe(true);
+    expect(fc.containsQmark([1, 2, 3], 3)).toBe(false);
   });
 
   it("checks objects by key", function () {
-    expect(fc.contains({ name: "George", salary: "Biscuits" }, "name")).toBe(
+    expect(fc.containsQmark({ name: "George", salary: "Biscuits" }, "name")).toBe(
       true
     );
   });
 
   it("checks for items in a set", function () {
-    expect(fc.contains(new Set(["a", "b", "c"]), "b")).toBe(true);
+    expect(fc.containsQmark(new Set(["a", "b", "c"]), "b")).toBe(true);
   });
 
   it("checks for items in a map", function () {
@@ -908,7 +908,7 @@ describe("contains", function () {
     containsMap.set("name", "George");
     containsMap.set("salary", "Biscuits");
 
-    expect(fc.contains(containsMap, "salary")).toBe(true);
+    expect(fc.containsQmark(containsMap, "salary")).toBe(true);
   });
 });
 

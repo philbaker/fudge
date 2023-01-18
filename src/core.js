@@ -905,7 +905,7 @@ export function disjBang(set, ...xs) {
 }
 
 /*
-disjBang() returns a new copy of a set with item(s) removed
+disj() returns a new copy of a set with item(s) removed
 
 disj(new Set(["a", "b", "c"]), "b");
 Set(2) { 'a', 'c' }
@@ -917,14 +917,14 @@ export function disj(set, ...xs) {
 }
 
 /*
-contains() returns true if key is present in the given collection,
+containsQmark() returns true if key is present in the given collection,
 otherwise false. For arrays the key is the index.
 
-contains({name: "George", salary: "Biscuits"}, "name");
+containsQmark({name: "George", salary: "Biscuits"}, "name");
 true
 
 */
-export function contains(coll, val) {
+export function containsQmark(coll, val) {
   switch (typeConst(coll)) {
     case SET_TYPE:
     case MAP_TYPE:
