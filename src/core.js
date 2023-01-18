@@ -1335,30 +1335,30 @@ function Atom(init) {
 }
 
 /*
-  Atoms provide a way to manage shared, synchronous, independent
-  state
+Atoms provide a way to manage shared, synchronous, independent
+state
 
-  var myAtom = atom(0);
-  myAtom;
-  Atom {
-    value: 0,
-    _deref: [Function (anonymous)],
-    _resetBang: [Function (anonymous)]
-  }
+var myAtom = atom(0);
+myAtom;
+Atom {
+  value: 0,
+  _deref: [Function (anonymous)],
+  _resetBang: [Function (anonymous)]
+}
 
-  myAtom.value;
-  0
+myAtom.value;
+0
 
-  swapBang(myAtom, inc);
-  1
+swapBang(myAtom, inc);
+1
 
-  swapBang(myAtom, function(n) { return (n + n) * 2 });
-  4
+swapBang(myAtom, function(n) { return (n + n) * 2 });
+4
 
-  resetBang(myAtom, 0);
+resetBang(myAtom, 0);
 
-  myAtom.value;
-  0
+myAtom.value;
+0
 
 */
 export function atom(init) {
