@@ -173,6 +173,20 @@ describe("partitionAll", function () {
   });
 });
 
+describe("merge", function () {
+  it("returns an object that consists of the rest of the maps conjed onto the first", function () {
+    expect(fc.merge({a: 1, b: 2, c: 3}, {b: 9, d: 4})).toEqual({ a: 1, b: 9, c: 3, d: 4 });
+
+    expect(fc.merge({a: 1}, null)).toEqual({ a: 1 });
+
+    expect(fc.merge({x: 1, y: 2}, {y: 3, z: 4})).toEqual({ x: 1, y: 3, z: 4 });
+
+    expect(fc.merge(["a", "b"], ["c", "d"])).toEqual([ 'a', 'b', [ 'c', 'd' ] ]);
+
+    expect(fc.merge(["a", "b"], "c", "d")).toEqual([ 'a', 'b', 'c', 'd' ]);
+  });
+});
+
 describe("seq", function () {
   it("returns null when given null", function () {
     expect(fc.seq(null)).toBe(null);
@@ -797,6 +811,16 @@ describe("conj", function () {
     }).toThrowError(
       "Illegal argument: conj expects a Set, Array, List, Map, or Object as the first argument."
     );
+  });
+});
+
+describe("into", function () {
+  it("returns a new coll containing values from colls conjoined", function () {
+    expect(fc.into([], [1, 2, 3])).toEqual([ 1, 2, 3 ]);
+
+    expect(fc.into([1, 2, 3], fc.list(4, 5, 6))).toEqual([ 1, 2, 3, 4, 5, 6 ]);
+
+    expect(fc.into({x: 4}, [{a: 1}, {b: 2}, {c: 3}])).toEqual({ x: 4, a: 1, b: 2, c: 3 });
   });
 });
 

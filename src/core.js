@@ -1,6 +1,4 @@
 /* TODO
-- merge
-- into
 - frequencies
 - butlast
 - dropLast
@@ -1289,6 +1287,66 @@ export function partitionAll(n, ...args) {
   }
 
   return _partition(n, step, [], coll, true);
+}
+
+/*
+empty() returns an empty coll of the same category as coll or null
+
+empty(list(1, 2));
+List(0) []
+
+empty([1, 2]);
+[]
+
+empty({a: 1, b: 2});
+{}
+
+empty(set([1, 2]));
+Set(0) {}
+
+*/
+export function empty(coll) {
+  const type = typeConst(coll);
+
+  return emptyOfType(type);
+}
+
+/*
+merge() returns an object that consists of the rest of the maps
+conjed onto the first
+
+merge({a: 1, b: 2, c: 3}, {b: 9, d: 4});
+{ a: 1, b: 9, c: 3, d: 4 }
+
+*/
+export function merge(...args) {
+  const firstArg = args[0];
+  let obj;
+
+  if (first === null || firstArg === undefined) {
+    obj = {};
+  } else {
+    obj = into(empty(firstArg), firstArg);
+  }
+  return conjBang(obj, ...args.slice(1));
+}
+
+/*
+into() returns a new coll containing values from colls conjoined
+
+into([], [1, 2, 3]);
+[ 1, 2, 3 ]
+
+*/
+export function into(...args) {
+  switch(args.length) {
+    case 0:
+      return [];
+    case 1:
+      return args[0];
+    default:
+      return conj(args[0] ?? [], ...iterable(args[1]));
+  }
 }
 
 /*
