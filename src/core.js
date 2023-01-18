@@ -1,5 +1,4 @@
 /* TODO
-- frequencies
 - butlast
 - dropLast
 - splitAt
@@ -2277,6 +2276,25 @@ export function groupBy(f, coll) {
   for (const x of iterable(coll)) {
     const key = f(x);
     updateBang(res, key, fnil(conjBang, []), x);
+  }
+
+  return res;
+}
+
+/*
+frequencies() returns an object from distinct items in coll
+to the number of times they appear
+
+frequencies(["a", "b", "a", "a"]);
+{ a: 3, b: 1 }
+
+*/
+export function frequencies(coll) {
+  const res = {};
+  const uf = fnil(inc, 0);
+
+  for (const o of iterable(coll)) {
+    updateBang(res, o, uf);
   }
 
   return res;

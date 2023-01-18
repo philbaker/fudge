@@ -163,27 +163,48 @@ describe("partition", function () {
 
 describe("partitionAll", function () {
   it("returns a sequence of arrays like partition but may include partitions with fewer than n items at the end", function () {
-    expect([...fc.partitionAll(4, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])]).toEqual([ [ 0, 1, 2, 3 ], [ 4, 5, 6, 7 ], [ 8, 9 ] ]);
+    expect([...fc.partitionAll(4, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])]).toEqual([
+      [0, 1, 2, 3],
+      [4, 5, 6, 7],
+      [8, 9],
+    ]);
 
-    expect([...fc.partitionAll(2, 4, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])]).toEqual([ [ 0, 1 ], [ 4, 5 ], [ 8, 9 ] ]);
+    expect([...fc.partitionAll(2, 4, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])]).toEqual([
+      [0, 1],
+      [4, 5],
+      [8, 9],
+    ]);
 
-    expect([...fc.partitionAll(2, 3, fc.list(0, 1, 2, 3, 4, 5, 6, 7, 8, 9))]).toEqual([ [ 0, 1 ], [ 3, 4 ], [ 6, 7 ], [ 9 ] ]);
+    expect([
+      ...fc.partitionAll(2, 3, fc.list(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)),
+    ]).toEqual([[0, 1], [3, 4], [6, 7], [9]]);
 
-    expect([...fc.partitionAll(3, 3, fc.list(0, 1, 2, 3, 4, 5, 6, 7, 8, 9))]).toEqual([ [ 0, 1, 2 ], [ 3, 4, 5 ], [ 6, 7, 8 ], [ 9 ] ]);
+    expect([
+      ...fc.partitionAll(3, 3, fc.list(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)),
+    ]).toEqual([[0, 1, 2], [3, 4, 5], [6, 7, 8], [9]]);
   });
 });
 
 describe("merge", function () {
   it("returns an object that consists of the rest of the maps conjed onto the first", function () {
-    expect(fc.merge({a: 1, b: 2, c: 3}, {b: 9, d: 4})).toEqual({ a: 1, b: 9, c: 3, d: 4 });
+    expect(fc.merge({ a: 1, b: 2, c: 3 }, { b: 9, d: 4 })).toEqual({
+      a: 1,
+      b: 9,
+      c: 3,
+      d: 4,
+    });
 
-    expect(fc.merge({a: 1}, null)).toEqual({ a: 1 });
+    expect(fc.merge({ a: 1 }, null)).toEqual({ a: 1 });
 
-    expect(fc.merge({x: 1, y: 2}, {y: 3, z: 4})).toEqual({ x: 1, y: 3, z: 4 });
+    expect(fc.merge({ x: 1, y: 2 }, { y: 3, z: 4 })).toEqual({
+      x: 1,
+      y: 3,
+      z: 4,
+    });
 
-    expect(fc.merge(["a", "b"], ["c", "d"])).toEqual([ 'a', 'b', [ 'c', 'd' ] ]);
+    expect(fc.merge(["a", "b"], ["c", "d"])).toEqual(["a", "b", ["c", "d"]]);
 
-    expect(fc.merge(["a", "b"], "c", "d")).toEqual([ 'a', 'b', 'c', 'd' ]);
+    expect(fc.merge(["a", "b"], "c", "d")).toEqual(["a", "b", "c", "d"]);
   });
 });
 
@@ -816,11 +837,16 @@ describe("conj", function () {
 
 describe("into", function () {
   it("returns a new coll containing values from colls conjoined", function () {
-    expect(fc.into([], [1, 2, 3])).toEqual([ 1, 2, 3 ]);
+    expect(fc.into([], [1, 2, 3])).toEqual([1, 2, 3]);
 
-    expect(fc.into([1, 2, 3], fc.list(4, 5, 6))).toEqual([ 1, 2, 3, 4, 5, 6 ]);
+    expect(fc.into([1, 2, 3], fc.list(4, 5, 6))).toEqual([1, 2, 3, 4, 5, 6]);
 
-    expect(fc.into({x: 4}, [{a: 1}, {b: 2}, {c: 3}])).toEqual({ x: 4, a: 1, b: 2, c: 3 });
+    expect(fc.into({ x: 4 }, [{ a: 1 }, { b: 2 }, { c: 3 }])).toEqual({
+      x: 4,
+      a: 1,
+      b: 2,
+      c: 3,
+    });
   });
 });
 
@@ -1402,6 +1428,12 @@ describe("groupBy", function () {
       false: [0, 2, 4, 6, 8],
       true: [1, 3, 5, 7, 9],
     });
+  });
+});
+
+describe("frequencies", function () {
+  it("returns an object from distinct items in coll to the number of times they appear", function () {
+    expect(fc.frequencies(["a", "b", "a", "a"])).toEqual({ a: 3, b: 1 });
   });
 });
 
