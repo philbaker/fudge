@@ -96,6 +96,71 @@ describe("selectKeys", function () {
   });
 });
 
+describe("partition", function () {
+  it("returns a sequence of n items each at offset step apart", function () {
+    expect([...fc.partition(4, fc.range(20))]).toEqual([
+      [0, 1, 2, 3],
+      [4, 5, 6, 7],
+      [8, 9, 10, 11],
+      [12, 13, 14, 15],
+      [16, 17, 18, 19],
+    ]);
+
+    expect([...fc.partition(4, fc.range(22))]).toEqual([
+      [0, 1, 2, 3],
+      [4, 5, 6, 7],
+      [8, 9, 10, 11],
+      [12, 13, 14, 15],
+      [16, 17, 18, 19],
+    ]);
+
+    expect([...fc.partition(4, 6, fc.range(20))]).toEqual([
+      [0, 1, 2, 3],
+      [6, 7, 8, 9],
+      [12, 13, 14, 15],
+    ]);
+
+    expect([...fc.partition(3, 6, ["a"], fc.range(20))]).toEqual([
+      [0, 1, 2],
+      [6, 7, 8],
+      [12, 13, 14],
+      [18, 19, "a"],
+    ]);
+
+    expect([...fc.partition(4, 6, ["a"], fc.range(20))]).toEqual([
+      [0, 1, 2, 3],
+      [6, 7, 8, 9],
+      [12, 13, 14, 15],
+      [18, 19, "a"],
+    ]);
+
+    expect([...fc.partition(4, 6, ["a", "b", "c", "d"], fc.range(20))]).toEqual(
+      [
+        [0, 1, 2, 3],
+        [6, 7, 8, 9],
+        [12, 13, 14, 15],
+        [18, 19, "a", "b"],
+      ]
+    );
+
+    expect([...fc.partition(4, 3, fc.range(20))]).toEqual([
+      [0, 1, 2, 3],
+      [3, 4, 5, 6],
+      [6, 7, 8, 9],
+      [9, 10, 11, 12],
+      [12, 13, 14, 15],
+      [15, 16, 17, 18],
+    ]);
+
+    expect([...fc.partition(3, 1, ["a", "b", "c", "d", "e", "f"])]).toEqual([
+      ["a", "b", "c"],
+      ["b", "c", "d"],
+      ["c", "d", "e"],
+      ["d", "e", "f"],
+    ]);
+  });
+});
+
 describe("seq", function () {
   it("returns null when given null", function () {
     expect(fc.seq(null)).toBe(null);

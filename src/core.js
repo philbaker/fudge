@@ -1219,30 +1219,23 @@ Internal function
 _partition() is a helper function for partition and partitionAll
 
 */
-function partitionInternal(n, step, pad, coll, all) {
+function _partition(n, step, pad, coll, all) {
   return lazy(function* () {
     let p = [];
     let i = 0;
+
     for (let x of iterable(coll)) {
       if (i < n) {
         p.push(x);
+
         if (p.length === n) {
           yield p;
-          // TODO: this logic doesn't seem correct
-          // when step is less than partition size (n)
-          // it should reuse numbers
-
-          // [...partition(4, 3, range(20))];
-          // WRONG
-          // [ [ 0, 1, 2, 3 ] ]
-
-          // [...partition(3, 1, ["a", "b", "c", "d", "e", "f"])];
-          // WRONG
-          // [ [ 'a', 'b', 'c' ] ]
           p = step < n ? p.slice(step) : [];
         }
       }
+
       i++;
+
       if (i === step) {
         i = 0;
       }
@@ -1260,33 +1253,17 @@ function partitionInternal(n, step, pad, coll, all) {
 }
 
 /*
-partition()
+partition() returns a lazy sequence of n items each at offsets
+step apart
 
 [...partition(4, range(20))];
 [ [ 0, 1, 2, 3 ], [ 4, 5, 6, 7 ], [ 8, 9, 10, 11 ], [ 12, 13, 14, 15 ], [ 16, 17, 18, 19 ] ]
 
-[...partition(4, range(22))];
-[ [ 0, 1, 2, 3 ], [ 4, 5, 6, 7 ], [ 8, 9, 10, 11 ], [ 12, 13, 14, 15 ], [ 16, 17, 18, 19 ] ]
-
-[...partition(4, 6, range(20))];
-// [ [ 0, 1, 2, 3 ], [ 6, 7, 8, 9 ], [ 12, 13, 14, 15 ] ]
-
-[...partition(3, 6, ["a"], range(20))];
-[ [ 0, 1, 2 ], [ 6, 7, 8 ], [ 12, 13, 14 ], [ 18, 19, 'a' ] ]
-
-[...partition(4, 6, ["a"], range(20))];
-// [ [ 0, 1, 2, 3 ], [ 6, 7, 8, 9 ], [ 12, 13, 14, 15 ], [ 18, 19, 'a' ] ]
-
-[...partition(4, 6, ["a", "b", "c", "d"], range(20))];
-[ [ 0, 1, 2, 3 ], [ 6, 7, 8, 9 ], [ 12, 13, 14, 15 ], [ 18, 19, 'a', 'b' ] ]
-
-
-
 */
-function partition(n, ...args) {
+export function partition(n, ...args) {
   let step = n;
   let pad = [];
-  coll = args[0];
+  let coll = args[0];
 
   if (args.length === 2) {
     [step, coll] = args;
