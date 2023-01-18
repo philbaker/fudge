@@ -161,6 +161,18 @@ describe("partition", function () {
   });
 });
 
+describe("partitionAll", function () {
+  it("returns a sequence of arrays like partition but may include partitions with fewer than n items at the end", function () {
+    expect([...fc.partitionAll(4, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])]).toEqual([ [ 0, 1, 2, 3 ], [ 4, 5, 6, 7 ], [ 8, 9 ] ]);
+
+    expect([...fc.partitionAll(2, 4, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])]).toEqual([ [ 0, 1 ], [ 4, 5 ], [ 8, 9 ] ]);
+
+    expect([...fc.partitionAll(2, 3, fc.list(0, 1, 2, 3, 4, 5, 6, 7, 8, 9))]).toEqual([ [ 0, 1 ], [ 3, 4 ], [ 6, 7 ], [ 9 ] ]);
+
+    expect([...fc.partitionAll(3, 3, fc.list(0, 1, 2, 3, 4, 5, 6, 7, 8, 9))]).toEqual([ [ 0, 1, 2 ], [ 3, 4, 5 ], [ 6, 7, 8 ], [ 9 ] ]);
+  });
+});
+
 describe("seq", function () {
   it("returns null when given null", function () {
     expect(fc.seq(null)).toBe(null);

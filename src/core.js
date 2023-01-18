@@ -1,6 +1,4 @@
 /* TODO
-- partition
-- partitionAll
 - merge
 - into
 - frequencies
@@ -1275,9 +1273,23 @@ export function partition(n, ...args) {
 }
 
 /*
-partitionAll()
+partitionAll() returns a lazy sequence of arrays like partition but
+may include partitions with fewer than n items at the end
+
+[...partitionAll(4, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])];
+[ [ 0, 1, 2, 3 ], [ 4, 5, 6, 7 ], [ 8, 9 ] ]
 
 */
+export function partitionAll(n, ...args) {
+  let step = n;
+  let coll = args[0];
+
+  if (args.length === 2) {
+    [step, coll] = args;
+  }
+
+  return _partition(n, step, [], coll, true);
+}
 
 /*
 inc() returns a number one greater than n
