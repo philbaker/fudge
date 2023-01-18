@@ -129,9 +129,6 @@ colls
 [ 'a', 'b', 1, [ 2, 3 ], 4 ]
 
 
-[...concat([1], [2], list(3, 4), [5, 6, 7], set([9, 10, 8]))];
-[ 1, 2, 3, 4, 5, 6, 7, 9, 10, 8 ]
-
 */
 export function concat(...colls) {
   return lazy(function* () {
@@ -150,10 +147,6 @@ applying map to f and colls
 
 [...mapcat(list, ["a", "b", "c"], [1, 2, 3])];
 [ "a", 1, "b", 2, "c", 3 ]
-
-[...mapcat(function(x) { return [x, (2 * x)] }, range(5))]
-[ 0, 0, 1, 2, 2, 4, 3, 6, 4, 8]
-
 
 */
 export function mapcat(f, ...colls) {
@@ -187,12 +180,6 @@ iterable(null);
 iterable("abc");
 "abc"
 
-iterable({ name: "George", occupation: "pet" });
-[
-  ["name", "George"],
-  ["occupation", "pet"],
-];
-
 */
 function iterable(x) {
   if (x === null || x === undefined) {
@@ -225,20 +212,11 @@ function iterator(coll) {
 seq() takes a collection and returns an iterable of that collection, or nil if
 it's empty.
 
-seq(null);
-null
-
-seq("");
-null
-
 seq([1, 2]);
 [ 1, 2 ]
 
-seq({ name: "George", occupation: "Sofa tester" });
-[
-  ["name", "George"],
-  ["occupation", "Sofa tester"],
-];
+seq(null);
+null
 
 */
 export function seq(x) {
@@ -300,29 +278,6 @@ map() applies a given function to each element of a collection
 [...map(last, {x: 1, y: 2, z: 3})];
 [ 1, 2, 3 ]
 
-[...map(function(item) { return item.toUpperCase(); }, "hello")]; 
-[ 'H', 'E', 'L', 'L', 'O' ]
-
-var months = ["jan", "feb", "mar"];
-var temps = [5, 7, 12];
-
-function unify(month, temp) {
-  return {
-    month,
-    temp
-  }
-}
-
-[...map(unify, months, temps)];
-[
-  { month: 'jan', temp: 5 },
-  { month: 'feb', temp: 7 },
-  { month: 'mar', temp: 12 }
-]
-
-[...map(vector, [1, 2, 3, 4], ["a", "b", "c", "d"])]
-// [ [ 1, 'a' ], [ 2, 'b' ], [ 3, 'c' ], [ 4, 'd' ] ]
-
 */
 export function map(f, ...colls) {
   switch (colls.length) {
@@ -363,16 +318,6 @@ pred(item) returns true
 [...filter(evenQmark, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])];
 [ 0, 2, 4, 6, 8, 10 ]
 
-[
-  ...filter(
-    function (key, val) {
-      return evenQmark(+key[0]);
-    },
-    { 1: "a", 2: "b", 3: "c", 4: "d" }
-  ),
-];
-[ [ '2', 'b' ], [ '4', 'd' ] ]
-
 */
 export function filter(pred, coll) {
   return lazy(function* () {
@@ -391,14 +336,6 @@ pred(item) returns true
 filterv(evenQmark, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 [ 0, 2, 4, 6, 8, 10 ]
 
-filterv(
-  function (key, val) {
-    return evenQmark(+key[0]);
-  },
-  { 1: "a", 2: "b", 3: "c", 4: "d" }
-);
-[ [ "2", "b" ], [ "4", "d" ] ]
-
 */
 export function filterv(pred, coll) {
   return [...filter(pred, coll)];
@@ -410,16 +347,6 @@ pred(item) returns false
 
 [...remove(evenQmark, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])];
 [ 1, 3, 5, 7, 9 ]
-
-[
-  ...remove(
-    function (key, val) {
-      return evenQmark(+key[0]);
-    },
-    { 1: "a", 2: "b", 3: "c", 4: "d" }
-  ),
-];
-[ [ '1', 'a' ], [ '3', 'c' ] ]
 
 */
 export function remove(pred, coll) {
@@ -433,24 +360,7 @@ item of coll, followed by applying f to 1 and the second item in the coll etc
 mapIndexed(function (index, item) {
   return [index, item];
 }, "foobar");
-[
-  [0, "f"],
-  [1, "o"],
-  [2, "o"],
-  [3, "b"],
-  [4, "a"],
-  [5, "r"],
-];
-
-mapIndexed(vector, "foobar");
-[
-  [0, "f"],
-  [1, "o"],
-  [2, "o"],
-  [3, "b"],
-  [4, "a"],
-  [5, "r"],
-];
+[ [0, "f"], [1, "o"], [2, "o"], [3, "b"], [4, "a"], [5, "r"] ];
 
 */
 export function mapIndexed(f, coll) {
@@ -469,17 +379,8 @@ export function mapIndexed(f, coll) {
 rest() returns a LazyIterable collection containing a possibly empty seq of the items 
 after the first
 
-rest([1, 2, 3]);
-LazyIterable {
-  gen: [GeneratorFunction (anonymous)],
-  [Symbol(Iterable)]: true
-}
-
 [...rest([1, 2, 3])];
 [ 2, 3 ]
-
-[...rest([1])]
-[]
 
 [...rest(null)];
 []
@@ -508,11 +409,6 @@ first([1, 2, 3]);
 first("abc");
 "a"
 
-first([]);
-null
-
-first({name: "George", weight: 100})
-["name", "George"]
 */
 export function first(coll) {
   var [first] = iterable(coll);
@@ -525,18 +421,6 @@ second() returns the second item of a collection
 
 second([1, 2, 3]);
 2
-
-second("abc");
-"b"
-
-second({name: "George", weight: 100})
-"weight", 100
-
-second([1]);
-null
-
-second([]);
-null
 
 */
 export function second(coll) {
@@ -602,24 +486,6 @@ reduce(function (a, v) {
   return plus(a, v);
 }, range(10));
 45
-
-reduce(function (a, v) {
-  if (a < 100) {
-    return plus(a, v);
-  } else {
-    return reduced("big");
-  }
-}, range(10));
-45
-
-reduce(function (a, v) {
-  if (a < 100) {
-    return plus(a, v);
-  } else {
-    return reduced("big");
-  }
-}, range(20));
-"big"
 
 */
 export function reduced(x) {
@@ -694,10 +560,6 @@ var arrData = [1, 2, 5, 6, 8, 9];
 assocBang(someData, 0, 77);
 [ 77, 2, 5, 6, 8, 9 ]
 
-var objData = { name: "George", occupation: "Sofa tester" };
-assocBang(objData, "foodPreference", "fish");
-{ name: "George", occupation: "Sofa tester", foodPreference: "fish" }
-
 */
 export function assocBang(coll, key, val, ...kvs) {
   if (kvs.length % 2 !== 0) {
@@ -736,9 +598,6 @@ assoc() returns a new structure with a modified values
 
 assoc([1, 2, 5, 6, 8, 9], 0, 77);
 [ 77, 2, 5, 6, 8, 9 ]
-
-assocBang({ name: "George", occupation: "Sofa tester" }, "foodPreference", "fish");
-{ name: "George", occupation: "Sofa tester", foodPreference: "fish" }
 
 */
 export function assoc(coll, key, val, ...kvs) {
@@ -817,10 +676,7 @@ var pets = [{name: "George", age: 12}, {name: "Lola", age: 11}];
 
 assocInBang(pets, [0, "age"], 13);
 pets
-[
-  { name: "George", age: 13 },
-  { name: "Lola", age: 11 },
-];
+[ { name: "George", age: 13 }, { name: "Lola", age: 11 } ];
 
 */
 export function assocInBang(coll, keys, val) {
@@ -884,15 +740,6 @@ false
 
 comp(str, plus)(8, 8, 8);
 "24"
-
-comp(str);
-[Function: str]
-
-comp(null);
-null
-
-comp();
-[Function: identity]
 
 */
 export function comp(...fs) {
@@ -1129,12 +976,6 @@ then the second etc
 [...interleave(["a", "b", "c"], [1, 2, 3])];
 [ 'a', 1, 'b', 2, 'c', 3 ]
 
-[...interleave(["a", "b", "c"], [1, 2])];
-[ 'a', 1, 'b', 2 ]
-
-[...interleave(["a", "b"], [1, 2, 3])];
-[ 'a', 1, 'b', 2 ]
-
 */
 export function interleave(...colls) {
   return lazy(function* () {
@@ -1164,9 +1005,6 @@ by sep
 [...interpose(", ", ["one", "two", "three"])];
 [ "one", ", ", "two", ", ", "three" ]
 
-apply(str, interpose(", ", ["one", "two", "three"]));
-"one, two, three"
-
 */
 export function interpose(sep, coll) {
   return drop(1, interleave(repeat(sep), coll));
@@ -1178,12 +1016,6 @@ whose key is in keys
 
 selectKeys({a: 1, b: 2}, ["a"]);
 { a: 1 }
-
-selectKeys({a: 1, b: 2}, ["a", "c"]);
-{ a: 1 }
-
-selectKeys({a: 1, b: 2, c: 3}, ["a", "c"]);
-{ a: 1, c: 3 }
 
 */
 export function selectKeys(coll, keys) {
@@ -1287,15 +1119,6 @@ empty() returns an empty coll of the same category as coll or null
 empty(list(1, 2));
 List(0) []
 
-empty([1, 2]);
-[]
-
-empty({a: 1, b: 2});
-{}
-
-empty(set([1, 2]));
-Set(0) {}
-
 */
 export function empty(coll) {
   const type = typeConst(coll);
@@ -1380,18 +1203,6 @@ nth() returns the value at the index
 nth(["a", "b", "c", "d"], 0);
 "a"
 
-nth([1, 2, 3], 2, null)
-3
-
-nth([], 0);
-undefined
-
-nth([], 0, "nothing found");
-"nothing found"
-
-nth ([0, 1, 2], 77, 1337);
-1337
-
 */
 export function nth(coll, index, notFound) {
   if (coll) {
@@ -1410,9 +1221,6 @@ is not present
 
 get([1, 2, 3], 1);
 2
-
-get([1, 2, 3], 5);
-null
 
 */
 export function get(coll, key, notFound = null) {
@@ -1444,20 +1252,11 @@ export function get(coll, key, notFound = null) {
 /*
 str() returns a string for single values and a concatenation of multiple values
 
-str();
-""
-
-str(null)
-""
-
 str(1);
 "1"
 
 str(1, 2, 3);
 "123"
-
-str("L", 5, "a");
-"L5a"
 
 */
 export function str(...xs) {
@@ -1470,18 +1269,6 @@ not() returns true if x is logical false, false otherwise
 not(true);
 false
 
-not(false);
-true
-
-not(null);
-true
-
-not(undefined);
-true
-
-not(1);
-false
-
 */
 export function not(x) {
   return !x;
@@ -1492,12 +1279,6 @@ nilQmark() returns true if x is null, false otherwise
 
 nilQmark(null);
 true
-
-nilQmark(false);
-false
-
-nilQmark(true);
-false
 
 */
 export function nilQmark(x) {
@@ -1678,9 +1459,6 @@ vector() creates a new array containing args
 
 vector();
 []
-
-vector(null);
-[ null ]
 
 vector(1, 2, 3);
 [ 1, 2, 3 ]
@@ -1912,12 +1690,6 @@ takeNth() returns a lazy sequence of every nth item in coll
 [...takeNth(2, range(10))];
 [ 0, 2, 4, 6, 8 ]
 
-[...take(3, takeNth(0, range(2)))];
-[ 0, 0, 0 ]
-
-[...take(3, takeNth(-10, range(2)))];
-[ 0, 0, 0 ]
-
 */
 export function takeNth(n, coll) {
   if (n <= 0) {
@@ -2026,9 +1798,6 @@ otherwise null
 some(evenQmark, [1, 2, 3, 4]);
 true
 
-some(evenQmark, [1, 3, 5, 7]);
-null
-
 */
 export function some(pred, coll) {
   for (const x of iterable(coll)) {
@@ -2058,7 +1827,6 @@ export function randInt(n) {
 
 /*
 trueQmark() returns true if x is true, false otherwise
-
 
 trueQmark(1 > 0);
 true
@@ -2146,9 +1914,6 @@ drop() returns a lazy sequence of all but the first n items in coll
 [...drop(2, [1, 2, 3, 4])];
 [ 3, 4 ]
 
-[...drop(5, [1, 2, 3, 4])];
-[]
-
 */
 export function drop(n, xs) {
   return lazy(function* () {
@@ -2171,9 +1936,6 @@ the first item for which pred(value) returns false
 
 [...dropWhile((x) => 3 >= x, [1, 2, 3, 4, 5, 6])];
 [ 4, 5, 6 ]
-
-[...dropWhile(negQmark, [-1, -2, -6, -7, 1, 2, 3, 4, -5, -6, 0, 1])];
-[ 1,  2, 3, 4, -5, -6, 0, 1 ]
 
 */
 export function dropWhile(pred, xs) {
@@ -2221,10 +1983,6 @@ export function distinct(coll) {
 /*
 update() returns a new structure with a value updated by f 
 
-var pet = {name: "George", age: 11};
-update(pet, "age", inc);
-{ name: 'George', age: 12 }
-
 update([1, 2, 3], 0, inc);
 [ 2, 2, 3 ]
 
@@ -2240,6 +1998,11 @@ export function update(coll, key, f, ...args) {
 Mutator
 updateBang() updates a collection with a value updated by f 
 
+var pet = {name: "George", age: 11};
+updateBang(pet, "age", inc);
+pet
+{ name: 'George', age: 12 }
+
 */
 export function updateBang(coll, key, f, ...args) {
   const val = get(coll, key);
@@ -2250,14 +2013,6 @@ export function updateBang(coll, key, f, ...args) {
 /*
 groupBy() returns an object of the elements of coll keyed by the
 result of f on each element
-
-groupBy(count, ["a", "as", "asd", "aa", "asdf", "qwer"]);
-{
-  '1': [ 'a' ],
-  '2': [ 'as', 'aa' ],
-  '3': [ 'asd' ],
-  '4': [ 'asdf', 'qwer' ]
-}
 
 groupBy(oddQmark, range(10));
 { false: [ 0, 2, 4, 6, 8 ], true: [ 1, 3, 5, 7, 9 ] }
@@ -2383,15 +2138,6 @@ var pet = {
 getIn(pet, ["profile", "name"]);
 'George V'
 
-getIn(pet, ["profile", "address", "city"]);
-'London'
-
-getIn(pet, ["profile", "address", "postcode"]);
-null
-
-getIn(pet, ["profile", "address", "postcode"], "no postcode");
-'no postcode'
-
 */
 export function getIn(coll, path, notFound = null) {
   let entry = coll;
@@ -2413,14 +2159,6 @@ updateIn() updates a value in a nested structure
 var pets = [{name: "George", age: 11}, {name: "Lola", age: 10}];
 updateIn(pets, [1, "age"], inc);
 [ { name: 'George', age: 11 }, { name: 'Lola', age: 11 } ]
-
-
-function charCount(s) {
-  return reduce((m, k) => updateIn(m, [k], fnil(inc, 0)), {}, s);
-}
-
-charCount("foo-bar");
-{ f: 1, o: 2, '-': 1, b: 1, a: 1, r: 1 }
 
 */
 export function updateIn(coll, path, f, ...args) {
@@ -2501,15 +2239,6 @@ otherwise true
 notAnyQmark(oddQmark, [2, 4, 6]);
 true
 
-notAnyQmark(oddQmark, [1, 2, 3]);
-false
-
-notAnyQmark(nilQmark, [true, false, false]);
-true
-
-notAnyQmark(nilQmark, [true, false, null]);
-false
-
 */
 export function notAnyQmark(pred, coll) {
   return !some(pred, coll);
@@ -2557,25 +2286,13 @@ keep() returns a lazy sequence of the non-nil results of f(item)
 [...keep(evenQmark, range(1, 10))];
 [ false, true,  false, true,  false, true, false, true,  false ]
 
-[
-  ...keep(function (x) {
-    if (oddQmark(x)) {
-      return x;
-    }
-  }, range(10)),
-];
-[ 1, 3, 5, 7, 9 ]
-
-[...keep(seq, [list(), [], ["a", "b"], null])];
-[ [ 'a', 'b' ] ]
-
 */
 export function keep(pred, coll) {
   return lazy(function* () {
     for (const x of iterable(coll)) {
       const res = pred(x);
 
-      // TODO: this is different in squint core
+      // TODO: this is different in upstream
       if (res !== null && res !== undefined) {
         yield res;
       }
@@ -2589,12 +2306,6 @@ corresponding val in smap
 
 replace(["zeroth", "first", "second", "third", "fourth"], [0, 2, 4, 0])
 [ 'zeroth', 'second', 'fourth', 'zeroth' ]
-
-replace({0: "ZERO", 1: "ONE", 2: "TWO"}, list("This is the code", 0, 1, 2, 0))
-[ 'This is the code', 'ZERO', 'ONE', 'TWO', 'ZERO' ]
-
-replace({2: "a", 4: "b"}, [1, 2, 3, 4]);
-[ 1, 'a', 3, 'b' ]
 
 */
 export function replace(smap, coll) {
@@ -2615,12 +2326,6 @@ export function replace(smap, coll) {
 emptyQmark() returns true if coll has no items
 
 emptyQmark(list());
-true
-
-emptyQmark(list(1));
-false
-
-everyQmark(emptyQmark, ["", [], list(), {}, set(), null]);
 true
 
 */
