@@ -1437,6 +1437,48 @@ describe("frequencies", function () {
   });
 });
 
+describe("butlast", function () {
+  it("returns a sequence of all but the last item in coll", function () {
+    expect(fc.butlast([1, 2, 3])).toEqual([1, 2]);
+
+    expect(fc.butlast(fc.butlast([1, 2, 3]))).toEqual([1]);
+
+    expect(fc.butlast(fc.butlast(fc.butlast([1, 2, 3])))).toBe(null);
+  });
+});
+
+describe("dropLast", function () {
+  it("returns a lazy sequence of all but the last n items in coll", function () {
+    expect([...fc.dropLast([1, 2, 3, 4])]).toEqual([1, 2, 3]);
+
+    expect([...fc.dropLast(-1, [1, 2, 3, 4])]).toEqual([1, 2, 3, 4]);
+
+    expect([...fc.dropLast(0, [1, 2, 3, 4])]).toEqual([1, 2, 3, 4]);
+
+    expect([...fc.dropLast(5, [1, 2, 3, 4])]).toEqual([]);
+  });
+});
+
+describe("splitAt", function () {
+  it("returns an array of [take(n, coll), drop(n, coll)]", function () {
+    expect(fc.splitAt(2, [1, 2, 3, 4, 5])).toEqual([
+      [1, 2],
+      [3, 4, 5],
+    ]);
+
+    expect(fc.splitAt(3, [1, 2])).toEqual([[1, 2], []]);
+  });
+});
+
+describe("splitWith", function () {
+  it("returns an array of [takeWhile(pred, coll), dropWhile(pred, coll)]", function () {
+    expect(fc.splitWith(fc.oddQmark, [1, 3, 5, 6, 7, 9])).toEqual([
+      [1, 3, 5],
+      [6, 7, 9],
+    ]);
+  });
+});
+
 describe("count", function () {
   it("returns the number of items in a collection", function () {
     expect(fc.count(null)).toBe(0);

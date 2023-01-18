@@ -1,10 +1,3 @@
-/* TODO
-- butlast
-- dropLast
-- splitAt
-- splitWith
-/*
-
 /*
 Core data types
 
@@ -1338,7 +1331,7 @@ into([], [1, 2, 3]);
 
 */
 export function into(...args) {
-  switch(args.length) {
+  switch (args.length) {
     case 0:
       return [];
     case 1:
@@ -2298,6 +2291,55 @@ export function frequencies(coll) {
   }
 
   return res;
+}
+
+/*
+butlast() returns a sequence of all but the last item in coll
+
+butlast([1, 2, 3]);
+[ 1, 2 ]
+
+*/
+export function butlast(coll) {
+  let x = [...iterable(coll)];
+  x.pop();
+
+  return x.length > 0 ? x : null;
+}
+
+/*
+dropLast() returns a lazy sequence of all but the last n items in coll
+
+[...dropLast([1, 2, 3, 4])];
+[ 1, 2, 3 ]
+
+*/
+export function dropLast(...args) {
+  let [n, coll] = args.length > 1 ? args : [1, args[0]];
+
+  return map((x, _) => x, coll, drop(n, coll));
+}
+
+/*
+splitAt() returns an array of [take(n, coll), drop(n, coll)]
+
+splitAt(2, [1, 2, 3, 4, 5]);
+[ [ 1, 2 ], [ 3, 4, 5 ] ]
+
+*/
+export function splitAt(n, coll) {
+  return [[...take(n, coll)], [...drop(n, coll)]];
+}
+
+/*
+splitWith() returns an array of [takeWhile(pred, coll), dropWhile(pred, coll)]
+
+splitWith(oddQmark, [1, 3, 5, 6, 7, 9]);
+[ [ 1, 3, 5 ], [ 6, 7, 9 ] ]
+
+*/
+export function splitWith(pred, coll) {
+  return [[...takeWhile(pred, coll)], [...dropWhile(pred, coll)]];
 }
 
 /*
