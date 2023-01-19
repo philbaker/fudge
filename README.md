@@ -7,6 +7,10 @@ to make it suitable for direct use in JavaScript.
 - Add string namespace
 - Add string/replace
 
+## REPL driven development
+- In <leader>pe replaces all exports in core.js and saves the file
+- Send to node repl and core library is avaliable for RDD
+
 ## Inspired by
 - [Squint](https://github.com/squint-cljs/squint)
 - [Clojure](https://github.com/clojure/clojure)
