@@ -8,7 +8,7 @@ to make it suitable for direct use in JavaScript.
 - Add string/replace
 
 ## REPL driven development
-- In <leader>pe replaces all exports in core.js and saves the file
+- In `<leader>pe` replaces all exports in core.js and saves the file
 - Send to node repl and core library is avaliable for RDD
 
 ## Inspired by
