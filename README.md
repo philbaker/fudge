@@ -3,6 +3,10 @@
 fc-js is based on [Squint](https://github.com/squint-cljs/squint) with some modifications
 to make it suitable for direct use in JavaScript. 
 
+## TODOs
+- Add string namespace
+- Add string/replace
+
 ## Inspired by
 - [Squint](https://github.com/squint-cljs/squint)
 - [Clojure](https://github.com/clojure/clojure)
