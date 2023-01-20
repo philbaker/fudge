@@ -181,7 +181,7 @@ iterable("abc");
 "abc"
 
 */
-function iterable(x) {
+export function iterable(x) {
   if (x === null || x === undefined) {
     return [];
   }
