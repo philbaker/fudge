@@ -3,10 +3,6 @@
 fc-js is based on [Squint](https://github.com/squint-cljs/squint) with some modifications
 to make it suitable for direct use in JavaScript. 
 
-## TODOs
-- Add string namespace
-- Add string/replace
-
 ## REPL driven development
 - In Vim `<leader>pe` replaces all exports in core.js and saves the file
 - Send to node repl and core library is avaliable for RDD
