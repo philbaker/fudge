@@ -23,9 +23,67 @@ describe("join", function () {
 
     expect(s.join(", ", [1, 2, 3])).toBe("1, 2, 3");
 
-    expect(s.join(", ", ["spam", null, "eggs", "", "spam"])).toBe("spam, , eggs, , spam");
+    expect(s.join(", ", ["spam", null, "eggs", "", "spam"])).toBe(
+      "spam, , eggs, , spam"
+    );
 
-    expect(s.join(", ", c.remove(s.blankQmark, ["spam", null, "eggs", "", "spam"]))).toBe("spam, eggs, spam");
+    expect(
+      s.join(", ", c.remove(s.blankQmark, ["spam", null, "eggs", "", "spam"]))
+    ).toBe("spam, eggs, spam");
   });
 });
 
+describe("split", function () {
+  it("works", function () {
+    expect(s.split("q1w2e3r4t5y6u7i8o9p0", /\d+/)).toEqual([
+      "q",
+      "w",
+      "e",
+      "r",
+      "t",
+      "y",
+      "u",
+      "i",
+      "o",
+      "p",
+    ]);
+
+    expect(s.split("q1w2e3r4t5y6u7i8o9p0", /\d+/, -1)).toEqual([
+      "q",
+      "w",
+      "e",
+      "r",
+      "t",
+      "y",
+      "u",
+      "i",
+      "o",
+      "p",
+      "",
+    ]);
+
+    expect(s.split("Hello world", " ")).toEqual(["Hello", "world"]);
+
+    expect(s.split("JavaScript is awesome!", " ")).toEqual([
+      "JavaScript",
+      "is",
+      "awesome!",
+    ]);
+
+    expect(s.split("q1w2e3r4t5y6u7i8o9p0", /\d+/, 5)).toEqual([
+      "q",
+      "w",
+      "e",
+      "r",
+      "t5y6u7i8o9p0",
+    ]);
+
+    expect(s.split("fooxbarybaz", /[xy]/, 2)).toEqual(["foo", "barybaz"]);
+
+    expect(s.split("foo--bar--baz", "--")).toEqual(["foo", "bar", "baz"]);
+
+    expect(s.split(" q1w2 ", "")).toEqual([" ", "q", "1", "w", "2", " "]);
+
+    expect(s.split("a", "b")).toEqual(["a"]);
+  });
+});

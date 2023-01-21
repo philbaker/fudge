@@ -1,4 +1,4 @@
-import { iterable } from "./core.js";
+import { iterable, last } from "./core.js";
 
 /*
 blankQmark() returns true if s is null, empty or contains only whitespace
@@ -78,11 +78,23 @@ split() splits a string on regular expression
 split("Hello world", " ");
 [ 'Hello', 'world' ]
 
+split("JavaScript is awesome!", " ")
+[ 'JavaScript', 'is', 'awesome!' ]
+
 split("q1w2e3r4t5y6u7i8o9p0", /\d+/);
 [ "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "" ]
 
-split("q1w2e3r4t5y6u7i8o9p0", /\d+/, 5);
-[ "q", "w", "e", "r", "t" ]
+split("q1w2e3r4t5y6u7i8o9p0", /\d+/, -1);
+[ 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '']
+
+split("q1w2e3r4t5y6u7i8o9p0", /\d+/, 5); 
+[ 'q', 'w', 'e', 'r', 't5y6u7i8o9p0' ]
+
+split("q1w2e3r4t5y6u7i8o9p0", /\d+/, -1); 
+[ 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '' ]
+
+split("fooxbarybaz", /[xy]/, 2)
+[ 'foo', 'barybaz' ]
 
 split(" q1w2 ", "");
 [ " ", "q", "1", "w", "2", " " ]
@@ -90,21 +102,40 @@ split(" q1w2 ", "");
 split("a", "b");
 [ "a" ]
 
+split("foo--bar--baz", "--");
+[ 'foo', 'bar', 'baz' ]
+
 */
 export function split(s, re, limit) {
-  return s.split(re, limit);
+  if (limit === undefined) {
+    return split(s, re, 0);
+  }
+  if (limit === -1) {
+    return s.split(re);
+  }
+  if (limit < 1) {
+    let v = s.split(re);
+    if (last(v) === "") {
+      v.pop();
+    }
+    return v;
+  }
+  let parts = [];
+  while (limit > 1 && s.length > 0) {
+    let m = s.match(re);
+    if (!m) {
+      parts.push(s);
+      break;
+    }
+    let index = s.indexOf(m[0]);
+    parts.push(s.substring(0, index));
+    s = s.substring(index + m[0].length);
+    limit--;
+  }
+  parts.push(s);
+  return parts;
 }
 
-/*
-replace() replaces match with replacement
-
-replace("The color is red red red", "red", "orange");
-"The color is orange orange orange"
-
-replace("The color is red red red", /red/g, "blue");
-"The color is blue blue blue"
-
-*/
 export function replace(s, m, re) {
   return s.replaceAll(m, re);
 }
