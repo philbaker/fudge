@@ -113,7 +113,7 @@ export function split(s, re, limit) {
   if (limit === -1) {
     return s.split(re);
   }
-  if (limit < 1) {
+  if (limit === 0) {
     let v = s.split(re);
     if (last(v) === "") {
       v.pop();
