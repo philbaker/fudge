@@ -1665,6 +1665,20 @@ describe("emptyQmark", function () {
   });
 });
 
+describe("ifNot", function () {
+  it("evaluates test and returns then", function () {
+    expect(c.ifNot(c.emptyQmark([1, 2]), c.first([1, 2]))).toBe(1);
+  });
+
+  it("returns null if test is false", function () {
+    c.ifNot(c.emptyQmark([]), c.first([1, 2]));
+  });
+
+  it("returns otherwise if test is false and otherwise arg provided", function () {
+    expect(c.ifNot(c.zeroQmark(0), "then", "else")).toBe("else");
+  });
+});
+
 describe("threadFirst", function () {
   it("threads x through the fns with x as the second argument", function () {
     expect(c.threadFirst("3", parseInt)).toBe(3);

@@ -2334,6 +2334,25 @@ export function emptyQmark(coll) {
 }
 
 /*
+ifNot() evaluates test. If false evaluates and returns then or
+otherwise (if supplied)
+
+
+ifNot(emptyQmark([1, 2]), first([1, 2]));
+1
+
+ifNot(emptyQmark([]), first([1, 2]));
+
+*/
+export function ifNot(test, then, otherwise = null) {
+  if (!test) {
+    return then;
+  }
+
+  return otherwise;
+}
+
+/*
 threadFirst() threads x through the fns. Inserts x as the second item in the first
 function. It will do the same for following functions.
 
