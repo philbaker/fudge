@@ -2353,6 +2353,36 @@ export function ifNot(test, then, otherwise = null) {
 }
 
 /*
+cond() takes a set of test / expression pairs. It evaluates each test one at a 
+time returning the result for the first true test
+
+function posNegOrZero(n) {
+  return cond(
+    [() => n < 0, () => "negative"],
+    [() => n > 0, () => "positive"],
+    [() => "else", () => "zero"]
+  )();
+}
+
+posNegOrZero(5);
+"positive"
+
+*/
+export function cond(...xs) {
+  return function (...args) {
+    for (let i = 0; i < xs.length; i++) {
+      const [pred, val] = xs[i];
+
+      if (pred(...args)) {
+        return val(...args);
+      }
+    }
+
+    return null;
+  };
+}
+
+/*
 threadFirst() threads x through the fns. Inserts x as the second item in the first
 function. It will do the same for following functions.
 

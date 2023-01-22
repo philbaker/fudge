@@ -134,14 +134,12 @@ describe("partition", function () {
       [18, 19, "a"],
     ]);
 
-    expect([...c.partition(4, 6, ["a", "b", "c", "d"], c.range(20))]).toEqual(
-      [
-        [0, 1, 2, 3],
-        [6, 7, 8, 9],
-        [12, 13, 14, 15],
-        [18, 19, "a", "b"],
-      ]
-    );
+    expect([...c.partition(4, 6, ["a", "b", "c", "d"], c.range(20))]).toEqual([
+      [0, 1, 2, 3],
+      [6, 7, 8, 9],
+      [12, 13, 14, 15],
+      [18, 19, "a", "b"],
+    ]);
 
     expect([...c.partition(4, 3, c.range(20))]).toEqual([
       [0, 1, 2, 3],
@@ -291,9 +289,9 @@ describe("filter", function () {
 
 describe("filterv", function () {
   it("filters an array", function () {
-    expect(
-      c.filterv(c.evenQmark, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-    ).toEqual([0, 2, 4, 6, 8, 10]);
+    expect(c.filterv(c.evenQmark, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])).toEqual([
+      0, 2, 4, 6, 8, 10,
+    ]);
   });
 
   it("filters an object", function () {
@@ -537,9 +535,7 @@ describe("reduce", function () {
   });
 
   it("works with other functions", function () {
-    expect(c.reduce(c.conj, [1, 2, 3], [4, 5, 6])).toEqual([
-      1, 2, 3, 4, 5, 6,
-    ]);
+    expect(c.reduce(c.conj, [1, 2, 3], [4, 5, 6])).toEqual([1, 2, 3, 4, 5, 6]);
     expect(c.reduce(c.str, "hello ", "world")).toBe("hello world");
   });
 });
@@ -593,9 +589,7 @@ describe("assoc", function () {
   });
 
   it("returns a new array with modified values", function () {
-    expect(c.assocBang([1, 2, 5, 6, 8, 9], 0, 77)).toEqual([
-      77, 2, 5, 6, 8, 9,
-    ]);
+    expect(c.assocBang([1, 2, 5, 6, 8, 9], 0, 77)).toEqual([77, 2, 5, 6, 8, 9]);
   });
 
   it("returns a new object with modified values", function () {
@@ -894,9 +888,9 @@ describe("containsQmark", function () {
   });
 
   it("checks objects by key", function () {
-    expect(c.containsQmark({ name: "George", salary: "Biscuits" }, "name")).toBe(
-      true
-    );
+    expect(
+      c.containsQmark({ name: "George", salary: "Biscuits" }, "name")
+    ).toBe(true);
   });
 
   it("checks for items in a set", function () {
@@ -1525,11 +1519,7 @@ describe("updateIn", function () {
     ]);
 
     function charCount(s) {
-      return c.reduce(
-        (m, k) => c.updateIn(m, [k], c.fnil(c.inc, 0)),
-        {},
-        s
-      );
+      return c.reduce((m, k) => c.updateIn(m, [k], c.fnil(c.inc, 0)), {}, s);
     }
 
     expect(charCount("foo-bar")).toEqual({
@@ -1676,6 +1666,42 @@ describe("ifNot", function () {
 
   it("returns otherwise if test is false and otherwise arg provided", function () {
     expect(c.ifNot(c.zeroQmark(0), "then", "else")).toBe("else");
+  });
+});
+
+describe("cond", function () {
+  it("evaluates each test one at a time returning the first true test", function () {
+    function posNegOrZero(n) {
+      return c.cond(
+        [() => n < 0, () => "negative"],
+        [() => n > 0, () => "positive"],
+        [() => "else", () => "zero"]
+      )();
+    }
+
+    expect(posNegOrZero(5)).toBe("positive");
+
+    expect(posNegOrZero(-1)).toBe("negative");
+
+    expect(posNegOrZero(0)).toBe("zero");
+
+    function checkMark(mark) {
+      return c.cond(
+        [() => mark > 90, () => "A"],
+        [() => mark > 80, () => "B"],
+        [() => mark > 70, () => "C"],
+        [() => mark > 80, () => "D"],
+        [() => "else", () => "F"]
+      )();
+    }
+
+    expect(checkMark(70)).toBe("F");
+  });
+
+  it("returns null if no true test", function () {
+    expect(c.cond([() => false, () => "null will be returned instead"])()).toBe(
+      null
+    );
   });
 });
 
