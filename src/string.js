@@ -73,7 +73,8 @@ export function trim(s) {
 }
 
 /*
-split() splits a string on regular expression
+split() splits a string on regular expression. JavaScript's limit works 
+differently to Java's. This implementation mimics Java's. 
 
 split("Hello world", " ");
 [ 'Hello', 'world' ]
@@ -110,29 +111,39 @@ export function split(s, re, limit) {
   if (limit === undefined) {
     return split(s, re, 0);
   }
+
   if (limit === -1) {
     return s.split(re);
   }
+
   if (limit === 0) {
     let v = s.split(re);
+
     if (last(v) === "") {
       v.pop();
     }
+
     return v;
   }
+
   let parts = [];
+
   while (limit > 1 && s.length > 0) {
     let m = s.match(re);
+
     if (!m) {
       parts.push(s);
       break;
     }
+
     let index = s.indexOf(m[0]);
     parts.push(s.substring(0, index));
     s = s.substring(index + m[0].length);
     limit--;
   }
+
   parts.push(s);
+
   return parts;
 }
 
