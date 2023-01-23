@@ -1705,6 +1705,26 @@ describe("cond", function () {
   });
 });
 
+describe("iff", function () {
+  it("evaluates the test and returns then if true, otherwise if false", function () {
+    expect(
+      c.iff(
+        1 > 2,
+        () => "hello",
+        () => "world"
+      )
+    ).toBe("world");
+
+    expect(
+      c.iff(
+        3 > 2,
+        () => c.str("hello", " world"),
+        () => "world"
+      )
+    ).toBe("hello world");
+  });
+});
+
 describe("threadFirst", function () {
   it("threads x through the fns with x as the second argument", function () {
     expect(c.threadFirst("3", parseInt)).toBe(3);

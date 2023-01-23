@@ -2383,6 +2383,20 @@ export function cond(...xs) {
 }
 
 /*
+iff() evaluates the test and returns then if true, otherwise if false
+
+iff(1 > 2, () => "hello", () => "world");
+"world"
+
+iff(3 > 2, () => str("hello", " world"), () => "world");
+"hello world"
+
+*/
+export function iff(test, then, otherwise) {
+  return test ? then() : otherwise();
+}
+
+/*
 threadFirst() threads x through the fns. Inserts x as the second item in the first
 function. It will do the same for following functions.
 
