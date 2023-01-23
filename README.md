@@ -1,6 +1,6 @@
-# fc-js
+# Fudge
 
-fc-js is based on [Squint](https://github.com/squint-cljs/squint) with some modifications
+Fudge is based on [Squint](https://github.com/squint-cljs/squint) with some modifications
 to make it suitable for direct use in JavaScript. 
 
 ## REPL driven development
@@ -19,4 +19,4 @@ to make it suitable for direct use in JavaScript.
 
 Copyright © 2023 Phil Baker
 
-fc-js is licensed under EPL v1.0. See LICENSE for more details.
+Fudge is licensed under EPL v1.0. See LICENSE for more details.
