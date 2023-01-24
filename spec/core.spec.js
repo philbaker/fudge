@@ -1,4 +1,5 @@
 import * as c from "../src/core.js";
+import * as e from "../src/experimental.js";
 
 describe("concat", function () {
   it("returns a lazy sequence of concatenated elements from coll", function () {
@@ -267,9 +268,9 @@ describe("map", function () {
 
 describe("filter", function () {
   it("filters an array", function () {
-    expect([
-      ...c.filter(c.isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
-    ]).toEqual([0, 2, 4, 6, 8, 10]);
+    expect([...c.filter(c.isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])]).toEqual(
+      [0, 2, 4, 6, 8, 10]
+    );
   });
 
   it("filters an object", function () {
@@ -311,9 +312,9 @@ describe("filterv", function () {
 
 describe("remove", function () {
   it("filters an array", function () {
-    expect([
-      ...c.remove(c.isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
-    ]).toEqual([1, 3, 5, 7, 9]);
+    expect([...c.remove(c.isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])]).toEqual(
+      [1, 3, 5, 7, 9]
+    );
   });
 
   it("filters an object", function () {
@@ -888,9 +889,9 @@ describe("itContains", function () {
   });
 
   it("checks objects by key", function () {
-    expect(
-      c.itContains({ name: "George", salary: "Biscuits" }, "name")
-    ).toBe(true);
+    expect(c.itContains({ name: "George", salary: "Biscuits" }, "name")).toBe(
+      true
+    );
   });
 
   it("checks for items in a set", function () {
@@ -1257,9 +1258,7 @@ describe("take", function () {
 
 describe("takeWhile", function () {
   it("returns a sequence of successive items from coll while pred(item) returns true", function () {
-    expect([...c.takeWhile(c.isNeg, [-2, -1, 0, 1, 2, 3])]).toEqual([
-      -2, -1,
-    ]);
+    expect([...c.takeWhile(c.isNeg, [-2, -1, 0, 1, 2, 3])]).toEqual([-2, -1]);
 
     expect([...c.takeWhile(c.isNeg, [-2, -1, 0, -1, -2, -3])]).toEqual([
       -2, -1,
@@ -1649,9 +1648,9 @@ describe("isEmpty", function () {
 
     expect(c.isEmpty(c.list(1))).toBe(false);
 
-    expect(
-      c.isEvery(c.isEmpty, ["", [], c.list(), {}, c.set(), null])
-    ).toBe(true);
+    expect(c.isEvery(c.isEmpty, ["", [], c.list(), {}, c.set(), null])).toBe(
+      true
+    );
   });
 });
 
@@ -1672,7 +1671,7 @@ describe("ifNot", function () {
 describe("cond", function () {
   it("evaluates each test one at a time returning the first true test", function () {
     function posNegOrZero(n) {
-      return c.cond(
+      return e.cond(
         [() => n < 0, () => "negative"],
         [() => n > 0, () => "positive"],
         [() => "else", () => "zero"]
@@ -1686,7 +1685,7 @@ describe("cond", function () {
     expect(posNegOrZero(0)).toBe("zero");
 
     function checkMark(mark) {
-      return c.cond(
+      return e.cond(
         [() => mark > 90, () => "A"],
         [() => mark > 80, () => "B"],
         [() => mark > 70, () => "C"],
@@ -1699,7 +1698,7 @@ describe("cond", function () {
   });
 
   it("returns null if no true test", function () {
-    expect(c.cond([() => false, () => "null will be returned instead"])()).toBe(
+    expect(e.cond([() => false, () => "null will be returned instead"])()).toBe(
       null
     );
   });
@@ -1707,35 +1706,37 @@ describe("cond", function () {
 
 describe("iff", function () {
   it("evaluates the test and returns then if true, otherwise if false", function () {
-    expect(
-      c.iff(
-        1 > 2,
-        "hello",
-        "world"
-      )
-    ).toBe("world");
+    expect(e.iff(1 > 2, "hello", "world")).toBe("world");
 
-    expect(
-      c.iff(
-        3 > 2,
-        c.str("hello", " world"),
-        "world"
-      )
-    ).toBe("hello world");
+    expect(e.iff(3 > 2, c.str("hello", " world"), "world")).toBe("hello world");
 
-
-    expect(c.iff(1 * 2 === 2, (() => 3 * 2)(), 7)).toBe(6);
+    expect(e.iff(1 * 2 === 2, (() => 3 * 2)(), 7)).toBe(6);
   });
 });
 
 describe("threadFirst", function () {
   it("threads x through the fns with x as the second argument", function () {
-    expect(c.threadFirst("3", parseInt)).toBe(3);
+    expect(e.threadFirst("3", parseInt)).toBe(3);
   });
 });
 
 describe("threadLast", function () {
   it("threads x through the fns with x as the last argument", function () {
-    expect(c.threadLast("3", parseInt)).toBe(3);
+    expect(e.threadLast("3", parseInt)).toBe(3);
+  });
+});
+
+describe("lett", function () {
+  it("groups variables in a single scope", function () {
+    expect(
+      e.lett(
+        [
+          ["x", 3],
+          ["y", 4],
+          ["z", 55],
+        ],
+        (xs) => xs.x * xs.y + xs.z
+      )
+    ).toBe(67);
   });
 });

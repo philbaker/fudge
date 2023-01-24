@@ -1,5 +1,6 @@
 import * as c from "../src/core.js";
 import * as s from "../src/string.js";
+import * as e from "../src/experimental.js";
 
 describe("blankQmark", function () {
   it("returns true if s is null, empty or contains only whitespace", function () {
@@ -35,7 +36,7 @@ describe("join", function () {
 
 describe("split", function () {
   it("works", function () {
-    expect(s.split("q1w2e3r4t5y6u7i8o9p0", /\d+/)).toEqual([
+    expect(e.split("q1w2e3r4t5y6u7i8o9p0", /\d+/)).toEqual([
       "q",
       "w",
       "e",
@@ -48,7 +49,7 @@ describe("split", function () {
       "p",
     ]);
 
-    expect(s.split("q1w2e3r4t5y6u7i8o9p0", /\d+/, -1)).toEqual([
+    expect(e.split("q1w2e3r4t5y6u7i8o9p0", /\d+/, -1)).toEqual([
       "q",
       "w",
       "e",
@@ -62,15 +63,15 @@ describe("split", function () {
       "",
     ]);
 
-    expect(s.split("Hello world", " ")).toEqual(["Hello", "world"]);
+    expect(e.split("Hello world", " ")).toEqual(["Hello", "world"]);
 
-    expect(s.split("JavaScript is awesome!", " ")).toEqual([
+    expect(e.split("JavaScript is awesome!", " ")).toEqual([
       "JavaScript",
       "is",
       "awesome!",
     ]);
 
-    expect(s.split("q1w2e3r4t5y6u7i8o9p0", /\d+/, 5)).toEqual([
+    expect(e.split("q1w2e3r4t5y6u7i8o9p0", /\d+/, 5)).toEqual([
       "q",
       "w",
       "e",
@@ -78,12 +79,12 @@ describe("split", function () {
       "t5y6u7i8o9p0",
     ]);
 
-    expect(s.split("fooxbarybaz", /[xy]/, 2)).toEqual(["foo", "barybaz"]);
+    expect(e.split("fooxbarybaz", /[xy]/, 2)).toEqual(["foo", "barybaz"]);
 
-    expect(s.split("foo--bar--baz", "--")).toEqual(["foo", "bar", "baz"]);
+    expect(e.split("foo--bar--baz", "--")).toEqual(["foo", "bar", "baz"]);
 
-    expect(s.split(" q1w2 ", "")).toEqual([" ", "q", "1", "w", "2", " "]);
+    expect(e.split(" q1w2 ", "")).toEqual([" ", "q", "1", "w", "2", " "]);
 
-    expect(s.split("a", "b")).toEqual(["a"]);
+    expect(e.split("a", "b")).toEqual(["a"]);
   });
 });
