@@ -1762,4 +1762,26 @@ describe("lett", function () {
       expect(e.and(null, null)).toEqual(null);
     });
   });
+
+  describe("or", function () {
+    it("returns the first argument that is truthy or the last argument if all arguments are falsy", function () {
+      expect(e.or(true, false, false)).toBe(true);
+
+      expect(e.or(true, true, true)).toBe(true);
+
+      expect(e.or(false, false, false)).toBe(false);
+
+      expect(e.or(null, null)).toBe(null);
+
+      expect(e.or(null, false)).toBe(false);
+
+      expect(e.or(false, null)).toBe(null);
+
+      expect(e.or(true, null)).toBe(true);
+
+      expect(e.or(false, 42)).toBe(42);
+
+      expect(e.or(false, 42, 9999)).toBe(42);
+    });
+  });
 });

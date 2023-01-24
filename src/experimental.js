@@ -222,3 +222,45 @@ export function and(...args) {
 
   return args[args.length - 1];
 }
+
+/*
+or() returns the first argument that is truthy or the last argument
+if all arguments are falsy
+
+or(true, false, false);
+true
+
+or(true, true, true);
+true
+
+or(false, false, false);
+false
+
+or(null, null);
+null
+
+or(null, false);
+false
+
+or(false, null);
+null
+
+or(true, null);
+true
+
+or(false, 42);
+42
+
+or(false, 42, 9999);
+42
+
+*/
+export function or(...args) {
+  for (let i = 0; i < args.length; i++) {
+    if (args[i] !== false && args[i] !== undefined && args[i] !== null) {
+      return args[i];
+    }
+  }
+
+  return args[args.length - 1];
+}
