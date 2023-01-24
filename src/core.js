@@ -91,16 +91,16 @@ export class List extends Array {
 }
 
 /*
-listQmark() checks if x is a List
+isList() checks if x is a List
 
-listQmark(new List(1, 2, 3));
+isList(new List(1, 2, 3));
 true
 
-listQmark("hello");
+isList("hello");
 false
 
 */
-export function listQmark(x) {
+export function isList(x) {
   return typeConst(x) === LIST_TYPE;
 }
 
@@ -154,13 +154,13 @@ export function mapcat(f, ...colls) {
 }
 
 /*
-seqableQmark returns true if the seq function is supported for x
+isSeqable returns true if the seq function is supported for x
 
-seqableQmark("hello");
+isSeqable("hello");
 true
 
 */
-export function seqableQmark(x) {
+export function isSeqable(x) {
   return (
     typeof x === "string" ||
     x === null ||
@@ -186,7 +186,7 @@ export function iterable(x) {
     return [];
   }
 
-  if (seqableQmark(x)) {
+  if (isSeqable(x)) {
     return x;
   }
 
@@ -315,7 +315,7 @@ export function map(f, ...colls) {
 filter() returns a lazy sequence of the items in coll for which
 pred(item) returns true
 
-[...filter(evenQmark, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])];
+[...filter(isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])];
 [ 0, 2, 4, 6, 8, 10 ]
 
 */
@@ -333,7 +333,7 @@ export function filter(pred, coll) {
 filterv() returns an array of the items in coll for which
 pred(item) returns true
 
-filterv(evenQmark, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+filterv(isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 [ 0, 2, 4, 6, 8, 10 ]
 
 */
@@ -345,7 +345,7 @@ export function filterv(pred, coll) {
 remove() returns a lazy sequence of the items in coll for which
 pred(item) returns false
 
-[...remove(evenQmark, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])];
+[...remove(isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])];
 [ 1, 3, 5, 7, 9 ]
 
 */
@@ -493,16 +493,16 @@ export function reduced(x) {
 }
 
 /*
-reducedQmark() returns true if x is the result of a call to reduced
+isReduced() returns true if x is the result of a call to reduced
 
-reducedQmark("foo");
+isReduced("foo");
 false
 
-reducedQmark(reduced("foo"));
+isReduced(reduced("foo"));
 true
 
 */
-export function reducedQmark(x) {
+export function isReduced(x) {
   return x instanceof Reduced;
 }
 
@@ -554,14 +554,14 @@ export function reduce(f, arg1, arg2) {
 
 /*
 Mutator
-assocBang() adds a value to a structure by mutating the original
+mutAssoc() adds a value to a structure by mutating the original
 
 var arrData = [1, 2, 5, 6, 8, 9];
-assocBang(someData, 0, 77);
+mutAssoc(someData, 0, 77);
 [ 77, 2, 5, 6, 8, 9 ]
 
 */
-export function assocBang(coll, key, val, ...kvs) {
+export function mutAssoc(coll, key, val, ...kvs) {
   if (kvs.length % 2 !== 0) {
     throw new Error(
       "Illegal argument: assoc expects an odd number of arguments."
@@ -607,11 +607,11 @@ export function assoc(coll, key, val, ...kvs) {
 
   switch (typeConst(coll)) {
     case MAP_TYPE:
-      return assocBang(new Map(coll.entries()), key, val, ...kvs);
+      return mutAssoc(new Map(coll.entries()), key, val, ...kvs);
     case ARRAY_TYPE:
-      return assocBang([...coll], key, val, ...kvs);
+      return mutAssoc([...coll], key, val, ...kvs);
     case OBJECT_TYPE:
-      return assocBang({ ...coll }, key, val, ...kvs);
+      return mutAssoc({ ...coll }, key, val, ...kvs);
     default:
       throw new Error(
         "Illegal argument: assoc expects a Map, Array or Object as the first argument."
@@ -670,17 +670,17 @@ function assocInWith(f, fname, coll, keys, val) {
 
 /*
 Mutator
-assocInBang() associates a value in a nested structure by mutating value
+mutAssocIn() associates a value in a nested structure by mutating value
 
 var pets = [{name: "George", age: 12}, {name: "Lola", age: 11}];
 
-assocInBang(pets, [0, "age"], 13);
+mutAssocIn(pets, [0, "age"], 13);
 pets
 [ { name: "George", age: 13 }, { name: "Lola", age: 11 } ];
 
 */
-export function assocInBang(coll, keys, val) {
-  return assocInWith(assocBang, "assocIn!", coll, keys, val);
+export function mutAssocIn(coll, keys, val) {
+  return assocInWith(mutAssoc, "assocIn!", coll, keys, val);
 }
 
 /*
@@ -699,14 +699,14 @@ export function assocIn(coll, keys, val) {
 
 /*
 Mutator
-dissocBang removes item(s) from an object by key name
+mutDissoc removes item(s) from an object by key name
 
 var dissocObj = {name: "George", salary: "Biscuits"};
-dissocBang(dissocObj, "name", "salary");
+mutDissoc(dissocObj, "name", "salary");
 {}
   
 */
-export function dissocBang(obj, ...keys) {
+export function mutDissoc(obj, ...keys) {
   for (const key of keys) {
     delete obj[key];
   }
@@ -735,7 +735,7 @@ export function dissoc(obj, ...keys) {
 comp() takes a set of functions and returns a fn that is the composition
 of those fns
 
-comp(zeroQmark)(5);
+comp(isZero)(5);
 false
 
 comp(str, plus)(8, 8, 8);
@@ -763,17 +763,17 @@ export function comp(...fs) {
 
 /*
 Mutator
-conjBang() (conjoin) adds to a structure by mutation. The position of the addition
+mutConj() (conjoin) adds to a structure by mutation. The position of the addition
 depends on the structure type
 
-conjBang([1, 2, 3], 4);
+mutConj([1, 2, 3], 4);
 [ 1, 2, 3, 4 ]
 
-conjBang({name: "George", coat: "Tabby"}, {age: 12, nationality: "British"})
+mutConj({name: "George", coat: "Tabby"}, {age: 12, nationality: "British"})
 { name: 'George', coat: 'Tabby', age: 12, nationality: 'British' }
 
 */
-export function conjBang(...xs) {
+export function mutConj(...xs) {
   if (xs.length === 0) {
     return vector();
   }
@@ -890,14 +890,14 @@ export function conj(...xs) {
 
 /*
 Mutator
-disjBang() removes item(s) from a set via mutation
+mutDisj() removes item(s) from a set via mutation
 
 var disjSet = new Set(["a", "b", "c"]);
-disjBang(disjSet, "b");
+mutDisj(disjSet, "b");
 Set(2) { 'a', 'c' }
 
 */
-export function disjBang(set, ...xs) {
+export function mutDisj(set, ...xs) {
   for (const x of xs) {
     set.delete(x);
   }
@@ -913,18 +913,18 @@ Set(2) { 'a', 'c' }
 */
 export function disj(set, ...xs) {
   let set1 = new Set([...set]);
-  return disjBang(set1, ...xs);
+  return mutDisj(set1, ...xs);
 }
 
 /*
-containsQmark() returns true if key is present in the given collection,
+itContains() returns true if key is present in the given collection,
 otherwise false. For arrays the key is the index.
 
-containsQmark({name: "George", salary: "Biscuits"}, "name");
+itContains({name: "George", salary: "Biscuits"}, "name");
 true
 
 */
-export function containsQmark(coll, val) {
+export function itContains(coll, val) {
   switch (typeConst(coll)) {
     case SET_TYPE:
     case MAP_TYPE:
@@ -1027,7 +1027,7 @@ export function selectKeys(coll, keys) {
     const val = get(coll, key);
 
     if (val !== undefined && val !== null) {
-      assocBang(ret, key, val);
+      mutAssoc(ret, key, val);
     }
   }
 
@@ -1143,7 +1143,7 @@ export function merge(...args) {
   } else {
     obj = into(empty(firstArg), firstArg);
   }
-  return conjBang(obj, ...args.slice(1));
+  return mutConj(obj, ...args.slice(1));
 }
 
 /*
@@ -1275,13 +1275,13 @@ export function not(x) {
 }
 
 /*
-nilQmark() returns true if x is null, false otherwise
+isNil() returns true if x is null, false otherwise
 
-nilQmark(null);
+isNil(null);
 true
 
 */
-export function nilQmark(x) {
+export function isNil(x) {
   return x === null;
 }
 
@@ -1331,7 +1331,7 @@ export function prn(...xs) {
 function Atom(init) {
   this.value = init;
   this._deref = () => this.value;
-  this._resetBang = (x) => (this.value = x);
+  this._mutReset = (x) => (this.value = x);
 }
 
 /*
@@ -1343,19 +1343,19 @@ myAtom;
 Atom {
   value: 0,
   _deref: [Function (anonymous)],
-  _resetBang: [Function (anonymous)]
+  _mutReset: [Function (anonymous)]
 }
 
 myAtom.value;
 0
 
-swapBang(myAtom, inc);
+mutSwap(myAtom, inc);
 1
 
-swapBang(myAtom, function(n) { return (n + n) * 2 });
+mutSwap(myAtom, function(n) { return (n + n) * 2 });
 4
 
-resetBang(myAtom, 0);
+mutReset(myAtom, 0);
 
 myAtom.value;
 0
@@ -1369,13 +1369,13 @@ export function deref(ref) {
   return ref._deref();
 }
 
-export function resetBang(atom, val) {
-  atom._resetBang(val);
+export function mutReset(atom, val) {
+  atom._mutReset(val);
 }
 
-export function swapBang(atom, f, ...args) {
+export function mutSwap(atom, f, ...args) {
   const val = f(deref(atom), ...args);
-  resetBang(atom, val);
+  mutReset(atom, val);
 
   return val;
 }
@@ -1469,16 +1469,16 @@ export function vector(...args) {
 }
 
 /*
-vectorQmark() checks if x is an array
+isVector() checks if x is an array
 
-vectorQmark([1, 2, 3]);
+isVector([1, 2, 3]);
 true
 
-vectorQmark("hello");
+isVector("hello");
 false
 
 */
-export function vectorQmark(x) {
+export function isVector(x) {
   return typeConst(x) === ARRAY_TYPE;
 }
 
@@ -1537,16 +1537,16 @@ export function apply(f, ...args) {
 }
 
 /*
-evenQmark() returns true if x is even
+isEven() returns true if x is even
 
-evenQmark(2);
+isEven(2);
 true
 
-evenQmark(null);
+isEven(null);
 Error
 
 */
-export function evenQmark(x) {
+export function isEven(x) {
   if (typeof x !== "number") {
     throw new Error(`Illegal argument: ${x} is not a number`);
   }
@@ -1555,24 +1555,24 @@ export function evenQmark(x) {
 }
 
 /*
-oddQmark() returns true if x is odd
+isOdd() returns true if x is odd
 
-oddQmark(3);
+isOdd(3);
 true
 
-oddQmark(null);
+isOdd(null);
 Error
 
 */
-export function oddQmark(x) {
-  return not(evenQmark(x));
+export function isOdd(x) {
+  return not(isEven(x));
 }
 
 /*
 complement() takes a fn f and returns a fn that takes the same arguments
 as f, has the same effects, if any, and returns the opposite truth value
 
-var testIsOdd = complement(evenQmark);
+var testIsOdd = complement(isEven);
 testIsOdd(3);
 true
 
@@ -1596,13 +1596,13 @@ export function constantly(x) {
 }
 
 /*
-identicalQmark() tests if two arguments are the equal
+isIdentical() tests if two arguments are the equal
 
-identicalQmark(1, 1);
+isIdentical(1, 1);
 true
 
 */
-export function identicalQmark(x, y) {
+export function isIdentical(x, y) {
   return x === y;
 }
 
@@ -1668,7 +1668,7 @@ export function take(n, coll) {
 takeWhile() returns a lazy sequence of successive items from coll
 while pred(item) returns true
 
-[...takeWhile(negQmark, [-2, -1, 0, 1, 2, 3])];
+[...takeWhile(isNeg, [-2, -1, 0, 1, 2, 3])];
 [ -2, -1 ]
 
 */
@@ -1795,7 +1795,7 @@ export function shuffle(coll) {
 some() returns the first true value of pred(x) for any x in coll,
 otherwise null
 
-some(evenQmark, [1, 2, 3, 4]);
+some(isEven, [1, 2, 3, 4]);
 true
 
 */
@@ -1826,35 +1826,35 @@ export function randInt(n) {
 }
 
 /*
-trueQmark() returns true if x is true, false otherwise
+isTrue() returns true if x is true, false otherwise
 
-trueQmark(1 > 0);
+isTrue(1 > 0);
 true
 
 */
-export function trueQmark(x) {
+export function isTrue(x) {
   return x === true;
 }
 
 /*
-falseQmark() returns true if x is false, false otherwise
+isFalse() returns true if x is false, false otherwise
 
-falseQmark(1 > 0);
+isFalse(1 > 0);
 false
 
 */
-export function falseQmark(x) {
+export function isFalse(x) {
   return x === false;
 }
 
 /*
-someQmark() returns true if x is not null or undefined, false otherwise
+isSome() returns true if x is not null or undefined, false otherwise
 
-someQmark(1 < 5);
+isSome(1 < 5);
 true
 
 */
-export function someQmark(x) {
+export function isSome(x) {
   return not(x === null || x === undefined);
 }
 
@@ -1873,35 +1873,35 @@ export function booleans(x) {
 }
 
 /*
-zeroQmark() returns true if x is zero, false otherwise
+isZero() returns true if x is zero, false otherwise
 
-zeroQmark(3);
+isZero(3);
 false
 
 */
-export function zeroQmark(x) {
+export function isZero(x) {
   return x === 0;
 }
 
 /*
-negQmark() returns true if x is less than zero, false otherwise
+isNeg() returns true if x is less than zero, false otherwise
 
-negQmark(-5);
+isNeg(-5);
 true
 
 */
-export function negQmark(x) {
+export function isNeg(x) {
   return x < 0;
 }
 
 /*
-posQmark() returns true if x is greater than zero, false otherwise
+isPos() returns true if x is greater than zero, false otherwise
 
-posQmark(5);
+isPos(5);
 true
 
 */
-function posQmark(x) {
+export function isPos(x) {
   return x > 0;
 }
 
@@ -1996,25 +1996,25 @@ export function update(coll, key, f, ...args) {
 
 /*
 Mutator
-updateBang() updates a collection with a value updated by f 
+mutUpdate() updates a collection with a value updated by f 
 
 var pet = {name: "George", age: 11};
-updateBang(pet, "age", inc);
+mutUpdate(pet, "age", inc);
 pet
 { name: 'George', age: 12 }
 
 */
-export function updateBang(coll, key, f, ...args) {
+export function mutUpdate(coll, key, f, ...args) {
   const val = get(coll, key);
 
-  return assocBang(coll, key, f(val, ...args));
+  return mutAssoc(coll, key, f(val, ...args));
 }
 
 /*
 groupBy() returns an object of the elements of coll keyed by the
 result of f on each element
 
-groupBy(oddQmark, range(10));
+groupBy(isOdd, range(10));
 { false: [ 0, 2, 4, 6, 8 ], true: [ 1, 3, 5, 7, 9 ] }
 
 */
@@ -2023,7 +2023,7 @@ export function groupBy(f, coll) {
 
   for (const x of iterable(coll)) {
     const key = f(x);
-    updateBang(res, key, fnil(conjBang, []), x);
+    mutUpdate(res, key, fnil(mutConj, []), x);
   }
 
   return res;
@@ -2042,7 +2042,7 @@ export function frequencies(coll) {
   const uf = fnil(inc, 0);
 
   for (const o of iterable(coll)) {
-    updateBang(res, o, uf);
+    mutUpdate(res, o, uf);
   }
 
   return res;
@@ -2089,7 +2089,7 @@ export function splitAt(n, coll) {
 /*
 splitWith() returns an array of [takeWhile(pred, coll), dropWhile(pred, coll)]
 
-splitWith(oddQmark, [1, 3, 5, 6, 7, 9]);
+splitWith(isOdd, [1, 3, 5, 6, 7, 9]);
 [ [ 1, 3, 5 ], [ 6, 7, 9 ] ]
 
 */
@@ -2197,17 +2197,17 @@ export function fnil(f, ...xs) {
 }
 
 /*
-everyQmark() returns true if pred(x) is true for every x in coll,
+isEvery() returns true if pred(x) is true for every x in coll,
 otherwise false
 
-everyQmark(evenQmark, [2, 4, 6]);
+isEvery(isEven, [2, 4, 6]);
 true
 
-everyQmark(evenQmark, [1, 2, 3]);
+isEvery(isEven, [1, 2, 3]);
 false
 
 */
-export function everyQmark(pred, coll) {
+export function isEvery(pred, coll) {
   for (let x of iterable(coll)) {
     if (!pred(x)) {
       return false;
@@ -2218,29 +2218,29 @@ export function everyQmark(pred, coll) {
 }
 
 /*
-notEveryQmark() returns false if pred(x) is true for every x in coll,
+isNotEvery() returns false if pred(x) is true for every x in coll,
 otherwise true
 
-notEveryQmark(evenQmark, [2, 4, 6]);
+isNotEvery(isEven, [2, 4, 6]);
 false
 
-notEveryQmark(evenQmark, [1, 2, 3]);
+isNotEvery(isEven, [1, 2, 3]);
 true
 
 */
-export function notEveryQmark(pred, coll) {
-  return !everyQmark(pred, coll);
+export function isNotEvery(pred, coll) {
+  return !isEvery(pred, coll);
 }
 
 /*
-notAnyQmark() returns false if pred(x) is true for any x in coll,
+isNotAny() returns false if pred(x) is true for any x in coll,
 otherwise true
 
-notAnyQmark(oddQmark, [2, 4, 6]);
+isNotAny(isOdd, [2, 4, 6]);
 true
 
 */
-export function notAnyQmark(pred, coll) {
+export function isNotAny(pred, coll) {
   return !some(pred, coll);
 }
 
@@ -2283,7 +2283,7 @@ export function repeatedly(n, f) {
 /*
 keep() returns a lazy sequence of the non-nil results of f(item)
 
-[...keep(evenQmark, range(1, 10))];
+[...keep(isEven, range(1, 10))];
 [ false, true,  false, true,  false, true, false, true,  false ]
 
 */
@@ -2323,13 +2323,13 @@ export function replace(smap, coll) {
 }
 
 /*
-emptyQmark() returns true if coll has no items
+isEmpty() returns true if coll has no items
 
-emptyQmark(list());
+isEmpty(list());
 true
 
 */
-export function emptyQmark(coll) {
+export function isEmpty(coll) {
   return seq(coll) ? false : true;
 }
 
@@ -2338,10 +2338,10 @@ ifNot() evaluates test. If false evaluates and returns then or
 otherwise (if supplied)
 
 
-ifNot(emptyQmark([1, 2]), first([1, 2]));
+ifNot(isEmpty([1, 2]), first([1, 2]));
 1
 
-ifNot(emptyQmark([]), first([1, 2]));
+ifNot(isEmpty([]), first([1, 2]));
 
 */
 export function ifNot(test, then, otherwise = null) {
@@ -2385,15 +2385,18 @@ export function cond(...xs) {
 /*
 iff() evaluates the test and returns then if true, otherwise if false
 
-iff(1 > 2, () => "hello", () => "world");
+iff(1 > 2, "hello", "world");
 "world"
 
-iff(3 > 2, () => str("hello", " world"), () => "world");
+iff(3 > 2, str("hello", " world"), "world");
 "hello world"
+
+iff(1 * 2 === 2, (() => 3 * 2)(), 7);
+6
 
 */
 export function iff(test, then, otherwise) {
-  return test ? then() : otherwise();
+  return test ? then : otherwise;
 }
 
 /*

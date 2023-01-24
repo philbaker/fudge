@@ -268,7 +268,7 @@ describe("map", function () {
 describe("filter", function () {
   it("filters an array", function () {
     expect([
-      ...c.filter(c.evenQmark, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
+      ...c.filter(c.isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
     ]).toEqual([0, 2, 4, 6, 8, 10]);
   });
 
@@ -276,7 +276,7 @@ describe("filter", function () {
     expect([
       ...c.filter(
         function (key, val) {
-          return c.evenQmark(+key[0]);
+          return c.isEven(+key[0]);
         },
         { 1: "a", 2: "b", 3: "c", 4: "d" }
       ),
@@ -289,7 +289,7 @@ describe("filter", function () {
 
 describe("filterv", function () {
   it("filters an array", function () {
-    expect(c.filterv(c.evenQmark, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])).toEqual([
+    expect(c.filterv(c.isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])).toEqual([
       0, 2, 4, 6, 8, 10,
     ]);
   });
@@ -298,7 +298,7 @@ describe("filterv", function () {
     expect(
       c.filterv(
         function (key, val) {
-          return c.evenQmark(+key[0]);
+          return c.isEven(+key[0]);
         },
         { 1: "a", 2: "b", 3: "c", 4: "d" }
       )
@@ -312,7 +312,7 @@ describe("filterv", function () {
 describe("remove", function () {
   it("filters an array", function () {
     expect([
-      ...c.remove(c.evenQmark, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
+      ...c.remove(c.isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
     ]).toEqual([1, 3, 5, 7, 9]);
   });
 
@@ -320,7 +320,7 @@ describe("remove", function () {
     expect([
       ...c.remove(
         function (key, val) {
-          return c.evenQmark(+key[0]);
+          return c.isEven(+key[0]);
         },
         { 1: "a", 2: "b", 3: "c", 4: "d" }
       ),
@@ -359,7 +359,7 @@ describe("mapIndexed", function () {
 
 describe("comp", function () {
   it("can be passed a single function", function () {
-    expect(c.comp(c.zeroQmark)(5)).toBe(false);
+    expect(c.comp(c.isZero)(5)).toBe(false);
   });
 
   it("composes multiple functions", function () {
@@ -540,11 +540,11 @@ describe("reduce", function () {
   });
 });
 
-describe("assocBang", function () {
+describe("mutAssoc", function () {
   it("adds a value to a map via mutation", function () {
     var mapData = new Map();
     mapData.set(0, "zero");
-    c.assocBang(mapData, 1, "one");
+    c.mutAssoc(mapData, 1, "one");
 
     expect(mapData.get(1)).toEqual("one");
     expect(mapData.size).toEqual(2);
@@ -552,12 +552,12 @@ describe("assocBang", function () {
 
   it("adds a value to an array via mutation", function () {
     var arrData = [1, 2, 5, 6, 8, 9];
-    expect(c.assocBang(arrData, 0, 77)).toEqual([77, 2, 5, 6, 8, 9]);
+    expect(c.mutAssoc(arrData, 0, 77)).toEqual([77, 2, 5, 6, 8, 9]);
   });
 
   it("adds a value to an object via mutation", function () {
     var objData = { name: "George", occupation: "Sofa tester" };
-    c.assocBang(objData, "foodPreference", "fish");
+    c.mutAssoc(objData, "foodPreference", "fish");
     expect(objData).toEqual({
       name: "George",
       occupation: "Sofa tester",
@@ -567,7 +567,7 @@ describe("assocBang", function () {
 
   it("throws an error if given incorrect type", function () {
     expect(function () {
-      c.assocBang("", 0, "hi");
+      c.mutAssoc("", 0, "hi");
     }).toThrowError(
       "Illegal argument: assoc! expects a Map, Array or Object as the first argument."
     );
@@ -589,7 +589,7 @@ describe("assoc", function () {
   });
 
   it("returns a new array with modified values", function () {
-    expect(c.assocBang([1, 2, 5, 6, 8, 9], 0, 77)).toEqual([77, 2, 5, 6, 8, 9]);
+    expect(c.mutAssoc([1, 2, 5, 6, 8, 9], 0, 77)).toEqual([77, 2, 5, 6, 8, 9]);
   });
 
   it("returns a new object with modified values", function () {
@@ -618,19 +618,19 @@ describe("assoc", function () {
   });
 });
 
-describe("assocInBang", function () {
+describe("mutAssocIn", function () {
   it("associates a value in a nested map by mutating value", function () {
     var petsMap = new Map();
     petsMap.set(0, { name: "George", age: 12 });
     petsMap.set(1, { name: "Lola", age: 11 });
-    c.assocInBang(petsMap, [0, "age"], 13);
+    c.mutAssocIn(petsMap, [0, "age"], 13);
     expect(petsMap.get(0).age).toEqual(13);
   });
 
   it("associates a value in a nested array by mutating value", function () {
     var nums = [1, 2, 3, [4, 5, 6]];
 
-    expect(c.assocInBang(nums, [3, 0], 100)).toEqual([1, 2, 3, [100, 5, 6]]);
+    expect(c.mutAssocIn(nums, [3, 0], 100)).toEqual([1, 2, 3, [100, 5, 6]]);
   });
 
   it("associates a value in a nested object by mutating value", function () {
@@ -639,7 +639,7 @@ describe("assocInBang", function () {
       { name: "Lola", age: 11 },
     ];
 
-    c.assocInBang(pets, [0, "age"], 13);
+    c.mutAssocIn(pets, [0, "age"], 13);
 
     expect(pets).toEqual([
       { name: "George", age: 13 },
@@ -649,7 +649,7 @@ describe("assocInBang", function () {
 
   it("throws an error if given incorrect type", function () {
     expect(function () {
-      c.assocInBang(5, [0, "age"], 13);
+      c.mutAssocIn(5, [0, "age"], 13);
     }).toThrowError(
       "Illegal argument: assocIn! expects a Map, Array or Object as the first argument."
     );
@@ -697,35 +697,35 @@ describe("assocIn", function () {
   });
 });
 
-describe("conjBang", function () {
+describe("mutConj", function () {
   it("returns an empty array if no arguments passed", function () {
-    expect(c.conjBang()).toEqual([]);
+    expect(c.mutConj()).toEqual([]);
   });
 
   it("adds to the end of an array by mutation", function () {
     var conjArr = [1, 2, 3];
-    c.conjBang(conjArr, 4);
+    c.mutConj(conjArr, 4);
 
     expect(conjArr).toEqual([1, 2, 3, 4]);
   });
 
   it("adds multiple items in argument order to the end of an array by mutation", function () {
     var conjArr = [1, 2];
-    c.conjBang(conjArr, 3, 4);
+    c.mutConj(conjArr, 3, 4);
 
     expect(conjArr).toEqual([1, 2, 3, 4]);
   });
 
   it("adds to the start of a List by mutation", function () {
     var conjList = new c.List(1, 2, 3);
-    c.conjBang(conjList, 4);
+    c.mutConj(conjList, 4);
 
     expect(conjList).toEqual([4, 1, 2, 3]);
   });
 
   it("adds to the end of an object by mutation", function () {
     var conjObj = { name: "George", coat: "Tabby" };
-    c.conjBang(conjObj, { age: 12, nationality: "British" });
+    c.mutConj(conjObj, { age: 12, nationality: "British" });
 
     expect(conjObj).toEqual({
       name: "George",
@@ -738,7 +738,7 @@ describe("conjBang", function () {
   it("adds to a set by mutation", function () {
     var conjSet = new Set([1, 2, 3]);
 
-    c.conjBang(conjSet, 4);
+    c.mutConj(conjSet, 4);
 
     expect(conjSet.has(4)).toBe(true);
   });
@@ -748,14 +748,14 @@ describe("conjBang", function () {
     conjMap.set("name", "George");
     conjMap.set("coat", "Tabby");
 
-    c.conjBang(conjMap, { age: 12, nationality: "British" });
+    c.mutConj(conjMap, { age: 12, nationality: "British" });
 
     expect(conjMap.get("age")).toBe(12);
   });
 
   it("throws an error if given incorrect type", function () {
     expect(function () {
-      c.conjBang(5, ["hello"]);
+      c.mutConj(5, ["hello"]);
     }).toThrowError(
       "Illegal argument: conj! expects a Set, Array, List, Map, or Object as the first argument."
     );
@@ -844,24 +844,24 @@ describe("into", function () {
   });
 });
 
-describe("disjBang", function () {
+describe("mutDisj", function () {
   it("removes an item from a set by mutation", function () {
     var disjSet = new Set(["a", "b", "c"]);
-    c.disjBang(disjSet, "b");
+    c.mutDisj(disjSet, "b");
 
     expect(disjSet.has("b")).toBeFalse();
   });
 
   it("removes multiple items from set", function () {
     var disjSet = new Set(["a", "b", "c"]);
-    c.disjBang(disjSet, "a", "b");
+    c.mutDisj(disjSet, "a", "b");
 
     expect(disjSet.has("a")).toBeFalse();
     expect(disjSet.has("b")).toBeFalse();
   });
 });
 
-describe("disjBang", function () {
+describe("mutDisj", function () {
   it("does not mutate the original set", function () {
     var disjSet = new Set(["a", "b", "c"]);
     var newDisjSet = c.disj(disjSet, "b");
@@ -881,20 +881,20 @@ describe("disjBang", function () {
   });
 });
 
-describe("containsQmark", function () {
+describe("itContains", function () {
   it("checks for array index as key", function () {
-    expect(c.containsQmark([1, 2, 3], 0)).toBe(true);
-    expect(c.containsQmark([1, 2, 3], 3)).toBe(false);
+    expect(c.itContains([1, 2, 3], 0)).toBe(true);
+    expect(c.itContains([1, 2, 3], 3)).toBe(false);
   });
 
   it("checks objects by key", function () {
     expect(
-      c.containsQmark({ name: "George", salary: "Biscuits" }, "name")
+      c.itContains({ name: "George", salary: "Biscuits" }, "name")
     ).toBe(true);
   });
 
   it("checks for items in a set", function () {
-    expect(c.containsQmark(new Set(["a", "b", "c"]), "b")).toBe(true);
+    expect(c.itContains(new Set(["a", "b", "c"]), "b")).toBe(true);
   });
 
   it("checks for items in a map", function () {
@@ -902,21 +902,21 @@ describe("containsQmark", function () {
     containsMap.set("name", "George");
     containsMap.set("salary", "Biscuits");
 
-    expect(c.containsQmark(containsMap, "salary")).toBe(true);
+    expect(c.itContains(containsMap, "salary")).toBe(true);
   });
 });
 
-describe("dissocBang", function () {
+describe("mutDissoc", function () {
   it("removes items from an object by mutation", function () {
     var dissocObj = { name: "George", salary: "Biscuits" };
 
-    expect(c.dissocBang(dissocObj, "name")).toEqual({ salary: "Biscuits" });
+    expect(c.mutDissoc(dissocObj, "name")).toEqual({ salary: "Biscuits" });
   });
 
   it("removes multiple items from an object", function () {
     var dissocObj = { name: "George", salary: "Biscuits" };
 
-    expect(c.dissocBang(dissocObj, "name", "salary")).toEqual({});
+    expect(c.mutDissoc(dissocObj, "name", "salary")).toEqual({});
   });
 });
 
@@ -1055,11 +1055,11 @@ describe("not", function () {
   });
 });
 
-describe("nilQmark", function () {
+describe("isNil", function () {
   it("returns true if x is null, false otherwise", function () {
-    expect(c.nilQmark(null)).toBe(true);
-    expect(c.nilQmark(false)).toBe(false);
-    expect(c.nilQmark(true)).toBe(false);
+    expect(c.isNil(null)).toBe(true);
+    expect(c.isNil(false)).toBe(false);
+    expect(c.isNil(true)).toBe(false);
   });
 });
 
@@ -1091,15 +1091,15 @@ describe("Atoms", function () {
 
     expect(myAtom.value).toBe(0);
 
-    expect(c.swapBang(myAtom, c.inc)).toBe(1);
+    expect(c.mutSwap(myAtom, c.inc)).toBe(1);
 
     expect(
-      c.swapBang(myAtom, function (n) {
+      c.mutSwap(myAtom, function (n) {
         return (n + n) * 2;
       })
     ).toBe(4);
 
-    c.resetBang(myAtom, 0);
+    c.mutReset(myAtom, 0);
 
     expect(myAtom.value).toBe(0);
   });
@@ -1194,33 +1194,33 @@ describe("apply", function () {
   });
 });
 
-describe("evenQmark", function () {
+describe("isEven", function () {
   it("returns true if x is even", function () {
-    expect(c.evenQmark(2)).toBe(true);
+    expect(c.isEven(2)).toBe(true);
   });
 
   it("throws an error if x is not a number", function () {
     expect(function () {
-      c.evenQmark(null);
+      c.isEven(null);
     }).toThrowError("Illegal argument: null is not a number");
   });
 });
 
-describe("oddQmark", function () {
+describe("isOdd", function () {
   it("returns true if x is odd", function () {
-    expect(c.oddQmark(3)).toBe(true);
+    expect(c.isOdd(3)).toBe(true);
   });
 
   it("throws an error if x is not a number", function () {
     expect(function () {
-      c.oddQmark(null);
+      c.isOdd(null);
     }).toThrowError("Illegal argument: null is not a number");
   });
 });
 
 describe("complement", function () {
   it("returns the opposite truth value", function () {
-    var testIsOdd = c.complement(c.evenQmark);
+    var testIsOdd = c.complement(c.isEven);
     expect(testIsOdd(3)).toBe(true);
   });
 });
@@ -1257,19 +1257,19 @@ describe("take", function () {
 
 describe("takeWhile", function () {
   it("returns a sequence of successive items from coll while pred(item) returns true", function () {
-    expect([...c.takeWhile(c.negQmark, [-2, -1, 0, 1, 2, 3])]).toEqual([
+    expect([...c.takeWhile(c.isNeg, [-2, -1, 0, 1, 2, 3])]).toEqual([
       -2, -1,
     ]);
 
-    expect([...c.takeWhile(c.negQmark, [-2, -1, 0, -1, -2, -3])]).toEqual([
+    expect([...c.takeWhile(c.isNeg, [-2, -1, 0, -1, -2, -3])]).toEqual([
       -2, -1,
     ]);
 
-    expect([...c.takeWhile(c.negQmark, [0, 1, 2, 3])]).toEqual([]);
+    expect([...c.takeWhile(c.isNeg, [0, 1, 2, 3])]).toEqual([]);
 
-    expect([...c.takeWhile(c.negQmark, [])]).toEqual([]);
+    expect([...c.takeWhile(c.isNeg, [])]).toEqual([]);
 
-    expect([...c.takeWhile(c.negQmark, null)]).toEqual([]);
+    expect([...c.takeWhile(c.isNeg, null)]).toEqual([]);
   });
 });
 
@@ -1327,13 +1327,13 @@ describe("sort", function () {
 
 describe("some", function () {
   it("returns the first true value of pred(x) for coll else null", function () {
-    expect(c.some(c.evenQmark, [1, 2, 3, 4])).toBe(true);
+    expect(c.some(c.isEven, [1, 2, 3, 4])).toBe(true);
 
-    expect(c.some(c.evenQmark, [1, 3, 5, 7])).toBe(null);
+    expect(c.some(c.isEven, [1, 3, 5, 7])).toBe(null);
 
-    expect(c.some(c.trueQmark, [false, false, false])).toBe(null);
+    expect(c.some(c.isTrue, [false, false, false])).toBe(null);
 
-    expect(c.some(c.trueQmark, [true, true, true])).toBe(true);
+    expect(c.some(c.isTrue, [true, true, true])).toBe(true);
 
     expect(c.some((x) => x === 5, [1, 2, 3, 4, 5])).toBe(true);
 
@@ -1345,11 +1345,11 @@ describe("some", function () {
   });
 });
 
-describe("someQmark", function () {
+describe("isSome", function () {
   it("returns true if x is not null or undefined, false otherwise", function () {
-    expect(c.someQmark(1 < 5)).toBe(true);
-    expect(c.someQmark(null)).toBe(false);
-    expect(c.someQmark(undefined)).toBe(false);
+    expect(c.isSome(1 < 5)).toBe(true);
+    expect(c.isSome(null)).toBe(false);
+    expect(c.isSome(undefined)).toBe(false);
   });
 });
 
@@ -1380,7 +1380,7 @@ describe("dropWhile", function () {
     ]);
 
     expect([
-      ...c.dropWhile(c.negQmark, [-1, -2, -6, -7, 1, 2, 3, 4, -5, -6, 0, 1]),
+      ...c.dropWhile(c.isNeg, [-1, -2, -6, -7, 1, 2, 3, 4, -5, -6, 0, 1]),
     ]).toEqual([1, 2, 3, 4, -5, -6, 0, 1]);
   });
 });
@@ -1403,10 +1403,10 @@ describe("update", function () {
   });
 });
 
-describe("updateBang", function () {
+describe("mutUpdate", function () {
   it("mutates existing structure with a value updated by f", function () {
     var pet = { name: "George", age: 11 };
-    c.updateBang(pet, "age", c.inc);
+    c.mutUpdate(pet, "age", c.inc);
 
     expect(pet).toEqual({ name: "George", age: 12 });
   });
@@ -1418,7 +1418,7 @@ describe("groupBy", function () {
       c.groupBy(c.count, ["a", "as", "asd", "aa", "asdf", "qwer"])
     ).toEqual({ 1: ["a"], 2: ["as", "aa"], 3: ["asd"], 4: ["asdf", "qwer"] });
 
-    expect(c.groupBy(c.oddQmark, c.range(10))).toEqual({
+    expect(c.groupBy(c.isOdd, c.range(10))).toEqual({
       false: [0, 2, 4, 6, 8],
       true: [1, 3, 5, 7, 9],
     });
@@ -1466,7 +1466,7 @@ describe("splitAt", function () {
 
 describe("splitWith", function () {
   it("returns an array of [takeWhile(pred, coll), dropWhile(pred, coll)]", function () {
-    expect(c.splitWith(c.oddQmark, [1, 3, 5, 6, 7, 9])).toEqual([
+    expect(c.splitWith(c.isOdd, [1, 3, 5, 6, 7, 9])).toEqual([
       [1, 3, 5],
       [6, 7, 9],
     ]);
@@ -1585,17 +1585,17 @@ describe("fnil", function () {
   });
 });
 
-describe("everyQmark", function () {
+describe("isEvery", function () {
   it("returns true if pred(x) is true for every x in coll", function () {
-    expect(c.everyQmark(c.evenQmark, [2, 4, 6])).toBe(true);
+    expect(c.isEvery(c.isEven, [2, 4, 6])).toBe(true);
 
-    expect(c.everyQmark(c.evenQmark, [1, 2, 3])).toBe(false);
+    expect(c.isEvery(c.isEven, [1, 2, 3])).toBe(false);
   });
 });
 
 describe("keep", function () {
   it("returns a sequence of the non-nil results of f(item)", function () {
-    expect([...c.keep(c.evenQmark, c.range(1, 10))]).toEqual([
+    expect([...c.keep(c.isEven, c.range(1, 10))]).toEqual([
       false,
       true,
       false,
@@ -1609,7 +1609,7 @@ describe("keep", function () {
 
     expect([
       ...c.keep(function (x) {
-        if (c.oddQmark(x)) {
+        if (c.isOdd(x)) {
           return x;
         }
       }, c.range(10)),
@@ -1643,29 +1643,29 @@ describe("replace", function () {
   });
 });
 
-describe("emptyQmark", function () {
+describe("isEmpty", function () {
   it("returns true if coll has no items", function () {
-    expect(c.emptyQmark(c.list())).toBe(true);
+    expect(c.isEmpty(c.list())).toBe(true);
 
-    expect(c.emptyQmark(c.list(1))).toBe(false);
+    expect(c.isEmpty(c.list(1))).toBe(false);
 
     expect(
-      c.everyQmark(c.emptyQmark, ["", [], c.list(), {}, c.set(), null])
+      c.isEvery(c.isEmpty, ["", [], c.list(), {}, c.set(), null])
     ).toBe(true);
   });
 });
 
 describe("ifNot", function () {
   it("evaluates test and returns then", function () {
-    expect(c.ifNot(c.emptyQmark([1, 2]), c.first([1, 2]))).toBe(1);
+    expect(c.ifNot(c.isEmpty([1, 2]), c.first([1, 2]))).toBe(1);
   });
 
   it("returns null if test is false", function () {
-    c.ifNot(c.emptyQmark([]), c.first([1, 2]));
+    c.ifNot(c.isEmpty([]), c.first([1, 2]));
   });
 
   it("returns otherwise if test is false and otherwise arg provided", function () {
-    expect(c.ifNot(c.zeroQmark(0), "then", "else")).toBe("else");
+    expect(c.ifNot(c.isZero(0), "then", "else")).toBe("else");
   });
 });
 
@@ -1710,18 +1710,21 @@ describe("iff", function () {
     expect(
       c.iff(
         1 > 2,
-        () => "hello",
-        () => "world"
+        "hello",
+        "world"
       )
     ).toBe("world");
 
     expect(
       c.iff(
         3 > 2,
-        () => c.str("hello", " world"),
-        () => "world"
+        c.str("hello", " world"),
+        "world"
       )
     ).toBe("hello world");
+
+
+    expect(c.iff(1 * 2 === 2, (() => 3 * 2)(), 7)).toBe(6);
   });
 });
 
