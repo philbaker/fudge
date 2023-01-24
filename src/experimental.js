@@ -3,7 +3,7 @@ Experimental functions are here because they need more testing / consideration
 before finalising and moving to their respective modules
 
 */
-import { iterable, first, last } from "./core.js";
+import { iterable, first, last, println } from "./core.js";
 
 /*
 core
@@ -174,4 +174,51 @@ export function lett(bindings, f) {
 
     return f(scope);
   })();
+}
+
+/*
+and() evaluates expressions from left to right and returns the first
+argument that is falsy or the last arg if all args are truthy
+
+and(true, true);
+true
+
+and(true, false);
+false
+
+and(list(), list());
+List(0) []
+
+and([], []);
+[]
+
+and({}, []);
+[]
+
+and(false, null);
+false
+
+and(null, false);
+null
+
+and(0, 1);
+1
+
+and(1, 0);
+0
+
+and(null, null);
+null
+
+null === false
+
+*/
+export function and(...args) {
+  for (let i = 0; i < args.length; i++) {
+    if (args[i] === null || args[i] === undefined || args[i] === false) {
+      return args[i];
+    }
+  }
+
+  return args[args.length - 1];
 }

@@ -1739,4 +1739,27 @@ describe("lett", function () {
       )
     ).toBe(67);
   });
+
+  describe("and", function () {
+    it("returns the first argument that is falsy or the last arg if all args are truthy", function () {
+      expect(e.and(true, true)).toEqual(true);
+
+      expect(e.and(true, false)).toEqual(false);
+
+      expect(e.and([], [])).toEqual([]);
+
+      expect(e.and({}, [])).toEqual([]);
+
+      expect(e.and(false, null)).toEqual(false);
+
+      expect(e.and(null, false)).toEqual(null);
+
+      // strict equality to ensure 0 is not falsy
+      expect(e.and(0, 1)).toEqual(1);
+
+      expect(e.and(1, 0)).toEqual(0);
+
+      expect(e.and(null, null)).toEqual(null);
+    });
+  });
 });
