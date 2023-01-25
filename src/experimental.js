@@ -264,3 +264,135 @@ export function or(...args) {
 
   return args[args.length - 1];
 }
+
+/*
+isNumber() returns true if x is a number
+
+isNumber(1);
+true
+
+isNumber("1");
+false
+
+isNumber(undefined);
+false
+
+isNumber(+"1");
+true
+
+*/
+function isNumber(x) {
+  return typeof x === "number";
+}
+
+/*
+isString() returns true if x is a string
+
+isString(5);
+false
+
+isString(true);
+false
+
+*/
+function isString(x) {
+  return typeof x === "string";
+}
+
+/*
+isMap() returns true if x is a Map
+note that this is a JavaScript Map rather than an Object
+
+isMap([]);
+false
+
+isMap(new Map());
+true
+
+isMap({});
+false
+
+*/
+function isMap(x) {
+  return typeConst(x) === MAP_TYPE;
+}
+
+/*
+isObject() returns true if x is an Object
+
+isObject([]);
+false
+
+isObject(list());
+false
+
+isObject("abcdef");
+false
+
+isObject({a: 2});
+true
+
+*/
+function isObject(x) {
+  return typeConst(x) === OBJECT_TYPE;
+}
+
+/*
+isVector() returns true if x is an Array
+
+isVector("abc");
+false
+
+isVector({});
+false
+
+isVector([]);
+true
+
+*/
+function isVector(x) {
+  return typeConst(x) === ARRAY_TYPE;
+}
+
+/*
+isList() returns true if x is a list
+
+isList("abc");
+false
+
+isList({});
+false
+
+isList([]);
+false
+
+isList(list());
+true
+
+*/
+function isList(x) {
+  return typeConst(x) === LIST_TYPE;
+}
+
+/*
+isSet() returns true if x is a Set
+
+isSet("abc");
+false
+
+isSet({});
+false
+
+isSet([]);
+false
+
+isSet(list());
+false
+
+isSet(set());
+true
+
+*/
+function isSet(x) {
+  return typeConst(x) === SET_TYPE;
+}

@@ -1784,4 +1784,32 @@ describe("lett", function () {
       expect(e.or(false, 42, 9999)).toBe(42);
     });
   });
+
+  describe("isInstance", function () {
+    it("checks if x is an instance of c", function () {
+      expect(c.isInstance(String, "hello")).toBe(true);
+
+      expect(c.isInstance(Number, 5)).toBe(true);
+
+      expect(c.isInstance(Number, "5")).toBe(false);
+
+      expect(c.isInstance(Number, +"5")).toBe(true);
+
+      expect(c.isInstance(Map, new Map())).toBe(true);
+
+      expect(c.isInstance(Array, [])).toBe(true);
+
+      expect(c.isInstance(Object, {})).toBe(true);
+
+      expect(c.isInstance(c.List, c.list())).toBe(true);
+
+      expect(c.isInstance(Set, new Set())).toBe(true);
+
+      expect(c.isInstance(Set, function () {})).toBe(false);
+
+      expect(c.isInstance(Function, function () {})).toBe(true);
+
+      expect(c.isInstance(Boolean, true)).toBe(true);
+    });
+  });
 });

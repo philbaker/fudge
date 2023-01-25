@@ -8,6 +8,10 @@ const OBJECT_TYPE = 3;
 const LIST_TYPE = 4;
 const SET_TYPE = 5;
 const LAZY_ITERABLE_TYPE = 6;
+const BOOLEAN_TYPE = 7;
+const NUMBER_TYPE = 8;
+const STRING_TYPE = 9;
+const FUNCTION_TYPE = 10;
 
 /*
 Internal function
@@ -68,6 +72,26 @@ function typeConst(obj) {
 
   if (obj instanceof Object) {
     return OBJECT_TYPE;
+  }
+
+  return undefined;
+}
+
+function typePrimitive(obj) {
+  if (typeof obj === "boolean") {
+    return BOOLEAN_TYPE;
+  }
+
+  if (typeof obj === "number") {
+    return NUMBER_TYPE;
+  }
+
+  if (typeof obj === "string") {
+    return STRING_TYPE;
+  }
+
+  if (typeof obj === "function") {
+    return FUNCTION_TYPE;
   }
 
   return undefined;
@@ -2352,3 +2376,49 @@ export function ifNot(test, then, otherwise = null) {
   return otherwise;
 }
 
+/*
+isInstance() checks if x is an instance of c
+
+isInstance(String, "hello");
+true
+
+isInstance(Number, 5);
+true
+
+isInstance(Number, "5");
+false
+
+*/
+export function isInstance(c, x) {
+  var a = typeConst(x);
+  var b = typePrimitive(x);
+
+  if (c === Boolean && b === BOOLEAN_TYPE) {
+    return typeof x === "boolean";
+  }
+
+  if (c === Number && b === NUMBER_TYPE) {
+    return typeof x === "number";
+  }
+
+  if (c === String && b === STRING_TYPE) {
+    return typeof x === "string";
+  }
+
+  if (c === Function && b === FUNCTION_TYPE) {
+    return typeof x === "function";
+  }
+
+  if (
+    a === MAP_TYPE ||
+    a === ARRAY_TYPE ||
+    a === OBJECT_TYPE ||
+    a === LIST_TYPE ||
+    a === SET_TYPE ||
+    a === LAZY_ITERABLE_TYPE
+  ) {
+    return x instanceof c;
+  }
+
+  return false;
+}
