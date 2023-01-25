@@ -1822,4 +1822,14 @@ describe("lett", function () {
       expect(c.keys(null)).toBe(null);
     });
   });
+
+  describe("vals", function () {
+    it("returns all values from an object", function () {
+      expect(c.vals({a: 1, b: 2, c: 3})).toEqual([ 1, 2, 3 ]);
+
+      expect(c.vals({})).toBe(null);
+
+      expect(c.vals(null)).toBe(null);
+    });
+  });
 });

@@ -2444,3 +2444,24 @@ export function keys(x) {
 
   return Object.keys(x);
 }
+
+/*
+vals() returns all values from an object
+
+vals({a: 1, b: 2, c: 3});
+[ 1, 2, 3 ]
+
+vals({});
+null
+
+vals(null);
+null
+
+*/
+export function vals(x) {
+  if (isEmpty(x)) {
+    return null;
+  }
+
+  return Object.values(x);
+}
