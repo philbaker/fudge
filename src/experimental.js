@@ -281,7 +281,7 @@ isNumber(+"1");
 true
 
 */
-function isNumber(x) {
+export function isNumber(x) {
   return typeof x === "number";
 }
 
@@ -295,7 +295,7 @@ isString(true);
 false
 
 */
-function isString(x) {
+export function isString(x) {
   return typeof x === "string";
 }
 
@@ -313,7 +313,7 @@ isMap({});
 false
 
 */
-function isMap(x) {
+export function isMap(x) {
   return typeConst(x) === MAP_TYPE;
 }
 
@@ -333,7 +333,7 @@ isObject({a: 2});
 true
 
 */
-function isObject(x) {
+export function isObject(x) {
   return typeConst(x) === OBJECT_TYPE;
 }
 
@@ -350,7 +350,7 @@ isVector([]);
 true
 
 */
-function isVector(x) {
+export function isVector(x) {
   return typeConst(x) === ARRAY_TYPE;
 }
 
@@ -370,7 +370,7 @@ isList(list());
 true
 
 */
-function isList(x) {
+export function isList(x) {
   return typeConst(x) === LIST_TYPE;
 }
 
@@ -393,6 +393,6 @@ isSet(set());
 true
 
 */
-function isSet(x) {
+export function isSet(x) {
   return typeConst(x) === SET_TYPE;
 }
