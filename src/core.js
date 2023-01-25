@@ -2422,3 +2422,25 @@ export function isInstance(c, x) {
 
   return false;
 }
+
+
+/*
+keys() returns all keys from an object
+
+keys({a: 1, b: 2, c: 3});
+[ "a", "b", "c" ]
+
+keys({});
+null
+
+keys(null);
+null
+
+*/
+export function keys(x) {
+  if (isEmpty(x)) {
+    return null;
+  }
+
+  return Object.keys(x);
+}

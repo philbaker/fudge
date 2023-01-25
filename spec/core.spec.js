@@ -1812,4 +1812,14 @@ describe("lett", function () {
       expect(c.isInstance(Boolean, true)).toBe(true);
     });
   });
+
+  describe("keys", function () {
+    it("returns all keys from an object", function () {
+      expect(c.keys({a: 1, b: 2, c: 3})).toEqual([ "a", "b", "c" ]);
+
+      expect(c.keys({})).toBe(null);
+
+      expect(c.keys(null)).toBe(null);
+    });
+  });
 });

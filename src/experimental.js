@@ -3,7 +3,7 @@ Experimental functions are here because they need more testing / consideration
 before finalising and moving to their respective modules
 
 */
-import { iterable, first, last, println } from "./core.js";
+import { isEmpty, first, last } from "./core.js";
 
 /*
 core
