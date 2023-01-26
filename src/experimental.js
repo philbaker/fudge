@@ -545,7 +545,7 @@ Internal function
 isEqual() is a helper for equals()
 
 */
-export function isEqual(x, y) {
+function isEqual(x, y) {
   if (not(y)) {
     return true;
   }
