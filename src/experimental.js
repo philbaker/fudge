@@ -3,7 +3,7 @@ Experimental functions are here because they need more testing / consideration
 before finalising and moving to their respective modules
 
 */
-import { isEmpty, first, last } from "./core.js";
+import { isEmpty, first, last, isInstance, not, list, List } from "./core.js";
 
 /*
 core
@@ -395,4 +395,254 @@ true
 */
 export function isSet(x) {
   return typeConst(x) === SET_TYPE;
+}
+
+/*
+equals() compares x, y and args
+
+equals(5);
+true
+
+equals(1, 2);
+false
+
+equals(1, 1, 1);
+true
+
+equals(1, 1, 2);
+false
+
+equals(1, 1, 1, 1);
+true
+
+equals(1, 1);
+true
+
+equals(null, null);
+true
+
+equals(null, null, null);
+true
+
+equals(false, false);
+true
+
+equals(true, true);
+true
+
+equals(undefined, undefined);
+true
+
+equals([1, 2], [1, 2]);
+true
+
+equals([1, 2], [1, 2], [1, 2]);
+true
+
+equals([1, 2, [3, 4, [{a: "b"}]]], [1, 2, [3, 4, [{a: "b"}]]]);
+true
+
+equals([1, 2, [3, 4, [{a: "b"}]]], [1, 2, [3, 4, [{a: "b"}]]], [1, 2, [3, 4, [{a: "b"}]]]);
+true
+
+equals([1, 2, [3, 4, [{a: "d"}]]], [1, 2, [3, 4, [{a: "b"}]]]);
+false
+
+equals([1, 2, [3, 4, [{a: "b"}]]], [1, 2, [3, 4, [{a: "d"}]]], [1, 2, [3, 4, [{a: "b"}]]]);
+false
+
+equals([1, 2], [1, 2, 3]);
+false
+
+equals({a: 1, b: 2}, {a: 1, b: 2});
+true
+
+equals({a: 1, b: 2}, {a: 1, b: 2}, {a: 1, b: 2});
+true
+
+equals({a: 1, b: 2}, {a: 1, b: 2, c: 3});
+false
+
+equals({a: 1, b: 2}, {a: 1, b: 2, c: 3}, {a: 1});
+false
+
+equals({a:1, b:2 }, {a: 2, b: 1});
+false
+
+equals(list(1, 2, 3), [1, 2, 3]);
+true
+
+equals(list(1, 2, 3), [1, 2, 3], list(1, 2, 3));
+true
+
+equals(list(1, 2, 3), list(1, 2, 3));
+true
+
+equals(null, 1);
+false
+
+equals({a: [1, 2], b: "hello"}, {a: [1, 2], b: "hello"});
+true
+
+equals({a: [1, 2], b: "hello"}, {a: [1, 2], b: "hello"}, {a: [1, 2], b: "hello"});
+true
+
+equals(set([1, 2, 3]), set([1, 2, 3]));
+true
+
+equals(set([1, 2, 3]), set([1, 2, 3]), set([1, 2, 3]));
+true
+
+equals(set([1, 2]), set([1, 2, 3]));
+false
+
+equals(map(1, 2), set([1, 2, 3]));
+false
+
+var eqMap = new Map();
+eqMap.set("a", 1);
+eqMap.set("b", 2);
+eqMap.set("c", 3);
+
+var eqMap2 = new Map();
+eqMap2.set("a", 1);
+eqMap2.set("b", 2);
+eqMap2.set("c", 3);
+
+var eqMap3 = new Map();
+eqMap3.set("a", 1);
+eqMap3.set("b", 2);
+
+equals(eqMap, eqMap2);
+true
+
+equals(eqMap, eqMap, eqMap);
+true
+
+equals(eqMap, eqMap3);
+false
+
+*/
+export function equals(x, y, ...args) {
+  if (not(isEmpty(args))) {
+    let compare = [x, y, ...args];
+    let firstv = first(compare);
+
+    for (let i = 0; i < compare.length; i++) {
+      if (!isEqual(firstv, compare[i])) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  return isEqual(x, y);
+}
+
+/*
+Internal function
+isEqual() is a helper for equals()
+
+*/
+export function isEqual(x, y) {
+  if (not(y)) {
+    return true;
+  }
+
+  if (isInstance(Set, x) && isInstance(Set, y)) {
+    if (x.size !== y.size) {
+      return false;
+    }
+
+    for (let v of x.values()) {
+      if (!y.has(v)) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  if (isInstance(Map, x) && isInstance(Map, y)) {
+    if (x.size !== y.size) {
+      return false;
+    }
+
+    for (let [k, v] of x.entries()) {
+      if (!y.has(k) || !equals(v, y.get(k))) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  if (isInstance(List, x) || isInstance(List, y)) {
+    try {
+      return equals([...x], [...y]);
+    } catch (error) {
+      return false;
+    }
+  }
+
+  if (isInstance(Array, x) && isInstance(Array, y)) {
+    if (x.length !== y.length) {
+      return false;
+    }
+
+    for (let i = 0; i < x.length; i++) {
+      try {
+        if (!equals(x[i], y[i])) {
+          return false;
+        }
+      } catch (error) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  if (isInstance(Object, x) && isInstance(Object, y)) {
+    let xk = Object.keys(x);
+    let yk = Object.keys(y);
+
+    if (xk.length !== yk.length) {
+      return false;
+    }
+
+    for (let i = 0; i < xk.length; i++) {
+      let k = xk[i];
+
+      try {
+        if (!equals(x[k], y[k])) {
+          return false;
+        }
+      } catch (error) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  return x === y;
+}
+
+/*
+notEquals() is the same as not(equals(x, y))
+
+notEquals(1);
+false
+
+notEquals(1, 2);
+true
+
+notEquals([1, 2], [3, 4]);
+true
+
+*/
+export function notEquals(x, y, ...args) {
+  return not(equals(x, y, ...args));
 }
