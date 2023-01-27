@@ -977,6 +977,86 @@ describe("minus", function () {
   });
 });
 
+describe("divide", function () {
+  it("returns the division of numbers", function () {
+    expect(c.divide(6, 3)).toBe(2);
+
+    expect(c.divide(10)).toBe(0.1);
+
+    expect(c.divide(6, 3, 2)).toBe(1);
+
+    expect(c.divide(1, 3)).toBe(0.3333333333333333);
+
+    expect(function () {
+      c.divide();
+    }).toThrowError("Illegal arity: 0 args passed to divide");
+
+    expect(c.divide(1, 0)).toBe(Infinity);
+
+    expect(c.divide(43.0, 2)).toBe(21.5);
+  });
+});
+
+describe("quot", function () {
+  it("returns the quotient of dividing numerator by denominator", function () {
+    expect(c.quot(10, 3)).toBe(3);
+
+    expect(c.quot(11, 3)).toBe(3);
+
+    expect(c.quot(12, 3)).toBe(4);
+  });
+});
+
+describe("multiply", function () {
+  it("returns the product of numbers", function () {
+    expect(c.multiply()).toBe(1);
+
+    expect(c.multiply(6)).toBe(6);
+
+    expect(c.multiply(2, 3)).toBe(6);
+
+    expect(c.multiply(2, 3, 4)).toBe(24);
+
+    expect(c.multiply(0.5, 200)).toBe(100);
+
+    expect(c.multiply(8, 0.5)).toBe(4);
+  });
+});
+
+describe("gt", function () {
+  it("returns true if numbers are in decreasing order, otherwise false", function () {
+    expect(c.gt(1, 2)).toBe(false);
+
+    expect(c.gt(2, 1)).toBe(true);
+
+    expect(c.gt(2, 2)).toBe(false);
+
+    expect(c.gt(6, 5, 4, 3, 2)).toBe(true);
+
+    expect(c.gt(6, 5, 4, 3, 2, 4)).toBe(false);
+
+    expect(c.gt(6, 3, 1)).toBe(true);
+  });
+});
+
+describe("lt", function () {
+  it("returns true if numbers are in decreasing order, otherwise false", function () {
+    expect(c.lt(1, 2)).toBe(true);
+
+    expect(c.lt(2, 1)).toBe(false);
+
+    expect(c.lt(2, 2)).toBe(false);
+
+    expect(c.lt(1.5, 2)).toBe(true);
+
+    expect(c.lt(2, 3, 4, 5, 6)).toBe(true);
+
+    expect(c.lt(1, 0.5)).toBe(false);
+
+    expect(c.lt(2, 3, 4, 5, 6, 1)).toBe(false);
+  });
+});
+
 describe("identity", function () {
   it("returns its argument", function () {
     expect(c.identity([1])).toEqual([1]);
@@ -1948,6 +2028,12 @@ describe("lett", function () {
       expect(e.equals(eqMap, eqMap, eqMap)).toBe(true);
 
       expect(e.equals(eqMap, eqMap3)).toBe(false);
+    });
+  });
+
+  describe("name", function () {
+    it("returns the name of a symbol", function () {
+      expect(e.name(e.symbol("foo"))).toBe('foo');
     });
   });
 });

@@ -646,3 +646,39 @@ true
 export function notEquals(x, y, ...args) {
   return not(equals(x, y, ...args));
 }
+
+/*
+int() coerces x to an integer 
+
+int(1);
+1
+
+int(1.2);
+1
+
+*/
+export function int(x) {
+  return parseInt(x);
+}
+
+/*
+symbol() returns a Symbol with the given name
+
+symbol("foo");
+Symbol(foo)
+
+*/
+export function symbol(name) {
+  return Symbol(name);
+}
+
+/*
+name() returns the name of a Symbol
+
+name(symbol("foo"));
+'foo'
+
+*/
+export function name(symbol) {
+  return symbol.toString().slice(7, -1);
+}

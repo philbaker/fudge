@@ -983,6 +983,152 @@ export function minus(...xs) {
 }
 
 /*
+divide() returns the division of numbers
+
+divide(6, 3);
+2
+
+divide(10);
+0.1
+
+divide(6, 3, 2);
+1
+
+divide(1, 3);
+0.3333333333333333
+
+divide();
+// error
+
+divide(1, 0);
+Infinity
+
+divide(43.0, 2);
+21.5
+
+*/
+export function divide(...xs) {
+  if (xs.length === 0) {
+    throw new Error(`Illegal arity: 0 args passed to divide`);
+  }
+
+  if (xs.length === 1) {
+    return 1 / xs;
+  }
+
+  return xs.reduce((x, y) => x / y);
+}
+
+/*
+quot() returns the quotient of dividing numerator by denominator
+
+quot(10, 3);
+3
+
+quot(11, 3);
+3
+
+quot(12, 3);
+4
+
+*/
+export function quot(a, b) {
+  return Math.floor(a / b);
+}
+
+/*
+multiply() returns the product of numbers
+
+multiply();
+1
+
+multiply(6);
+6
+
+multiply(2, 3);
+6
+
+multiply(2, 3, 4);
+24
+
+multiply(0.5, 200);
+100
+
+multiply(8, 0.5);
+4
+
+*/
+export function multiply(...xs) {
+  return xs.reduce((x, y) => x * y, 1);
+}
+
+/*
+gt() returns true if numbers are in decreasing order, otherwise false
+
+gt(1, 2);
+false
+
+gt(2, 1);
+true
+
+gt(2, 2);
+false
+
+gt(6, 5, 4, 3, 2)
+true
+
+gt(6, 5, 4, 3, 2, 4)
+false
+
+gt(6, 3, 1)
+true
+
+*/
+export function gt(...xs) {
+  for (let i = 0; i < xs.length - 1; i++) {
+    if (xs[i] <= xs[i + 1]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+/*
+lt() returns true if numbers are in decreasing order, otherwise false
+
+lt(1, 2);
+true
+
+lt(2, 1);
+false
+
+lt(2, 2);
+false
+
+lt(1.5, 2);
+true
+
+lt(2, 3, 4, 5, 6);
+true
+
+lt(1, 0.5);
+false
+
+lt(2, 3, 4, 5, 6, 1);
+false
+
+*/
+export function lt(...xs) {
+  for (let i = 0; i < xs.length - 1; i++) {
+    if (xs[i] >= xs[i + 1]) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+/*
 identity() returns its argument
 
 identity([1]);
@@ -2422,7 +2568,6 @@ export function isInstance(c, x) {
 
   return false;
 }
-
 
 /*
 keys() returns all keys from an object
