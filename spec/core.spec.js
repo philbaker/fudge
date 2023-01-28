@@ -1,5 +1,4 @@
 import * as c from "../src/core.js";
-import * as e from "../src/experimental.js";
 
 describe("concat", function () {
   it("returns a lazy sequence of concatenated elements from coll", function () {
@@ -1751,7 +1750,7 @@ describe("ifNot", function () {
 describe("cond", function () {
   it("evaluates each test one at a time returning the first true test", function () {
     function posNegOrZero(n) {
-      return e.cond(
+      return c.cond(
         [() => n < 0, () => "negative"],
         [() => n > 0, () => "positive"],
         [() => "else", () => "zero"]
@@ -1765,7 +1764,7 @@ describe("cond", function () {
     expect(posNegOrZero(0)).toBe("zero");
 
     function checkMark(mark) {
-      return e.cond(
+      return c.cond(
         [() => mark > 90, () => "A"],
         [() => mark > 80, () => "B"],
         [() => mark > 70, () => "C"],
@@ -1778,7 +1777,7 @@ describe("cond", function () {
   });
 
   it("returns null if no true test", function () {
-    expect(e.cond([() => false, () => "null will be returned instead"])()).toBe(
+    expect(c.cond([() => false, () => "null will be returned instead"])()).toBe(
       null
     );
   });
@@ -1786,30 +1785,30 @@ describe("cond", function () {
 
 describe("iff", function () {
   it("evaluates the test and returns then if true, otherwise if false", function () {
-    expect(e.iff(1 > 2, "hello", "world")).toBe("world");
+    expect(c.iff(1 > 2, "hello", "world")).toBe("world");
 
-    expect(e.iff(3 > 2, c.str("hello", " world"), "world")).toBe("hello world");
+    expect(c.iff(3 > 2, c.str("hello", " world"), "world")).toBe("hello world");
 
-    expect(e.iff(1 * 2 === 2, (() => 3 * 2)(), 7)).toBe(6);
+    expect(c.iff(1 * 2 === 2, (() => 3 * 2)(), 7)).toBe(6);
   });
 });
 
 describe("threadFirst", function () {
   it("threads x through the fns with x as the second argument", function () {
-    expect(e.threadFirst("3", parseInt)).toBe(3);
+    expect(c.threadFirst("3", parseInt)).toBe(3);
   });
 });
 
 describe("threadLast", function () {
   it("threads x through the fns with x as the last argument", function () {
-    expect(e.threadLast("3", parseInt)).toBe(3);
+    expect(c.threadLast("3", parseInt)).toBe(3);
   });
 });
 
 describe("lett", function () {
   it("groups variables in a single scope", function () {
     expect(
-      e.lett(
+      c.lett(
         [
           ["x", 3],
           ["y", 4],
@@ -1822,46 +1821,46 @@ describe("lett", function () {
 
   describe("and", function () {
     it("returns the first argument that is falsy or the last arg if all args are truthy", function () {
-      expect(e.and(true, true)).toEqual(true);
+      expect(c.and(true, true)).toEqual(true);
 
-      expect(e.and(true, false)).toEqual(false);
+      expect(c.and(true, false)).toEqual(false);
 
-      expect(e.and([], [])).toEqual([]);
+      expect(c.and([], [])).toEqual([]);
 
-      expect(e.and({}, [])).toEqual([]);
+      expect(c.and({}, [])).toEqual([]);
 
-      expect(e.and(false, null)).toEqual(false);
+      expect(c.and(false, null)).toEqual(false);
 
-      expect(e.and(null, false)).toEqual(null);
+      expect(c.and(null, false)).toEqual(null);
 
       // strict equality to ensure 0 is not falsy
-      expect(e.and(0, 1)).toEqual(1);
+      expect(c.and(0, 1)).toEqual(1);
 
-      expect(e.and(1, 0)).toEqual(0);
+      expect(c.and(1, 0)).toEqual(0);
 
-      expect(e.and(null, null)).toEqual(null);
+      expect(c.and(null, null)).toEqual(null);
     });
   });
 
   describe("or", function () {
     it("returns the first argument that is truthy or the last argument if all arguments are falsy", function () {
-      expect(e.or(true, false, false)).toBe(true);
+      expect(c.or(true, false, false)).toBe(true);
 
-      expect(e.or(true, true, true)).toBe(true);
+      expect(c.or(true, true, true)).toBe(true);
 
-      expect(e.or(false, false, false)).toBe(false);
+      expect(c.or(false, false, false)).toBe(false);
 
-      expect(e.or(null, null)).toBe(null);
+      expect(c.or(null, null)).toBe(null);
 
-      expect(e.or(null, false)).toBe(false);
+      expect(c.or(null, false)).toBe(false);
 
-      expect(e.or(false, null)).toBe(null);
+      expect(c.or(false, null)).toBe(null);
 
-      expect(e.or(true, null)).toBe(true);
+      expect(c.or(true, null)).toBe(true);
 
-      expect(e.or(false, 42)).toBe(42);
+      expect(c.or(false, 42)).toBe(42);
 
-      expect(e.or(false, 42, 9999)).toBe(42);
+      expect(c.or(false, 42, 9999)).toBe(42);
     });
   });
 
@@ -1915,38 +1914,38 @@ describe("lett", function () {
 
   describe("equals", function () {
     it("compares x, y and args", function () {
-      expect(e.equals(5)).toBe(true);
+      expect(c.equals(5)).toBe(true);
 
-      expect(e.equals(1, 2)).toBe(false);
+      expect(c.equals(1, 2)).toBe(false);
 
-      expect(e.equals(1, 1, 1)).toBe(true);
+      expect(c.equals(1, 1, 1)).toBe(true);
 
-      expect(e.equals(1, 1, 2)).toBe(false);
+      expect(c.equals(1, 1, 2)).toBe(false);
 
-      expect(e.equals(1, 1, 1, 1)).toBe(true);
+      expect(c.equals(1, 1, 1, 1)).toBe(true);
 
-      expect(e.equals(1, 1)).toBe(true);
+      expect(c.equals(1, 1)).toBe(true);
 
-      expect(e.equals(null, null)).toBe(true);
+      expect(c.equals(null, null)).toBe(true);
 
-      expect(e.equals(null, null, null)).toBe(true);
+      expect(c.equals(null, null, null)).toBe(true);
 
-      expect(e.equals(false, false)).toBe(true);
+      expect(c.equals(false, false)).toBe(true);
 
-      expect(e.equals(true, true)).toBe(true);
+      expect(c.equals(true, true)).toBe(true);
 
-      expect(e.equals(undefined, undefined)).toBe(true);
+      expect(c.equals(undefined, undefined)).toBe(true);
 
-      expect(e.equals([1, 2], [1, 2])).toBe(true);
+      expect(c.equals([1, 2], [1, 2])).toBe(true);
 
-      expect(e.equals([1, 2], [1, 2], [1, 2])).toBe(true);
+      expect(c.equals([1, 2], [1, 2], [1, 2])).toBe(true);
 
       expect(
-        e.equals([1, 2, [3, 4, [{ a: "b" }]]], [1, 2, [3, 4, [{ a: "b" }]]])
+        c.equals([1, 2, [3, 4, [{ a: "b" }]]], [1, 2, [3, 4, [{ a: "b" }]]])
       ).toBe(true);
 
       expect(
-        e.equals(
+        c.equals(
           [1, 2, [3, 4, [{ a: "b" }]]],
           [1, 2, [3, 4, [{ a: "b" }]]],
           [1, 2, [3, 4, [{ a: "b" }]]]
@@ -1954,60 +1953,60 @@ describe("lett", function () {
       ).toBe(true);
 
       expect(
-        e.equals([1, 2, [3, 4, [{ a: "d" }]]], [1, 2, [3, 4, [{ a: "b" }]]])
+        c.equals([1, 2, [3, 4, [{ a: "d" }]]], [1, 2, [3, 4, [{ a: "b" }]]])
       ).toBe(false);
 
       expect(
-        e.equals(
+        c.equals(
           [1, 2, [3, 4, [{ a: "b" }]]],
           [1, 2, [3, 4, [{ a: "d" }]]],
           [1, 2, [3, 4, [{ a: "b" }]]]
         )
       ).toBe(false);
 
-      expect(e.equals([1, 2], [1, 2, 3])).toBe(false);
+      expect(c.equals([1, 2], [1, 2, 3])).toBe(false);
 
-      expect(e.equals({ a: 1, b: 2 }, { a: 1, b: 2 })).toBe(true);
+      expect(c.equals({ a: 1, b: 2 }, { a: 1, b: 2 })).toBe(true);
 
-      expect(e.equals({ a: 1, b: 2 }, { a: 1, b: 2 }, { a: 1, b: 2 })).toBe(
+      expect(c.equals({ a: 1, b: 2 }, { a: 1, b: 2 }, { a: 1, b: 2 })).toBe(
         true
       );
 
-      expect(e.equals({ a: 1, b: 2 }, { a: 1, b: 2, c: 3 })).toBe(false);
+      expect(c.equals({ a: 1, b: 2 }, { a: 1, b: 2, c: 3 })).toBe(false);
 
-      expect(e.equals({ a: 1, b: 2 }, { a: 1, b: 2, c: 3 }, { a: 1 })).toBe(
+      expect(c.equals({ a: 1, b: 2 }, { a: 1, b: 2, c: 3 }, { a: 1 })).toBe(
         false
       );
 
-      expect(e.equals({ a: 1, b: 2 }, { a: 2, b: 1 })).toBe(false);
+      expect(c.equals({ a: 1, b: 2 }, { a: 2, b: 1 })).toBe(false);
 
-      expect(e.equals(c.list(1, 2, 3), [1, 2, 3])).toBe(true);
+      expect(c.equals(c.list(1, 2, 3), [1, 2, 3])).toBe(true);
 
-      expect(e.equals(c.list(1, 2, 3), [1, 2, 3], c.list(1, 2, 3))).toBe(true);
+      expect(c.equals(c.list(1, 2, 3), [1, 2, 3], c.list(1, 2, 3))).toBe(true);
 
-      expect(e.equals(c.list(1, 2, 3), c.list(1, 2, 3))).toBe(true);
+      expect(c.equals(c.list(1, 2, 3), c.list(1, 2, 3))).toBe(true);
 
-      expect(e.equals(null, 1)).toBe(false);
+      expect(c.equals(null, 1)).toBe(false);
 
       expect(
-        e.equals({ a: [1, 2], b: "hello" }, { a: [1, 2], b: "hello" })
+        c.equals({ a: [1, 2], b: "hello" }, { a: [1, 2], b: "hello" })
       ).toBe(true);
 
       expect(
-        e.equals(
+        c.equals(
           { a: [1, 2], b: "hello" },
           { a: [1, 2], b: "hello" },
           { a: [1, 2], b: "hello" }
         )
       ).toBe(true);
 
-      expect(e.equals(c.set([1, 2, 3]), c.set([1, 2, 3]))).toBe(true);
+      expect(c.equals(c.set([1, 2, 3]), c.set([1, 2, 3]))).toBe(true);
 
       expect(
-        e.equals(c.set([1, 2, 3]), c.set([1, 2, 3]), c.set([1, 2, 3]))
+        c.equals(c.set([1, 2, 3]), c.set([1, 2, 3]), c.set([1, 2, 3]))
       ).toBe(true);
 
-      expect(e.equals(c.set([1, 2]), c.set([1, 2, 3]))).toBe(false);
+      expect(c.equals(c.set([1, 2]), c.set([1, 2, 3]))).toBe(false);
 
       var eqMap = new Map();
       eqMap.set("a", 1);
@@ -2023,17 +2022,17 @@ describe("lett", function () {
       eqMap3.set("a", 1);
       eqMap3.set("b", 2);
 
-      expect(e.equals(eqMap, eqMap2)).toBe(true);
+      expect(c.equals(eqMap, eqMap2)).toBe(true);
 
-      expect(e.equals(eqMap, eqMap, eqMap)).toBe(true);
+      expect(c.equals(eqMap, eqMap, eqMap)).toBe(true);
 
-      expect(e.equals(eqMap, eqMap3)).toBe(false);
+      expect(c.equals(eqMap, eqMap3)).toBe(false);
     });
   });
 
   describe("name", function () {
     it("returns the name of a symbol", function () {
-      expect(e.name(e.symbol("foo"))).toBe('foo');
+      expect(c.name(c.symbol("foo"))).toBe('foo');
     });
   });
 });
