@@ -2069,4 +2069,26 @@ describe("lett", function () {
       );
     });
   });
+
+  describe("classOf", function () {
+    it("returns the class of x", function () {
+      expect(c.classOf("hello")).toBe(String);
+
+      expect(c.classOf(false)).toBe(Boolean);
+
+      expect(c.classOf(1)).toBe(Number);
+
+      expect(c.classOf(function () {})).toBe(Function);
+
+      expect(c.classOf(new Map())).toBe(Map);
+
+      expect(c.classOf([])).toBe(Array);
+
+      expect(c.classOf({})).toBe(Object);
+
+      expect(c.classOf(new c.List())).toBe(c.List);
+
+      expect(c.classOf(new Set())).toBe(Set);
+    });
+  });
 });

@@ -3247,3 +3247,84 @@ NaN
 export function float(x) {
   return parseFloat(x);
 }
+
+/*
+class() returns the class of x
+
+classOf("hello");
+[Function: String]
+
+classOf(false);
+[Function: Boolean]
+
+classOf(1);
+[Function: Number]
+
+classOf(function() {});
+[Function: Function]
+
+classOf(new Map());
+[Function: Map]
+
+classOf([]);
+[Function: Array]
+
+classOf({});
+[Function: Object]
+
+classOf(new List());
+[class List extends Array]
+
+classOf(new Set);
+[Function: Set]
+
+classOf(new LazyIterable);
+[class LazyIterable]
+
+*/
+export function classOf(x) {
+  var a = typeConst(x);
+  var b = typePrimitive(x);
+
+  if (b === BOOLEAN_TYPE) {
+    return Boolean;
+  }
+
+  if (b === NUMBER_TYPE) {
+    return Number;
+  }
+
+  if (b === STRING_TYPE) {
+    return String;
+  }
+
+  if (b === FUNCTION_TYPE) {
+    return Function;
+  }
+
+  if (a === MAP_TYPE) {
+    return Map;
+  }
+
+  if (a === ARRAY_TYPE) {
+    return Array;
+  }
+
+  if (a === OBJECT_TYPE) {
+    return Object;
+  }
+
+  if (a === LIST_TYPE) {
+    return List;
+  }
+
+  if (a === SET_TYPE) {
+    return Set;
+  }
+
+  if (a === LAZY_ITERABLE_TYPE) {
+    return LazyIterable;
+  }
+
+  return null;
+}
