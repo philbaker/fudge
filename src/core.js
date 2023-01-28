@@ -3195,3 +3195,35 @@ export function everyPred(...predicates) {
     return true;
   };
 }
+
+/*
+reSeq() returns a lazy sequence of successive matches of pattern
+in string 
+
+[...reSeq(/\d/g, "test 5.9.2")];
+[ '5', '9', '2' ]
+
+[...reSeq(/\w+/g, "this is the story all about how")];
+[ 'this', 'is', 'the',  'story', 'all',  'about', 'how' ]
+
+[...reSeq(/(\S+):(\d+)/g, " RX pkts:18 err:5 drop:48")];
+[["pkts:18", "pkts", "18"], ["err:5", "err", "5"], ["drop:48", "drop", "48"]]
+
+*/
+export function reSeq(pattern, string) {
+  let match;
+
+  return lazy(function* () {
+    while ((match = pattern.exec(string))) {
+      if (match.length === 1) {
+        yield match[0];
+      }
+
+      if (match.length > 1) {
+        yield match.map(function (match) {
+          return match;
+        });
+      }
+    }
+  });
+}
