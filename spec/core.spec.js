@@ -2048,11 +2048,25 @@ describe("lett", function () {
 
   describe("reSeq", function () {
     it("returns a lazy sequence of successive matches of pattern in string", function () {
-      expect([...c.reSeq(/\d/g, "test 5.9.2")]).toEqual([ '5', '9', '2' ]);
+      expect([...c.reSeq(/\d/g, "test 5.9.2")]).toEqual(["5", "9", "2"]);
 
-      expect([...c.reSeq(/\w+/g, "this is the story all about how")]).toEqual([ 'this', 'is', 'the',  'story', 'all',  'about', 'how' ]);
+      expect([...c.reSeq(/\w+/g, "this is the story all about how")]).toEqual([
+        "this",
+        "is",
+        "the",
+        "story",
+        "all",
+        "about",
+        "how",
+      ]);
 
-      expect([...c.reSeq(/(\S+):(\d+)/g, " RX pkts:18 err:5 drop:48")]).toEqual([["pkts:18", "pkts", "18"], ["err:5", "err", "5"], ["drop:48", "drop", "48"]]);
+      expect([...c.reSeq(/(\S+):(\d+)/g, " RX pkts:18 err:5 drop:48")]).toEqual(
+        [
+          ["pkts:18", "pkts", "18"],
+          ["err:5", "err", "5"],
+          ["drop:48", "drop", "48"],
+        ]
+      );
     });
   });
 });

@@ -3227,3 +3227,23 @@ export function reSeq(pattern, string) {
     }
   });
 }
+
+/*
+float() coerces x to a float
+
+float("1.5");
+1.5
+
+float(1);
+1
+
+float(1.4442);
+1.4442
+
+float("hello");
+NaN
+
+*/
+export function float(x) {
+  return parseFloat(x);
+}
