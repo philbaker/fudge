@@ -3171,3 +3171,27 @@ name(symbol("foo"));
 export function name(symbol) {
   return symbol.toString().slice(7, -1);
 }
+
+/*
+everyPred() returns true if all predicates are true, false otherwise
+
+everyPred(isNumber, isOdd)(3, 9, 1);
+true
+
+everyPred(isNumber, isEven)(3, 9, 1);
+false
+
+everyPred(isNumber, isOdd, isPos)(3, 9, 1);
+true
+
+*/
+export function everyPred(...predicates) {
+  return function (...args) {
+    for (let i = 0; i < predicates.length; i++) {
+      if (!predicates[i](...args)) {
+        return false;
+      }
+    }
+    return true;
+  };
+}

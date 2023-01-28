@@ -2032,7 +2032,17 @@ describe("lett", function () {
 
   describe("name", function () {
     it("returns the name of a symbol", function () {
-      expect(c.name(c.symbol("foo"))).toBe('foo');
+      expect(c.name(c.symbol("foo"))).toBe("foo");
+    });
+  });
+
+  describe("everyPred", function () {
+    it("returns true if all predicates are true, false otherwise", function () {
+      expect(c.everyPred(c.isNumber, c.isOdd)(3, 9, 1)).toBe(true);
+
+      expect(c.everyPred(c.isNumber, c.isEven)(3, 9, 1)).toBe(false);
+
+      expect(c.everyPred(c.isNumber, c.isOdd, c.isPos)(3, 9, 1)).toBe(true);
     });
   });
 });
