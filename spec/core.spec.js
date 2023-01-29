@@ -1079,7 +1079,7 @@ describe("nth", function () {
     expect(c.nth(["a", "b", "c", "d"], 0)).toBe("a");
   });
 
-  it("returns vull if no element is found and no notFound argument is provided", function () {
+  it("returns null if no element is found and no notFound argument is provided", function () {
     expect(c.nth([], 0)).toBe(null);
   });
 
