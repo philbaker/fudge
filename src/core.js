@@ -2138,6 +2138,12 @@ distinct() returns a lazy sequnce of the elements of coll with duplicates remove
 [...distinct([1, 2, 1, 3, 1, 4, 1, 5])];
 [ 1, 2, 3, 4, 5 ]
 
+[...distinct(["a", "a", "b", "c"])];
+[ 'a', 'b', 'c' ]
+
+apply(str, distinct("tattoo"));
+'tao'
+
 */
 export function distinct(coll) {
   return lazy(function* () {
@@ -2149,6 +2155,31 @@ export function distinct(coll) {
       seen.add(x);
     }
     return;
+  });
+}
+
+/*
+isDistinct() returns true if no two of the arguments are equal, false otherwise
+
+isDistinct(1, 2, 3);
+true
+
+isDistinct(1, 2, 3, 3);
+false
+
+isDistinct(1, 2, 3, 3);
+false
+
+isDistinct(["A", "A", "c"]);
+true
+
+isDistinct("A", "A", "c");
+false
+
+*/
+export function isDistinct(...xs) {
+  return xs.every((el, i) => {
+    return xs.indexOf(el) === i;
   });
 }
 

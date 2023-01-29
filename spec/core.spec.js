@@ -1466,6 +1466,24 @@ describe("dropWhile", function () {
 describe("distinct", function () {
   it("returns new array with duplicates removed", function () {
     expect([...c.distinct([1, 2, 1, 3, 1, 4, 1, 5])]).toEqual([1, 2, 3, 4, 5]);
+
+    expect([...c.distinct(["a", "a", "b", "c"])]).toEqual(["a", "b", "c"]);
+
+    expect(c.apply(c.str, c.distinct("tattoo"))).toBe("tao");
+  });
+});
+
+describe("isDistinct", function () {
+  it("returns true if no two of the arguments are equal, false otherwise", function () {
+    expect(c.isDistinct(1, 2, 3)).toBe(true);
+
+    expect(c.isDistinct(1, 2, 3, 3)).toBe(false);
+
+    expect(c.isDistinct(1, 2, 3, 3)).toBe(false);
+
+    expect(c.isDistinct(["A", "A", "c"])).toBe(true);
+
+    expect(c.isDistinct("A", "A", "c")).toBe(false);
   });
 });
 
@@ -2119,6 +2137,18 @@ describe("lett", function () {
       );
 
       expect([...c.take(10, fib)]).toEqual([0, 1, 1, 2, 3, 5, 8, 13, 21, 34]);
+    });
+  });
+
+  describe("distinct", function () {
+    it("returns a lazy sequence of the elements of coll with duplicates removed", function () {
+      expect([...c.distinct([1, 2, 1, 3, 1, 4, 1, 5])]).toEqual([
+        1, 2, 3, 4, 5,
+      ]);
+
+      expect([...c.distinct(["a", "a", "b", "c"])]).toEqual(["a", "b", "c"]);
+
+      expect(c.apply(c.str, c.distinct("tattoo"))).toBe("tao");
     });
   });
 });
