@@ -1079,8 +1079,8 @@ describe("nth", function () {
     expect(c.nth(["a", "b", "c", "d"], 0)).toBe("a");
   });
 
-  it("returns undefined if no element is found and no notFound argument is provided", function () {
-    expect(c.nth([], 0)).toBe(undefined);
+  it("returns vull if no element is found and no notFound argument is provided", function () {
+    expect(c.nth([], 0)).toBe(null);
   });
 
   it("returns notFound if no element is found and notFound argument is provided", function () {
@@ -2089,6 +2089,36 @@ describe("lett", function () {
       expect(c.classOf(new c.List())).toBe(c.List);
 
       expect(c.classOf(new Set())).toBe(Set);
+    });
+  });
+
+  describe("iterate", function () {
+    it("returns a lazy sequence of x, f(x), f(f(x)) etc", function () {
+      expect([...c.take(3, c.iterate(c.inc, 5))]).toEqual([5, 6, 7]);
+
+      expect([...c.take(10, c.iterate(c.partial(c.plus, 2), 0))]).toEqual([
+        0, 2, 4, 6, 8, 10, 12, 14, 16, 18,
+      ]);
+
+      expect([...c.take(20, c.iterate(c.partial(c.plus, 2), 0))]).toEqual([
+        0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36,
+        38,
+      ]);
+
+      var powersOfTwo = c.iterate(c.partial(c.multiply, 2), 1);
+
+      expect(c.nth(powersOfTwo, 10)).toEqual(1024);
+
+      expect([...c.take(10, powersOfTwo)]).toEqual([
+        1, 2, 4, 8, 16, 32, 64, 128, 256, 512,
+      ]);
+
+      var fib = c.map(
+        c.first,
+        c.iterate(([a, b]) => [b, a + b], [0, 1])
+      );
+
+      expect([...c.take(10, fib)]).toEqual([0, 1, 1, 2, 3, 5, 8, 13, 21, 34]);
     });
   });
 });

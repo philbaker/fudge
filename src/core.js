@@ -1374,14 +1374,16 @@ nth(["a", "b", "c", "d"], 0);
 "a"
 
 */
-export function nth(coll, index, notFound) {
-  if (coll) {
-    var element = coll[index];
+export function nth(coll, index, notFound = null) {
+  let i = 0;
 
-    if (element !== undefined) {
+  for (let element of coll) {
+    if (i === index) {
       return element;
     }
+    i++;
   }
+
   return notFound;
 }
 
@@ -3327,4 +3329,41 @@ export function classOf(x) {
   }
 
   return null;
+}
+
+/*
+iterate() returns a lazy sequence of x, f(x), f(f(x)) etc
+
+[...take(3, iterate(inc, 5))];
+
+[...take(10, iterate(partial(plus, 2), 0))];
+[ 0,  2,  4,  6,  8, 10, 12, 14, 16, 18 ]
+
+[...take(20, iterate(partial(plus, 2), 0))];
+[ 0,  2,  4,  6,  8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38 ]
+
+var powersOfTwo = iterate(partial(multiply, 2), 1);
+
+nth(powersOfTwo, 10);
+1024
+
+[...take(10, powersOfTwo)];
+[ 1,  2,   4,   8,  16, 32, 64, 128, 256, 512 ]
+
+[...take(3, iterate(([a, b]) => [b, a + b]))];
+
+var fib = map(first, iterate(([a, b]) => [b, a + b], [0, 1]));
+[...take(10, fib)];
+[ 0, 1,  1,  2,  3, 5, 8, 13, 21, 34 ]
+
+*/
+export function iterate(f, x) {
+  return lazy(function* () {
+    let result = x;
+
+    while (true) {
+      yield result;
+      result = f(result);
+    }
+  });
 }
