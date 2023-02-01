@@ -1,4 +1,4 @@
-import * as c from "../src/core.js";
+import * as c from "../core.js";
 
 describe("concat", function () {
   it("returns a lazy sequence of concatenated elements from coll", function () {

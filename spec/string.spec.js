@@ -1,5 +1,5 @@
-import * as c from "../src/core.js";
-import * as s from "../src/string.js";
+import * as c from "../core.js";
+import * as s from "../string.js";
 
 describe("blankQmark", function () {
   it("returns true if s is null, empty or contains only whitespace", function () {
