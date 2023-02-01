@@ -35,6 +35,9 @@ join([1, 2, 3]);
 join(", ", [1, 2, 3]);
 "1, 2, 3"
 
+join("-", split("hello world", " "));
+'hello-world'
+
 */
 export function join(sep, coll) {
   if (coll === undefined) {
@@ -107,6 +110,8 @@ split(" q1w2 ", "");
 split("a", "b");
 [ "a" ]
 
+split("hello world", " ");
+
 split("foo--bar--baz", "--");
 [ 'foo', 'bar', 'baz' ]
 
@@ -151,3 +156,30 @@ export function split(s, re, limit) {
   return parts;
 }
 
+/*
+lowerCase() returns a string set to lower case
+
+lowerCase("Hello");
+'hello'
+
+lowerCase("ABCD");
+'abcd'
+
+*/
+export function lowerCase(s) {
+  return s.toLowerCase();
+}
+
+/*
+upperCase() returns a string set to upper case
+
+upperCase("Hello");
+'HELLO'
+
+upperCase("abcd");
+'ABCD'
+
+*/
+export function upperCase(s) {
+  return s.toUpperCase();
+}

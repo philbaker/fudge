@@ -87,3 +87,19 @@ describe("split", function () {
     expect(s.split("a", "b")).toEqual(["a"]);
   });
 });
+
+describe("lowerCase", function () {
+  it("returns a lower case string", function () {
+    expect(s.lowerCase("Hello")).toBe("hello");
+
+    expect(s.lowerCase("ABCD")).toBe("abcd");
+  });
+});
+
+describe("upperCase", function () {
+  it("returns a upper case string", function () {
+    expect(s.upperCase("Hello")).toBe("HELLO");
+
+    expect(s.upperCase("abcd")).toBe("ABCD");
+  });
+});
