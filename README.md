@@ -7,6 +7,9 @@ to make it suitable for direct use in JavaScript.
 This project is experimental and there will likely be breaking changes. Do not
 use in production.
 
+## Install
+`npm i fudgejs`
+
 ## Inspired by
 - [Squint](https://github.com/squint-cljs/squint)
 - [Clojure](https://github.com/clojure/clojure)
