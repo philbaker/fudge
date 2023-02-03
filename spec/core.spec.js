@@ -2045,6 +2045,8 @@ describe("lett", function () {
       expect(c.eq(eqMap, eqMap, eqMap)).toBe(true);
 
       expect(c.eq(eqMap, eqMap3)).toBe(false);
+
+      expect(c.eq(5, 0)).toBe(false);
     });
   });
 

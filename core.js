@@ -3123,8 +3123,8 @@ false
 eq(() => 1 + 1, 2);
 eq(1 + 1, 2);
 
-eq((() => 1 + 1)(), 2)
-
+eq(5, 0);
+false
 
 */
 export function eq(x, y, ...args) {
@@ -3150,7 +3150,7 @@ isEqual() is a helper for eq()
 
 */
 function isEqual(x, y) {
-  if (not(y)) {
+  if (y !== 0 && not(y)) {
     return true;
   }
 
