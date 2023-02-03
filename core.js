@@ -1,6 +1,5 @@
-/**
-* Core data types
-
+/*
+Core data types
 */
 const MAP_TYPE = 1;
 const ARRAY_TYPE = 2;
@@ -186,7 +185,7 @@ export function concat(...colls) {
   });
 }
 
-/*
+/**
 * returns a LazyIterable of applying concat to the result of 
 * applying map to f and colls
 *
@@ -207,7 +206,7 @@ export function mapcat(f, ...colls) {
   return concat(...map(f, ...colls));
 }
 
-/*
+/**
 * returns true if the seq function is supported for x
 *
 * @func
@@ -228,7 +227,7 @@ export function isSeqable(x) {
   );
 }
 
-/*
+/**
 * returns an iterable of x, even if it's empty allowing for nil punning
 * Internal function
 * 
@@ -242,7 +241,7 @@ export function isSeqable(x) {
 * 
 * iterable("abc");
 * // => "abc"
-
+*
 */
 export function iterable(x) {
   if (x === null || x === undefined) {
@@ -330,7 +329,7 @@ function lazy(f) {
   return new LazyIterable(f);
 }
 
-/*
+/**
 * returns a new LazyIterable where x is the first item and
 * coll is the rest
 *
@@ -354,7 +353,7 @@ export function cons(x, coll) {
   });
 }
 
-/*
+/**
 * applies a given function to each element of a collection
 *
 * @func
@@ -402,13 +401,14 @@ export function map(f, ...colls) {
   }
 }
 
-/*
+/**
 * returns a lazy sequence of the items in coll for which
 * pred(item) returns true
 *
 * @func
-* @param {function}
-* @param {Array|List|Set}
+* @param {function} predicate check
+* @param {Array|List|Set} collection
+* @example
 * 
 * [...filter(isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])];
 * // => [ 0, 2, 4, 6, 8, 10 ]
@@ -425,19 +425,24 @@ export function filter(pred, coll) {
 }
 
 /*
-filterv() returns an array of the items in coll for which
-pred(item) returns true
-
-filterv(isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-[ 0, 2, 4, 6, 8, 10 ]
-
+* returns an array of the items in coll for which
+* pred(item) returns true
+*
+* @param {function} predicate check
+* @param {Array|List|Set} collection
+* @return {Array}
+* @example
+* 
+* filterv(isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+* [ 0, 2, 4, 6, 8, 10 ]
+* 
 */
 export function filterv(pred, coll) {
   return [...filter(pred, coll)];
 }
 
 /*
-remove() returns a lazy sequence of the items in coll for which
+returns a lazy sequence of the items in coll for which
 pred(item) returns false
 
 [...remove(isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])];
@@ -2991,105 +2996,105 @@ export function isSet(x) {
 }
 
 /*
-equals() compares x, y and args
+eq() compares x, y and args
 
-equals(5);
+eq(5);
 true
 
-equals(1, 2);
+eq(1, 2);
 false
 
-equals(1, 1, 1);
+eq(1, 1, 1);
 true
 
-equals(1, 1, 2);
+eq(1, 1, 2);
 false
 
-equals(1, 1, 1, 1);
+eq(1, 1, 1, 1);
 true
 
-equals(1, 1);
+eq(1, 1);
 true
 
-equals(null, null);
+eq(null, null);
 true
 
-equals(null, null, null);
+eq(null, null, null);
 true
 
-equals(false, false);
+eq(false, false);
 true
 
-equals(true, true);
+eq(true, true);
 true
 
-equals(undefined, undefined);
+eq(undefined, undefined);
 true
 
-equals([1, 2], [1, 2]);
+eq([1, 2], [1, 2]);
 true
 
-equals([1, 2], [1, 2], [1, 2]);
+eq([1, 2], [1, 2], [1, 2]);
 true
 
-equals([1, 2, [3, 4, [{a: "b"}]]], [1, 2, [3, 4, [{a: "b"}]]]);
+eq([1, 2, [3, 4, [{a: "b"}]]], [1, 2, [3, 4, [{a: "b"}]]]);
 true
 
-equals([1, 2, [3, 4, [{a: "b"}]]], [1, 2, [3, 4, [{a: "b"}]]], [1, 2, [3, 4, [{a: "b"}]]]);
+eq([1, 2, [3, 4, [{a: "b"}]]], [1, 2, [3, 4, [{a: "b"}]]], [1, 2, [3, 4, [{a: "b"}]]]);
 true
 
-equals([1, 2, [3, 4, [{a: "d"}]]], [1, 2, [3, 4, [{a: "b"}]]]);
+eq([1, 2, [3, 4, [{a: "d"}]]], [1, 2, [3, 4, [{a: "b"}]]]);
 false
 
-equals([1, 2, [3, 4, [{a: "b"}]]], [1, 2, [3, 4, [{a: "d"}]]], [1, 2, [3, 4, [{a: "b"}]]]);
+eq([1, 2, [3, 4, [{a: "b"}]]], [1, 2, [3, 4, [{a: "d"}]]], [1, 2, [3, 4, [{a: "b"}]]]);
 false
 
-equals([1, 2], [1, 2, 3]);
+eq([1, 2], [1, 2, 3]);
 false
 
-equals({a: 1, b: 2}, {a: 1, b: 2});
+eq({a: 1, b: 2}, {a: 1, b: 2});
 true
 
-equals({a: 1, b: 2}, {a: 1, b: 2}, {a: 1, b: 2});
+eq({a: 1, b: 2}, {a: 1, b: 2}, {a: 1, b: 2});
 true
 
-equals({a: 1, b: 2}, {a: 1, b: 2, c: 3});
+eq({a: 1, b: 2}, {a: 1, b: 2, c: 3});
 false
 
-equals({a: 1, b: 2}, {a: 1, b: 2, c: 3}, {a: 1});
+eq({a: 1, b: 2}, {a: 1, b: 2, c: 3}, {a: 1});
 false
 
-equals({a:1, b:2 }, {a: 2, b: 1});
+eq({a:1, b:2 }, {a: 2, b: 1});
 false
 
-equals(list(1, 2, 3), [1, 2, 3]);
+eq(list(1, 2, 3), [1, 2, 3]);
 true
 
-equals(list(1, 2, 3), [1, 2, 3], list(1, 2, 3));
+eq(list(1, 2, 3), [1, 2, 3], list(1, 2, 3));
 true
 
-equals(list(1, 2, 3), list(1, 2, 3));
+eq(list(1, 2, 3), list(1, 2, 3));
 true
 
-equals(null, 1);
+eq(null, 1);
 false
 
-equals({a: [1, 2], b: "hello"}, {a: [1, 2], b: "hello"});
+eq({a: [1, 2], b: "hello"}, {a: [1, 2], b: "hello"});
 true
 
-equals({a: [1, 2], b: "hello"}, {a: [1, 2], b: "hello"}, {a: [1, 2], b: "hello"});
+eq({a: [1, 2], b: "hello"}, {a: [1, 2], b: "hello"}, {a: [1, 2], b: "hello"});
 true
 
-equals(set([1, 2, 3]), set([1, 2, 3]));
+eq(set([1, 2, 3]), set([1, 2, 3]));
 true
 
-equals(set([1, 2, 3]), set([1, 2, 3]), set([1, 2, 3]));
+eq(set([1, 2, 3]), set([1, 2, 3]), set([1, 2, 3]));
 true
 
-equals(set([1, 2]), set([1, 2, 3]));
+eq(set([1, 2]), set([1, 2, 3]));
 false
 
-equals(map(1, 2), set([1, 2, 3]));
+eq(map(1, 2), set([1, 2, 3]));
 false
 
 var eqMap = new Map();
@@ -3106,17 +3111,23 @@ var eqMap3 = new Map();
 eqMap3.set("a", 1);
 eqMap3.set("b", 2);
 
-equals(eqMap, eqMap2);
+eq(eqMap, eqMap2);
 true
 
-equals(eqMap, eqMap, eqMap);
+eq(eqMap, eqMap, eqMap);
 true
 
-equals(eqMap, eqMap3);
+eq(eqMap, eqMap3);
 false
 
+eq(() => 1 + 1, 2);
+eq(1 + 1, 2);
+
+eq((() => 1 + 1)(), 2)
+
+
 */
-export function equals(x, y, ...args) {
+export function eq(x, y, ...args) {
   if (not(isEmpty(args))) {
     let compare = [x, y, ...args];
     let firstv = first(compare);
@@ -3135,7 +3146,7 @@ export function equals(x, y, ...args) {
 
 /*
 Internal function
-isEqual() is a helper for equals()
+isEqual() is a helper for eq()
 
 */
 function isEqual(x, y) {
@@ -3163,7 +3174,7 @@ function isEqual(x, y) {
     }
 
     for (let [k, v] of x.entries()) {
-      if (!y.has(k) || !equals(v, y.get(k))) {
+      if (!y.has(k) || !eq(v, y.get(k))) {
         return false;
       }
     }
@@ -3173,7 +3184,7 @@ function isEqual(x, y) {
 
   if (isInstance(List, x) || isInstance(List, y)) {
     try {
-      return equals([...x], [...y]);
+      return eq([...x], [...y]);
     } catch (error) {
       return false;
     }
@@ -3186,7 +3197,7 @@ function isEqual(x, y) {
 
     for (let i = 0; i < x.length; i++) {
       try {
-        if (!equals(x[i], y[i])) {
+        if (!eq(x[i], y[i])) {
           return false;
         }
       } catch (error) {
@@ -3209,7 +3220,7 @@ function isEqual(x, y) {
       let k = xk[i];
 
       try {
-        if (!equals(x[k], y[k])) {
+        if (!eq(x[k], y[k])) {
           return false;
         }
       } catch (error) {
@@ -3224,20 +3235,20 @@ function isEqual(x, y) {
 }
 
 /*
-notEquals() is the same as not(equals(x, y))
+notEq() is the same as not(eq(x, y))
 
-notEquals(1);
+notEq(1);
 false
 
-notEquals(1, 2);
+notEq(1, 2);
 true
 
-notEquals([1, 2], [3, 4]);
+notEq([1, 2], [3, 4]);
 true
 
 */
-export function notEquals(x, y, ...args) {
-  return not(equals(x, y, ...args));
+export function notEq(x, y, ...args) {
+  return not(eq(x, y, ...args));
 }
 
 /*
