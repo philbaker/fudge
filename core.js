@@ -1,6 +1,5 @@
 /*
 Core data types
-
 */
 const MAP_TYPE = 1;
 const ARRAY_TYPE = 2;
@@ -13,10 +12,14 @@ const NUMBER_TYPE = 8;
 const STRING_TYPE = 9;
 const FUNCTION_TYPE = 10;
 
-/*
-Internal function
-emptyOfType() returns a new empty collection based on type
-
+/**
+* returns a new empty collection based on type
+* internal function
+*
+* @func
+* @param {*} type
+* @return {*}
+*
 */
 function emptyOfType(type) {
   switch (type) {
@@ -38,16 +41,21 @@ function emptyOfType(type) {
   return undefined;
 }
 
-/*
-Internal function
-typeConst() returns data type based by checking the object. 
-
-typeConst([1, 2, 3]);
-2
-
-typeConst({name: "George", occupation: "Cat"});
-3
-
+/**
+* returns data type based by checking the object
+* Internal function
+*
+* @func
+* @param {*}
+* @return {number}
+* @example
+*
+* typeConst([1, 2, 3]); 
+* // => 2
+*
+* typeConst({name: "George", occupation: "Cat"}); 
+* // => 3
+*
 */
 function typeConst(obj) {
   if (obj instanceof Map) {
@@ -97,15 +105,18 @@ function typePrimitive(obj) {
   return undefined;
 }
 
-/*
-List creates something similar to a Clojure's List structure using JavaScript arrays
-
-It's useful to have a seperate structure because the lists behave differently to
-vectors in some functions
-
-new List(1, 2, 3);
-List(3) [ 1, 2, 3 ]
-
+/**
+* creates something similar to a Clojure's List structure using JavaScript arrays
+*
+* It's useful to have a seperate structure because the lists behave differently to
+* vectors in some functions
+*
+* @return {List}
+* @example
+*
+* new List(1, 2, 3); 
+* // => List(3) [ 1, 2, 3 ]
+*
 */
 export class List extends Array {
   constructor(...args) {
@@ -114,45 +125,57 @@ export class List extends Array {
   }
 }
 
-/*
-isList() checks if x is a List
-
-isList(new List(1, 2, 3));
-true
-
-isList("hello");
-false
-
+/**
+* checks if x is a List
+*
+* @func
+* @param {*}
+* @return {boolean} 
+*
+* isList(new List(1, 2, 3)); 
+* // => true
+*
+* isList("hello"); 
+* // => false
+*
 */
 export function isList(x) {
   return typeConst(x) === LIST_TYPE;
 }
 
-/*
-list() creates a new List containing args
-
-list("a", "b", "c");
-List(3) [ 'a', 'b', 'c' ]
-
-list(1, 2, 3);
-List(3) [ 1, 2, 3 ]
+/**
+* creates a new List containing args
+* 
+* @func
+* @param {...*}
+* @return {List}
+* @example
+*
+* list("a", "b", "c"); 
+* // => List(3) [ 'a', 'b', 'c' ]
+* 
+* list(1, 2, 3);
+* // => List(3) [ 1, 2, 3 ]
 
 */
 export function list(...args) {
   return new List(...args);
 }
 
-/*
-concat() returns a lazy sequence of the concatenation of elements in
-colls
-
-[...concat([1, 2], [3, 4])];
-[ 1, 2, 3, 4 ]
-
-[...concat(["a", "b"], null, [1, [2, 3], 4])];
-[ 'a', 'b', 1, [ 2, 3 ], 4 ]
-
-
+/**
+* returns a lazy sequence of the concatenation of elements in colls
+* 
+* @func
+* @param {...Array} collections to concat
+* @return {LazyIterable}
+* @example
+*
+* [...concat([1, 2], [3, 4])];
+* // => [ 1, 2, 3, 4 ]
+* 
+* [...concat(["a", "b"], null, [1, [2, 3], 4])];
+* // => [ 'a', 'b', 1, [ 2, 3 ], 4 ]
+* 
 */
 export function concat(...colls) {
   return lazy(function* () {
@@ -162,27 +185,38 @@ export function concat(...colls) {
   });
 }
 
-/*
-mapcat() returns a LazyIterable of applying concat to the result of 
-applying map to f and colls
-
-[...mapcat(reverse, [[3, 2, 1, 0], [6, 5, 4], [9, 8, 7]])];
-[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
-
-[...mapcat(list, ["a", "b", "c"], [1, 2, 3])];
-[ "a", 1, "b", 2, "c", 3 ]
+/**
+* returns a LazyIterable of applying concat to the result of 
+* applying map to f and colls
+*
+* @func
+* @param {function}
+* @param {...Array}
+* @return {LazyIterable}
+* @example
+*
+* [...mapcat(reverse, [[3, 2, 1, 0], [6, 5, 4], [9, 8, 7]])];
+* // => [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+* 
+* [...mapcat(list, ["a", "b", "c"], [1, 2, 3])];
+* // => [ "a", 1, "b", 2, "c", 3 ]
 
 */
 export function mapcat(f, ...colls) {
   return concat(...map(f, ...colls));
 }
 
-/*
-isSeqable returns true if the seq function is supported for x
-
-isSeqable("hello");
-true
-
+/**
+* returns true if the seq function is supported for x
+*
+* @func
+* @param {*} 
+* @return {boolean}
+* @example
+*
+* isSeqable("hello");
+* // => true
+*
 */
 export function isSeqable(x) {
   return (
@@ -193,17 +227,21 @@ export function isSeqable(x) {
   );
 }
 
-/*
-Internal function
-iterable() returns an iterable of x, even if it's empty allowing for
-nil punning
-
-iterable(null);
-[]
-
-iterable("abc");
-"abc"
-
+/**
+* returns an iterable of x, even if it's empty allowing for nil punning
+* Internal function
+* 
+* @func
+* @param {*}
+* @return {*}
+* @example
+*
+* iterable(null);
+* // => []
+* 
+* iterable("abc");
+* // => "abc"
+*
 */
 export function iterable(x) {
   if (x === null || x === undefined) {
@@ -221,27 +259,38 @@ const IIterable = Symbol("Iterable");
 
 const IIterableIterator = Symbol.iterator;
 
-/* 
-Internal function. See https://github.com/squint-cljs/squint/issues/22
-iterator([1, 2, 3]);
-
-Object [Array Iterator] {}
-
+/** 
+* 
+* Internal funtion used for creating lazy sequences
+*
+* @func
+* @param {Array|Object} collection
+* @return {Object}
+* @example
+*
+* iterator([1, 2, 3]);
+* // => Object [Array Iterator] {}
+* 
 */
 function iterator(coll) {
   return coll[Symbol.iterator]();
 }
 
-/*
-seq() takes a collection and returns an iterable of that collection, or nil if
-it's empty.
-
-seq([1, 2]);
-[ 1, 2 ]
-
-seq(null);
-null
-
+/**
+* takes a collection and returns an iterable of that collection, or nil if
+* it's empty.
+* 
+* @func
+* @param {*} collection
+* @return {Array|null} iterable of collection
+* @example
+* 
+* seq([1, 2]);
+* // => [ 1, 2 ]
+* 
+* seq(null);
+* // => null
+*
 */
 export function seq(x) {
   var iter = iterable(x);
@@ -253,8 +302,9 @@ export function seq(x) {
   return iter;
 }
 
-/*
-Enables lazy evaluation of sequences
+/**
+* Enables lazy evaluation of sequences
+*
 */
 class LazyIterable {
   constructor(gen) {
@@ -266,25 +316,35 @@ class LazyIterable {
   }
 }
 
-/*
-Internal function
-lazy() returns a new instance of LazyIterable
-
+/**
+* returns a new instance of LazyIterable
+* Internal function
+* 
+* @func
+* @params {function}
+* @return {LazyIterable}
+*
 */
 function lazy(f) {
   return new LazyIterable(f);
 }
 
-/*
-cons() returns a new LazyIterable where x is the first item and
-coll is the rest
-
-[...cons(1, [2, 3, 4, 5, 6])];
-[ 1, 2, 3, 4, 5, 6 ]
-
-[...cons([1, 2], [4, 5, 6])];
-[ [ 1, 2 ], 4, 5, 6 ]
-
+/**
+* returns a new LazyIterable where x is the first item and
+* coll is the rest
+*
+* @func
+* @param {*} value to prepend to collection
+* @param {Array|Object|List|Set|Map} collection
+* @return {LazyIterable}
+* @example
+*
+* [...cons(1, [2, 3, 4, 5, 6])];
+* // => [ 1, 2, 3, 4, 5, 6 ]
+* 
+* [...cons([1, 2], [4, 5, 6])];
+* // => [ [ 1, 2 ], 4, 5, 6 ]
+* 
 */
 export function cons(x, coll) {
   return lazy(function* () {
@@ -293,15 +353,21 @@ export function cons(x, coll) {
   });
 }
 
-/*
-map() applies a given function to each element of a collection
-
-[...map(inc, [1, 2, 3, 4, 5])];
-[ 2, 3, 4, 5, 6 ]
-
-[...map(last, {x: 1, y: 2, z: 3})];
-[ 1, 2, 3 ]
-
+/**
+* applies a given function to each element of a collection
+*
+* @func
+* @param {function} function applied to each element in collection
+* @param {...Array|List|Set} collection
+* @return {LazyIterable}
+* @example
+* 
+* [...map(inc, [1, 2, 3, 4, 5])];
+* // => [ 2, 3, 4, 5, 6 ]
+* 
+* [...map(last, {x: 1, y: 2, z: 3})];
+* // => [ 1, 2, 3 ]
+* 
 */
 export function map(f, ...colls) {
   switch (colls.length) {
@@ -335,12 +401,17 @@ export function map(f, ...colls) {
   }
 }
 
-/*
-filter() returns a lazy sequence of the items in coll for which
-pred(item) returns true
-
-[...filter(isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])];
-[ 0, 2, 4, 6, 8, 10 ]
+/**
+* returns a lazy sequence of the items in coll for which
+* pred(item) returns true
+*
+* @func
+* @param {function} predicate check
+* @param {Array|List|Set} collection
+* @example
+* 
+* [...filter(isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])];
+* // => [ 0, 2, 4, 6, 8, 10 ]
 
 */
 export function filter(pred, coll) {
@@ -354,19 +425,24 @@ export function filter(pred, coll) {
 }
 
 /*
-filterv() returns an array of the items in coll for which
-pred(item) returns true
-
-filterv(isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-[ 0, 2, 4, 6, 8, 10 ]
-
+* returns an array of the items in coll for which
+* pred(item) returns true
+*
+* @param {function} predicate check
+* @param {Array|List|Set} collection
+* @return {Array}
+* @example
+* 
+* filterv(isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+* [ 0, 2, 4, 6, 8, 10 ]
+* 
 */
 export function filterv(pred, coll) {
   return [...filter(pred, coll)];
 }
 
 /*
-remove() returns a lazy sequence of the items in coll for which
+returns a lazy sequence of the items in coll for which
 pred(item) returns false
 
 [...remove(isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])];
@@ -2920,105 +2996,105 @@ export function isSet(x) {
 }
 
 /*
-equals() compares x, y and args
+eq() compares x, y and args
 
-equals(5);
+eq(5);
 true
 
-equals(1, 2);
+eq(1, 2);
 false
 
-equals(1, 1, 1);
+eq(1, 1, 1);
 true
 
-equals(1, 1, 2);
+eq(1, 1, 2);
 false
 
-equals(1, 1, 1, 1);
+eq(1, 1, 1, 1);
 true
 
-equals(1, 1);
+eq(1, 1);
 true
 
-equals(null, null);
+eq(null, null);
 true
 
-equals(null, null, null);
+eq(null, null, null);
 true
 
-equals(false, false);
+eq(false, false);
 true
 
-equals(true, true);
+eq(true, true);
 true
 
-equals(undefined, undefined);
+eq(undefined, undefined);
 true
 
-equals([1, 2], [1, 2]);
+eq([1, 2], [1, 2]);
 true
 
-equals([1, 2], [1, 2], [1, 2]);
+eq([1, 2], [1, 2], [1, 2]);
 true
 
-equals([1, 2, [3, 4, [{a: "b"}]]], [1, 2, [3, 4, [{a: "b"}]]]);
+eq([1, 2, [3, 4, [{a: "b"}]]], [1, 2, [3, 4, [{a: "b"}]]]);
 true
 
-equals([1, 2, [3, 4, [{a: "b"}]]], [1, 2, [3, 4, [{a: "b"}]]], [1, 2, [3, 4, [{a: "b"}]]]);
+eq([1, 2, [3, 4, [{a: "b"}]]], [1, 2, [3, 4, [{a: "b"}]]], [1, 2, [3, 4, [{a: "b"}]]]);
 true
 
-equals([1, 2, [3, 4, [{a: "d"}]]], [1, 2, [3, 4, [{a: "b"}]]]);
+eq([1, 2, [3, 4, [{a: "d"}]]], [1, 2, [3, 4, [{a: "b"}]]]);
 false
 
-equals([1, 2, [3, 4, [{a: "b"}]]], [1, 2, [3, 4, [{a: "d"}]]], [1, 2, [3, 4, [{a: "b"}]]]);
+eq([1, 2, [3, 4, [{a: "b"}]]], [1, 2, [3, 4, [{a: "d"}]]], [1, 2, [3, 4, [{a: "b"}]]]);
 false
 
-equals([1, 2], [1, 2, 3]);
+eq([1, 2], [1, 2, 3]);
 false
 
-equals({a: 1, b: 2}, {a: 1, b: 2});
+eq({a: 1, b: 2}, {a: 1, b: 2});
 true
 
-equals({a: 1, b: 2}, {a: 1, b: 2}, {a: 1, b: 2});
+eq({a: 1, b: 2}, {a: 1, b: 2}, {a: 1, b: 2});
 true
 
-equals({a: 1, b: 2}, {a: 1, b: 2, c: 3});
+eq({a: 1, b: 2}, {a: 1, b: 2, c: 3});
 false
 
-equals({a: 1, b: 2}, {a: 1, b: 2, c: 3}, {a: 1});
+eq({a: 1, b: 2}, {a: 1, b: 2, c: 3}, {a: 1});
 false
 
-equals({a:1, b:2 }, {a: 2, b: 1});
+eq({a:1, b:2 }, {a: 2, b: 1});
 false
 
-equals(list(1, 2, 3), [1, 2, 3]);
+eq(list(1, 2, 3), [1, 2, 3]);
 true
 
-equals(list(1, 2, 3), [1, 2, 3], list(1, 2, 3));
+eq(list(1, 2, 3), [1, 2, 3], list(1, 2, 3));
 true
 
-equals(list(1, 2, 3), list(1, 2, 3));
+eq(list(1, 2, 3), list(1, 2, 3));
 true
 
-equals(null, 1);
+eq(null, 1);
 false
 
-equals({a: [1, 2], b: "hello"}, {a: [1, 2], b: "hello"});
+eq({a: [1, 2], b: "hello"}, {a: [1, 2], b: "hello"});
 true
 
-equals({a: [1, 2], b: "hello"}, {a: [1, 2], b: "hello"}, {a: [1, 2], b: "hello"});
+eq({a: [1, 2], b: "hello"}, {a: [1, 2], b: "hello"}, {a: [1, 2], b: "hello"});
 true
 
-equals(set([1, 2, 3]), set([1, 2, 3]));
+eq(set([1, 2, 3]), set([1, 2, 3]));
 true
 
-equals(set([1, 2, 3]), set([1, 2, 3]), set([1, 2, 3]));
+eq(set([1, 2, 3]), set([1, 2, 3]), set([1, 2, 3]));
 true
 
-equals(set([1, 2]), set([1, 2, 3]));
+eq(set([1, 2]), set([1, 2, 3]));
 false
 
-equals(map(1, 2), set([1, 2, 3]));
+eq(map(1, 2), set([1, 2, 3]));
 false
 
 var eqMap = new Map();
@@ -3035,17 +3111,23 @@ var eqMap3 = new Map();
 eqMap3.set("a", 1);
 eqMap3.set("b", 2);
 
-equals(eqMap, eqMap2);
+eq(eqMap, eqMap2);
 true
 
-equals(eqMap, eqMap, eqMap);
+eq(eqMap, eqMap, eqMap);
 true
 
-equals(eqMap, eqMap3);
+eq(eqMap, eqMap3);
 false
 
+eq(() => 1 + 1, 2);
+eq(1 + 1, 2);
+
+eq((() => 1 + 1)(), 2)
+
+
 */
-export function equals(x, y, ...args) {
+export function eq(x, y, ...args) {
   if (not(isEmpty(args))) {
     let compare = [x, y, ...args];
     let firstv = first(compare);
@@ -3064,7 +3146,7 @@ export function equals(x, y, ...args) {
 
 /*
 Internal function
-isEqual() is a helper for equals()
+isEqual() is a helper for eq()
 
 */
 function isEqual(x, y) {
@@ -3092,7 +3174,7 @@ function isEqual(x, y) {
     }
 
     for (let [k, v] of x.entries()) {
-      if (!y.has(k) || !equals(v, y.get(k))) {
+      if (!y.has(k) || !eq(v, y.get(k))) {
         return false;
       }
     }
@@ -3102,7 +3184,7 @@ function isEqual(x, y) {
 
   if (isInstance(List, x) || isInstance(List, y)) {
     try {
-      return equals([...x], [...y]);
+      return eq([...x], [...y]);
     } catch (error) {
       return false;
     }
@@ -3115,7 +3197,7 @@ function isEqual(x, y) {
 
     for (let i = 0; i < x.length; i++) {
       try {
-        if (!equals(x[i], y[i])) {
+        if (!eq(x[i], y[i])) {
           return false;
         }
       } catch (error) {
@@ -3138,7 +3220,7 @@ function isEqual(x, y) {
       let k = xk[i];
 
       try {
-        if (!equals(x[k], y[k])) {
+        if (!eq(x[k], y[k])) {
           return false;
         }
       } catch (error) {
@@ -3153,20 +3235,20 @@ function isEqual(x, y) {
 }
 
 /*
-notEquals() is the same as not(equals(x, y))
+notEq() is the same as not(eq(x, y))
 
-notEquals(1);
+notEq(1);
 false
 
-notEquals(1, 2);
+notEq(1, 2);
 true
 
-notEquals([1, 2], [3, 4]);
+notEq([1, 2], [3, 4]);
 true
 
 */
-export function notEquals(x, y, ...args) {
-  return not(equals(x, y, ...args));
+export function notEq(x, y, ...args) {
+  return not(eq(x, y, ...args));
 }
 
 /*
