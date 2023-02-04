@@ -1,7 +1,7 @@
 {
   "name": "fudgejs",
   "version": "0.0.8",
-  "description": "",
+  "description": "Clojure-inspired functions for JavaScript",
   "type": "module",
   "main": "core.js",
   "scripts": {
