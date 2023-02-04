@@ -498,6 +498,16 @@ describe("last", function () {
 describe("reduced", function () {
   it("wraps x so that reduce will terminate the value with x", function () {
     expect(
+      c.reduce((a, b) => {
+        if (a + b > 20) {
+          return c.reduced("Done early!");
+        } else {
+          return a + b;
+        }
+      }, c.range(10))
+    ).toBe("Done early!");
+
+    expect(
       c.reduce(function (a, v) {
         return c.plus(a, v);
       }, c.range(10))
@@ -1986,15 +1996,11 @@ describe("lett", function () {
 
       expect(c.eq({ a: 1, b: 2 }, { a: 1, b: 2 })).toBe(true);
 
-      expect(c.eq({ a: 1, b: 2 }, { a: 1, b: 2 }, { a: 1, b: 2 })).toBe(
-        true
-      );
+      expect(c.eq({ a: 1, b: 2 }, { a: 1, b: 2 }, { a: 1, b: 2 })).toBe(true);
 
       expect(c.eq({ a: 1, b: 2 }, { a: 1, b: 2, c: 3 })).toBe(false);
 
-      expect(c.eq({ a: 1, b: 2 }, { a: 1, b: 2, c: 3 }, { a: 1 })).toBe(
-        false
-      );
+      expect(c.eq({ a: 1, b: 2 }, { a: 1, b: 2, c: 3 }, { a: 1 })).toBe(false);
 
       expect(c.eq({ a: 1, b: 2 }, { a: 2, b: 1 })).toBe(false);
 
@@ -2006,9 +2012,9 @@ describe("lett", function () {
 
       expect(c.eq(null, 1)).toBe(false);
 
-      expect(
-        c.eq({ a: [1, 2], b: "hello" }, { a: [1, 2], b: "hello" })
-      ).toBe(true);
+      expect(c.eq({ a: [1, 2], b: "hello" }, { a: [1, 2], b: "hello" })).toBe(
+        true
+      );
 
       expect(
         c.eq(
@@ -2020,9 +2026,9 @@ describe("lett", function () {
 
       expect(c.eq(c.set([1, 2, 3]), c.set([1, 2, 3]))).toBe(true);
 
-      expect(
-        c.eq(c.set([1, 2, 3]), c.set([1, 2, 3]), c.set([1, 2, 3]))
-      ).toBe(true);
+      expect(c.eq(c.set([1, 2, 3]), c.set([1, 2, 3]), c.set([1, 2, 3]))).toBe(
+        true
+      );
 
       expect(c.eq(c.set([1, 2]), c.set([1, 2, 3]))).toBe(false);
 

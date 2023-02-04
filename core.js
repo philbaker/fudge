@@ -521,7 +521,7 @@ export function rest(coll) {
   });
 }
 
-/* 
+/** 
 * returns the first item of collection 
 *
 * @func
@@ -542,12 +542,17 @@ export function first(coll) {
   return first ?? null;
 }
 
-/*
-second() returns the second item of a collection
-
-second([1, 2, 3]);
-2
-
+/**
+* returns the second item of a collection
+*
+* @func
+* @param {Array|Map|Set|Object|string|null}
+* @return {*}
+* @example
+* 
+* second([1, 2, 3]);
+* // => 2
+* 
 */
 export function second(coll) {
   var [_, v] = iterable(coll);
@@ -555,26 +560,36 @@ export function second(coll) {
   return v ?? null;
 }
 
-/*
-ffirst() is the same as first(first(coll))
-
-ffirst({name: "George", weight: 100})
-"name"
-
+/**
+* the same as first(first(coll))
+*
+* @func
+* @param {Array|Map|Set|Object|string|null}
+* @return {*}
+* @example
+* 
+* ffirst({name: "George", weight: 100})
+* // => "name"
+* 
 */
 export function ffirst(coll) {
   return first(first(coll));
 }
 
-/*
-last() returns the last item in a collection
-
-last([1, 2, 3, 4, 5]);
-5
-
-last({one: 1, two: 2, three: 3});
-[ "three", 3 ]
-
+/**
+* returns the last item in a collection
+*
+* @func
+* @param {Array|Map|Set|Object|string|null}
+* @return {*}
+* @example
+* 
+* last([1, 2, 3, 4, 5]);
+* // => 5
+* 
+* last({one: 1, two: 2, three: 3});
+* // => [ "three", 3 ]
+* 
 */
 export function last(coll) {
   coll = iterable(coll);
@@ -605,28 +620,42 @@ class Reduced {
   }
 }
 
-/*
-reduced() wraps x so that reduce will terminate with the value x
-
-reduce(function (a, v) {
-  return plus(a, v);
-}, range(10));
-45
-
+/**
+* wraps x so that reduce will terminate with the value x
+*
+* @func
+* @param {*}
+* @return {*}
+* @example
+* 
+* reduce((a, b) => {
+*   if ((a + b) > 20) {
+*     return reduced("Done early!");
+*   } else {
+*     return a + b;
+*   }
+* }, range(10));
+* // => "Done early!"
+*
 */
 export function reduced(x) {
   return new Reduced(x);
 }
 
 /*
-isReduced() returns true if x is the result of a call to reduced
-
-isReduced("foo");
-false
-
-isReduced(reduced("foo"));
-true
-
+* isReduced() returns true if x is the result of a call to reduced
+* 
+* @func
+* @param {function}
+* @return {boolean}
+* @example
+*
+* isReduced("foo");
+* // => false
+* 
+* isReduced(reduced("foo"));
+* // => true
+* 
 */
 export function isReduced(x) {
   return x instanceof Reduced;
