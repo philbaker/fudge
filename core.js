@@ -13,14 +13,14 @@ const STRING_TYPE = 9;
 const FUNCTION_TYPE = 10;
 
 /**
-* returns a new empty collection based on type
-* internal function
-*
-* @func
-* @param {*} type
-* @return {*}
-*
-*/
+ * returns a new empty collection based on type
+ * internal function
+ *
+ * @func
+ * @param {*} type
+ * @return {*}
+ *
+ */
 function emptyOfType(type) {
   switch (type) {
     case MAP_TYPE:
@@ -42,21 +42,21 @@ function emptyOfType(type) {
 }
 
 /**
-* returns data type based by checking the object
-* Internal function
-*
-* @func
-* @param {*}
-* @return {number}
-* @example
-*
-* typeConst([1, 2, 3]); 
-* // => 2
-*
-* typeConst({name: "George", occupation: "Cat"}); 
-* // => 3
-*
-*/
+ * returns data type based by checking the object
+ * Internal function
+ *
+ * @func
+ * @param {*}
+ * @return {number}
+ * @example
+ *
+ * typeConst([1, 2, 3]);
+ * // => 2
+ *
+ * typeConst({name: "George", occupation: "Cat"});
+ * // => 3
+ *
+ */
 function typeConst(obj) {
   if (obj instanceof Map) {
     return MAP_TYPE;
@@ -106,18 +106,18 @@ function typePrimitive(obj) {
 }
 
 /**
-* creates something similar to a Clojure's List structure using JavaScript arrays
-*
-* It's useful to have a seperate structure because the lists behave differently to
-* vectors in some functions
-*
-* @return {List}
-* @example
-*
-* new List(1, 2, 3); 
-* // => List(3) [ 1, 2, 3 ]
-*
-*/
+ * creates something similar to a Clojure's List structure using JavaScript arrays
+ *
+ * It's useful to have a seperate structure because the lists behave differently to
+ * vectors in some functions
+ *
+ * @return {List}
+ * @example
+ *
+ * new List(1, 2, 3);
+ * // => List(3) [ 1, 2, 3 ]
+ *
+ */
 export class List extends Array {
   constructor(...args) {
     super();
@@ -126,19 +126,19 @@ export class List extends Array {
 }
 
 /**
-* checks if x is a List
-*
-* @func
-* @param {*}
-* @return {boolean} 
-*
-* isList(new List(1, 2, 3)); 
-* // => true
-*
-* isList("hello"); 
-* // => false
-*
-*/
+ * checks if x is a List
+ *
+ * @func
+ * @param {*}
+ * @return {boolean}
+ *
+ * isList(new List(1, 2, 3));
+ * // => true
+ *
+ * isList("hello");
+ * // => false
+ *
+ */
 export function isList(x) {
   return typeConst(x) === LIST_TYPE;
 }
@@ -163,20 +163,20 @@ export function list(...args) {
 }
 
 /**
-* returns a lazy sequence of the concatenation of elements in colls
-* 
-* @func
-* @param {...Array} collections to concat
-* @return {LazyIterable}
-* @example
-*
-* [...concat([1, 2], [3, 4])];
-* // => [ 1, 2, 3, 4 ]
-* 
-* [...concat(["a", "b"], null, [1, [2, 3], 4])];
-* // => [ 'a', 'b', 1, [ 2, 3 ], 4 ]
-* 
-*/
+ * returns a lazy sequence of the concatenation of elements in colls
+ *
+ * @func
+ * @param {...Array} collections to concat
+ * @return {LazyIterable}
+ * @example
+ *
+ * [...concat([1, 2], [3, 4])];
+ * // => [ 1, 2, 3, 4 ]
+ *
+ * [...concat(["a", "b"], null, [1, [2, 3], 4])];
+ * // => [ 'a', 'b', 1, [ 2, 3 ], 4 ]
+ *
+ */
 export function concat(...colls) {
   return lazy(function* () {
     for (const coll of colls) {
@@ -207,17 +207,17 @@ export function mapcat(f, ...colls) {
 }
 
 /**
-* returns true if the seq function is supported for x
-*
-* @func
-* @param {Array|Map|Set|Object|string|null} 
-* @return {boolean}
-* @example
-*
-* isSeqable("hello");
-* // => true
-*
-*/
+ * returns true if the seq function is supported for x
+ *
+ * @func
+ * @param {Array|List|Map|Set|Object|string|null}
+ * @return {boolean}
+ * @example
+ *
+ * isSeqable("hello");
+ * // => true
+ *
+ */
 export function isSeqable(x) {
   return (
     typeof x === "string" ||
@@ -228,21 +228,21 @@ export function isSeqable(x) {
 }
 
 /**
-* returns an iterable of x, even if it's empty allowing for nil punning
-* Internal function
-* 
-* @func
-* @param {Array|Map|Set|Object|string|null}
-* @return {Array|Map|Set|Object|string}
-* @example
-*
-* iterable(null);
-* // => []
-* 
-* iterable("abc");
-* // => "abc"
-*
-*/
+ * returns an iterable of x, even if it's empty allowing for nil punning
+ * Internal function
+ *
+ * @func
+ * @param {Array|List|Map|Set|Object|string|null}
+ * @return {Array|Map|Set|Object|string}
+ * @example
+ *
+ * iterable(null);
+ * // => []
+ *
+ * iterable("abc");
+ * // => "abc"
+ *
+ */
 export function iterable(x) {
   if (x === null || x === undefined) {
     return [];
@@ -259,39 +259,39 @@ const IIterable = Symbol("Iterable");
 
 const IIterableIterator = Symbol.iterator;
 
-/** 
-* 
-* Internal funtion used for creating lazy sequences
-*
-* @func
-* @param {Array|Object} collection
-* @return {Object}
-* @example
-*
-* iterator([1, 2, 3]);
-* // => Object [Array Iterator] {}
-* 
-*/
+/**
+ *
+ * Internal funtion used for creating lazy sequences
+ *
+ * @func
+ * @param {Array|Object} collection
+ * @return {Object}
+ * @example
+ *
+ * iterator([1, 2, 3]);
+ * // => Object [Array Iterator] {}
+ *
+ */
 function iterator(coll) {
   return coll[Symbol.iterator]();
 }
 
 /**
-* takes a collection and returns an iterable of that collection, or nil if
-* it's empty.
-* 
-* @func
-* @param {*} collection
-* @return {Array|null} iterable of collection
-* @example
-* 
-* seq([1, 2]);
-* // => [ 1, 2 ]
-* 
-* seq(null);
-* // => null
-*
-*/
+ * takes a collection and returns an iterable of that collection, or nil if
+ * it's empty.
+ *
+ * @func
+ * @param {*} collection
+ * @return {Array|null} iterable of collection
+ * @example
+ *
+ * seq([1, 2]);
+ * // => [ 1, 2 ]
+ *
+ * seq(null);
+ * // => null
+ *
+ */
 export function seq(x) {
   var iter = iterable(x);
 
@@ -303,9 +303,9 @@ export function seq(x) {
 }
 
 /**
-* Enables lazy evaluation of sequences
-*
-*/
+ * Enables lazy evaluation of sequences
+ *
+ */
 class LazyIterable {
   constructor(gen) {
     this.gen = gen;
@@ -317,35 +317,35 @@ class LazyIterable {
 }
 
 /**
-* returns a new instance of LazyIterable
-* Internal function
-* 
-* @func
-* @params {function}
-* @return {LazyIterable}
-*
-*/
+ * returns a new instance of LazyIterable
+ * Internal function
+ *
+ * @func
+ * @params {function}
+ * @return {LazyIterable}
+ *
+ */
 function lazy(f) {
   return new LazyIterable(f);
 }
 
 /**
-* returns a new LazyIterable where x is the first item and
-* coll is the rest
-*
-* @func
-* @param {*} value to prepend to collection
-* @param {Array|Map|Set|Object|string|null} collection
-* @return {LazyIterable}
-* @example
-*
-* [...cons(1, [2, 3, 4, 5, 6])];
-* // => [ 1, 2, 3, 4, 5, 6 ]
-* 
-* [...cons([1, 2], [4, 5, 6])];
-* // => [ [ 1, 2 ], 4, 5, 6 ]
-* 
-*/
+ * returns a new LazyIterable where x is the first item and
+ * coll is the rest
+ *
+ * @func
+ * @param {*} value to prepend to collection
+ * @param {Array|List|Map|Set|Object|string|null} collection
+ * @return {LazyIterable}
+ * @example
+ *
+ * [...cons(1, [2, 3, 4, 5, 6])];
+ * // => [ 1, 2, 3, 4, 5, 6 ]
+ *
+ * [...cons([1, 2], [4, 5, 6])];
+ * // => [ [ 1, 2 ], 4, 5, 6 ]
+ *
+ */
 export function cons(x, coll) {
   return lazy(function* () {
     yield x;
@@ -354,21 +354,21 @@ export function cons(x, coll) {
 }
 
 /**
-* applies a given function to each element of a collection
-*
-* @func
-* @param {function} function applied to each element in collection
-* @param {...Array|Map|Set|Object|string|null} collection
-* @return {LazyIterable}
-* @example
-* 
-* [...map(inc, [1, 2, 3, 4, 5])];
-* // => [ 2, 3, 4, 5, 6 ]
-* 
-* [...map(last, {x: 1, y: 2, z: 3})];
-* // => [ 1, 2, 3 ]
-* 
-*/
+ * applies a given function to each element of a collection
+ *
+ * @func
+ * @param {function} function applied to each element in collection
+ * @param {...Array|List|Map|Set|Object|string|null} collection
+ * @return {LazyIterable}
+ * @example
+ *
+ * [...map(inc, [1, 2, 3, 4, 5])];
+ * // => [ 2, 3, 4, 5, 6 ]
+ *
+ * [...map(last, {x: 1, y: 2, z: 3})];
+ * // => [ 1, 2, 3 ]
+ *
+ */
 export function map(f, ...colls) {
   switch (colls.length) {
     case 0:
@@ -402,18 +402,18 @@ export function map(f, ...colls) {
 }
 
 /**
-* returns a lazy sequence of the items in coll for which
-* pred(item) returns true
-*
-* @func
-* @param {function} predicate check
-* @param {Array|List|Set|null} collection
-* @example
-* 
-* [...filter(isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])];
-* // => [ 0, 2, 4, 6, 8, 10 ]
-*
-*/
+ * returns a lazy sequence of the items in coll for which
+ * pred(item) returns true
+ *
+ * @func
+ * @param {function} predicate check
+ * @param {Array|List|Set|null} collection
+ * @example
+ *
+ * [...filter(isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])];
+ * // => [ 0, 2, 4, 6, 8, 10 ]
+ *
+ */
 export function filter(pred, coll) {
   return lazy(function* () {
     for (const x of iterable(coll)) {
@@ -425,60 +425,60 @@ export function filter(pred, coll) {
 }
 
 /**
-* returns an array of the items in coll for which
-* pred(item) returns true
-*
-* @param {function} predicate check
-* @param {Array|List|Set|null} collection
-* @return {Array}
-* @example
-* 
-* filterv(isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-* [ 0, 2, 4, 6, 8, 10 ]
-* 
-*/
+ * returns an array of the items in coll for which
+ * pred(item) returns true
+ *
+ * @param {function} predicate check
+ * @param {Array|List|Set|null} collection
+ * @return {Array}
+ * @example
+ *
+ * filterv(isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+ * [ 0, 2, 4, 6, 8, 10 ]
+ *
+ */
 export function filterv(pred, coll) {
   return [...filter(pred, coll)];
 }
 
 /**
-* returns a lazy sequence of the items in coll for which
-* pred(item) returns false
-*
-* @func
-* @param {function} predicate check
-* @param {Array|Map|Set|Object|string|null}
-* @return {LazyIterable}
-* 
-* [...remove(isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])];
-* // => [ 1, 3, 5, 7, 9 ]
-* 
-*/
+ * returns a lazy sequence of the items in coll for which
+ * pred(item) returns false
+ *
+ * @func
+ * @param {function} predicate check
+ * @param {Array|List|Map|Set|Object|string|null}
+ * @return {LazyIterable}
+ *
+ * [...remove(isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])];
+ * // => [ 1, 3, 5, 7, 9 ]
+ *
+ */
 export function remove(pred, coll) {
   return filter(complement(pred), coll);
 }
 
 /**
-* returns an array of the result of applying f to 0 and the first 
-* item of coll, followed by applying f to 1 and the second item in the coll etc
-*
-* @func
-* @param {function}
-* @param {Array|Map|Set|Object|string|null}
-* @return {Array}
-* @example
-* 
-* mapIndexed((index, item) => [index, item], "foobar");
-* => [
-*      [0, "f"],
-*      [1, "o"],
-*      [2, "o"],
-*      [3, "b"],
-*      [4, "a"],
-*      [5, "r"],
-*    ];
-* 
-*/
+ * returns an array of the result of applying f to 0 and the first
+ * item of coll, followed by applying f to 1 and the second item in the coll etc
+ *
+ * @func
+ * @param {function}
+ * @param {Array|List|Map|Set|Object|string|null}
+ * @return {Array}
+ * @example
+ *
+ * mapIndexed((index, item) => [index, item], "foobar");
+ * => [
+ *      [0, "f"],
+ *      [1, "o"],
+ *      [2, "o"],
+ *      [3, "b"],
+ *      [4, "a"],
+ *      [5, "r"],
+ *    ];
+ *
+ */
 export function mapIndexed(f, coll) {
   let ret = [];
   let i = 0;
@@ -492,21 +492,21 @@ export function mapIndexed(f, coll) {
 }
 
 /**
-* returns a LazyIterable collection containing a possibly empty seq of the items 
-* after the first
-* 
-* @func
-* @param {Array|Map|Set|Object|string|null}
-* @return {LazyIterable}
-* @example
-*
-* [...rest([1, 2, 3])];
-* // => [ 2, 3 ]
-* 
-* [...rest(null)];
-* // => []
-* 
-*/
+ * returns a LazyIterable collection containing a possibly empty seq of the items
+ * after the first
+ *
+ * @func
+ * @param {Array|List|Map|Set|Object|string|null}
+ * @return {LazyIterable}
+ * @example
+ *
+ * [...rest([1, 2, 3])];
+ * // => [ 2, 3 ]
+ *
+ * [...rest(null)];
+ * // => []
+ *
+ */
 export function rest(coll) {
   return lazy(function* () {
     var first = true;
@@ -521,21 +521,21 @@ export function rest(coll) {
   });
 }
 
-/** 
-* returns the first item of collection 
-*
-* @func
-* @param {Array|Map|Set|Object|string|null}
-* @return {*}
-* @example
-* 
-* first([1, 2, 3]);
-* // => 1
-* 
-* first("abc");
-* // => "a"
-* 
-*/
+/**
+ * returns the first item of collection
+ *
+ * @func
+ * @param {Array|List|Map|Set|Object|string|null}
+ * @return {*}
+ * @example
+ *
+ * first([1, 2, 3]);
+ * // => 1
+ *
+ * first("abc");
+ * // => "a"
+ *
+ */
 export function first(coll) {
   var [first] = iterable(coll);
 
@@ -543,17 +543,17 @@ export function first(coll) {
 }
 
 /**
-* returns the second item of a collection
-*
-* @func
-* @param {Array|Map|Set|Object|string|null}
-* @return {*}
-* @example
-* 
-* second([1, 2, 3]);
-* // => 2
-* 
-*/
+ * returns the second item of a collection
+ *
+ * @func
+ * @param {Array|List|Map|Set|Object|string|null}
+ * @return {*}
+ * @example
+ *
+ * second([1, 2, 3]);
+ * // => 2
+ *
+ */
 export function second(coll) {
   var [_, v] = iterable(coll);
 
@@ -561,36 +561,36 @@ export function second(coll) {
 }
 
 /**
-* the same as first(first(coll))
-*
-* @func
-* @param {Array|Map|Set|Object|string|null}
-* @return {*}
-* @example
-* 
-* ffirst({name: "George", weight: 100})
-* // => "name"
-* 
-*/
+ * the same as first(first(coll))
+ *
+ * @func
+ * @param {Array|List|Map|Set|Object|string|null}
+ * @return {*}
+ * @example
+ *
+ * ffirst({name: "George", weight: 100})
+ * // => "name"
+ *
+ */
 export function ffirst(coll) {
   return first(first(coll));
 }
 
 /**
-* returns the last item in a collection
-*
-* @func
-* @param {Array|Map|Set|Object|string|null}
-* @return {*}
-* @example
-* 
-* last([1, 2, 3, 4, 5]);
-* // => 5
-* 
-* last({one: 1, two: 2, three: 3});
-* // => [ "three", 3 ]
-* 
-*/
+ * returns the last item in a collection
+ *
+ * @func
+ * @param {Array|List|Map|Set|Object|string|null}
+ * @return {*}
+ * @example
+ *
+ * last([1, 2, 3, 4, 5]);
+ * // => 5
+ *
+ * last({one: 1, two: 2, three: 3});
+ * // => [ "three", 3 ]
+ *
+ */
 export function last(coll) {
   coll = iterable(coll);
 
@@ -621,55 +621,60 @@ class Reduced {
 }
 
 /**
-* wraps x so that reduce will terminate with the value x
-*
-* @func
-* @param {*}
-* @return {*}
-* @example
-* 
-* reduce((a, b) => {
-*   if ((a + b) > 20) {
-*     return reduced("Done early!");
-*   } else {
-*     return a + b;
-*   }
-* }, range(10));
-* // => "Done early!"
-*
-*/
+ * wraps x so that reduce will terminate with the value x
+ *
+ * @func
+ * @param {*}
+ * @return {*}
+ * @example
+ *
+ * reduce((a, b) => {
+ *   if ((a + b) > 20) {
+ *     return reduced("Done early!");
+ *   } else {
+ *     return a + b;
+ *   }
+ * }, range(10));
+ * // => "Done early!"
+ *
+ */
 export function reduced(x) {
   return new Reduced(x);
 }
 
-/*
-* isReduced() returns true if x is the result of a call to reduced
-* 
-* @func
-* @param {function}
-* @return {boolean}
-* @example
-*
-* isReduced("foo");
-* // => false
-* 
-* isReduced(reduced("foo"));
-* // => true
-* 
-*/
+/**
+ * returns true if x is the result of a call to reduced
+ *
+ * @func
+ * @param {function}
+ * @return {boolean}
+ * @example
+ *
+ * isReduced("foo");
+ * // => false
+ *
+ * isReduced(reduced("foo"));
+ * // => true
+ *
+ */
 export function isReduced(x) {
   return x instanceof Reduced;
 }
 
-/*
-reduce() iterates over a collection and applies a function to each
-element, returning a single result
+/**
+* iterates over a collection and applies a function to each
+* element, returning a single result
 
-reduce(plus, [1, 2, 3, 4, 5]);
-15
-
-reduce(plus, [1]);
-1
+* @func
+* @param {function}
+* @return {Array|Map|Set|Object|string}
+* @example
+* 
+* reduce(plus, [1, 2, 3, 4, 5]);
+* // => 15
+* 
+* reduce(plus, [1]);
+* // => 1
 
 */
 export function reduce(f, arg1, arg2) {
@@ -706,13 +711,20 @@ export function reduce(f, arg1, arg2) {
   return val;
 }
 
-/*
-Mutator
-mutAssoc() adds a value to a structure by mutating the original
-
-var arrData = [1, 2, 5, 6, 8, 9];
-mutAssoc(someData, 0, 77);
-[ 77, 2, 5, 6, 8, 9 ]
+/**
+* adds a value to a structure by mutating the original
+* Mutator
+* 
+* @func
+* @param {Array|Map|Object} collection
+* @param {number|string} position to add value
+* @param {*} value
+* @return {Array}
+* @example
+*
+* var arrData = [1, 2, 5, 6, 8, 9];
+* mutAssoc(someData, 0, 77);
+* // => [ 77, 2, 5, 6, 8, 9 ]
 
 */
 export function mutAssoc(coll, key, val, ...kvs) {
@@ -747,13 +759,20 @@ export function mutAssoc(coll, key, val, ...kvs) {
   return coll;
 }
 
-/*
-assoc() returns a new structure with a modified values
-
-assoc([1, 2, 5, 6, 8, 9], 0, 77);
-[ 77, 2, 5, 6, 8, 9 ]
-
-*/
+/**
+ * returns a new structure with a modified values
+ *
+ * @func
+ * @param {Array|Map|Object} collection
+ * @param {number|string} position to add value
+ * @param {*} value
+ * @return {Array}
+ * @example
+ *
+ * assoc([1, 2, 5, 6, 8, 9], 0, 77);
+ * // => [ 77, 2, 5, 6, 8, 9 ]
+ *
+ */
 export function assoc(coll, key, val, ...kvs) {
   if (!coll) {
     coll = {};
@@ -775,7 +794,7 @@ export function assoc(coll, key, val, ...kvs) {
 
 /*
 Internal function
-assocInWith() allows for modification (mutation or copy) of nested structures
+allows for modification (mutation or copy) of nested structures
 
 */
 function assocInWith(f, fname, coll, keys, val) {
@@ -822,43 +841,67 @@ function assocInWith(f, fname, coll, keys, val) {
   return chain[0];
 }
 
-/*
-Mutator
-mutAssocIn() associates a value in a nested structure by mutating value
 
-var pets = [{name: "George", age: 12}, {name: "Lola", age: 11}];
-
-mutAssocIn(pets, [0, "age"], 13);
-pets
-[ { name: "George", age: 13 }, { name: "Lola", age: 11 } ];
-
+/**
+* associates a value in a nested structure by mutating value
+* Mutator
+*
+* @func
+* @param {Array|May|object}
+* @return {Array}
+* @example
+* 
+* var pets = [
+*   { name: "George", age: 12 },
+*   { name: "Lola", age: 11 },
+* ];
+* mutAssocIn(pets, [0, "age"], 13);
+* pets
+* // => [
+* //      { name: "George", age: 13 },
+* //      { name: "Lola", age: 11 },
+* //    ];
+*
 */
 export function mutAssocIn(coll, keys, val) {
   return assocInWith(mutAssoc, "assocIn!", coll, keys, val);
 }
 
-/*
-assocIn() associates a value in a nested structure. It returns a new structure
-
-assocIn([{name: "George", age: 12}, {name: "Lola", age: 11}], [0, "age"], 13);
-[
-  { name: "George", age: 13 },
-  { name: "Lola", age: 11 },
-];
-
+/**
+* assocIn() associates a value in a nested structure. It returns a new structure
+*
+* @func
+* @param {Array|May|object}
+* @return {Array}
+* @example
+* 
+* assocIn([{name: "George", age: 12}, {name: "Lola", age: 11}], [0, "age"], 13);
+* // => [
+* //      { name: "George", age: 13 },
+* //      { name: "Lola", age: 11 },
+* //    ];
+* 
 */
 export function assocIn(coll, keys, val) {
   return assocInWith(assoc, "assocIn", coll, keys, val);
 }
 
-/*
-Mutator
-mutDissoc removes item(s) from an object by key name
-
-var dissocObj = {name: "George", salary: "Biscuits"};
-mutDissoc(dissocObj, "name", "salary");
-{}
-  
+/**
+* removes item(s) from an object by key name
+* Mutator
+*
+* @func
+* @param {Object} object
+* @param {...string} keys
+* @return {Object}
+* @example
+* 
+* var dissocObj = {name: "George", salary: "Biscuits"};
+* mutDissoc(dissocObj, "name", "salary");
+* // => {}
+* dissocObj
+* // => {}
+*   
 */
 export function mutDissoc(obj, ...keys) {
   for (const key of keys) {
@@ -868,12 +911,18 @@ export function mutDissoc(obj, ...keys) {
   return obj;
 }
 
-/*
-dissoc returns a copy of an object with item(s) removed by key name
-
-dissoc({name: "George", salary: "Biscuits"}, "name", "salary");
-{}
-
+/**
+* returns a copy of an object with item(s) removed by key name
+* 
+* @func
+* @param {Object} object
+* @param {...string} keys
+* @return {Object}
+* @example
+*
+* dissoc({name: "George", salary: "Biscuits"}, "name", "salary");
+* // => {}
+*
 */
 export function dissoc(obj, ...keys) {
   let obj2 = { ...obj };
@@ -885,16 +934,21 @@ export function dissoc(obj, ...keys) {
   return obj2;
 }
 
-/*
-comp() takes a set of functions and returns a fn that is the composition
-of those fns
-
-comp(isZero)(5);
-false
-
-comp(str, plus)(8, 8, 8);
-"24"
-
+/**
+* takes a set of functions and returns a fn that is the composition
+* of those fns
+*
+* @func
+* @param {...function}
+* @return {*}
+* @example
+* 
+* comp(isZero)(5);
+* // => false
+* 
+* comp(str, plus)(8, 8, 8);
+* // => "24"
+* 
 */
 export function comp(...fs) {
   if (fs.length === 0) {
@@ -916,16 +970,22 @@ export function comp(...fs) {
 }
 
 /*
-Mutator
-mutConj() (conjoin) adds to a structure by mutation. The position of the addition
-depends on the structure type
-
-mutConj([1, 2, 3], 4);
-[ 1, 2, 3, 4 ]
-
-mutConj({name: "George", coat: "Tabby"}, {age: 12, nationality: "British"})
-{ name: 'George', coat: 'Tabby', age: 12, nationality: 'British' }
-
+* mutConj(oin) adds to a structure by mutation. The position of the addition
+* depends on the structure type
+* Mutator
+*
+* @func
+* @param {Set|Array|List|Map|Object}
+* @param {*}
+* @return {Set|Array|List|Map|Object}
+* @example
+* 
+* mutConj([1, 2, 3], 4);
+* // => [1, 2, 3, 4]
+* 
+* mutConj({name: "George", coat: "Tabby"}, {age: 12, nationality: "British"})
+* // => {name: "George", coat: "Tabby", age: 12, nationality: "British"}
+* 
 */
 export function mutConj(...xs) {
   if (xs.length === 0) {
@@ -977,16 +1037,22 @@ export function mutConj(...xs) {
   return coll;
 }
 
-/*
-conj() (conjoin) adds to a structure and returns a copy. The position of the 
-addition depends on the structure type
-
-conj([1, 2, 3], 4);
-[ 1, 2, 3, 4 ]
-
-conj([1, 2, 3], 4, 5);
-[ 1, 2, 3, 4, 5 ]
-
+/**
+* conj() (conjoin) adds to a structure and returns a copy. The position of the 
+* addition depends on the structure type
+*
+* @func
+* @param {Set|Array|List|Map|Object}
+* @param {*}
+* @return {Set|Array|List|Map|Object}
+* @example
+* 
+* conj([1, 2, 3], 4);
+* // => [ 1, 2, 3, 4 ]
+* 
+* conj([1, 2, 3], 4, 5);
+* // => [ 1, 2, 3, 4, 5 ]
+* 
 */
 export function conj(...xs) {
   if (xs.length === 0) {
