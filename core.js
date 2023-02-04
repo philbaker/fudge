@@ -675,7 +675,6 @@ reduce(plus, [1]);
 export function reduce(f, arg1, arg2) {
   let coll, val;
 
-  // TODO: fix in upstream
   if (arg1.length === 0 && arg2 === undefined) {
     return f();
   }
@@ -2515,8 +2514,6 @@ sayHelloWithDefaults(null);
 sayHelloWithDefaults("universe");
 'Hello universe'
 
-// TODO: fix in upstream to add support for multi-arity
-
 */
 export function fnil(f, ...xs) {
   return function (...args) {
@@ -2626,7 +2623,6 @@ export function keep(pred, coll) {
     for (const x of iterable(coll)) {
       const res = pred(x);
 
-      // TODO: this is different in upstream
       if (res !== null && res !== undefined) {
         yield res;
       }
