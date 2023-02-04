@@ -210,7 +210,7 @@ export function mapcat(f, ...colls) {
 * returns true if the seq function is supported for x
 *
 * @func
-* @param {*} 
+* @param {Array|Map|Set|Object|string|null} 
 * @return {boolean}
 * @example
 *
@@ -232,8 +232,8 @@ export function isSeqable(x) {
 * Internal function
 * 
 * @func
-* @param {*}
-* @return {*}
+* @param {Array|Map|Set|Object|string|null}
+* @return {Array|Map|Set|Object|string}
 * @example
 *
 * iterable(null);
@@ -335,7 +335,7 @@ function lazy(f) {
 *
 * @func
 * @param {*} value to prepend to collection
-* @param {Array|Object|List|Set|Map} collection
+* @param {Array|Map|Set|Object|string|null} collection
 * @return {LazyIterable}
 * @example
 *
@@ -358,7 +358,7 @@ export function cons(x, coll) {
 *
 * @func
 * @param {function} function applied to each element in collection
-* @param {...Array|List|Set} collection
+* @param {...Array|Map|Set|Object|string|null} collection
 * @return {LazyIterable}
 * @example
 * 
@@ -407,12 +407,12 @@ export function map(f, ...colls) {
 *
 * @func
 * @param {function} predicate check
-* @param {Array|List|Set} collection
+* @param {Array|List|Set|null} collection
 * @example
 * 
 * [...filter(isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])];
 * // => [ 0, 2, 4, 6, 8, 10 ]
-
+*
 */
 export function filter(pred, coll) {
   return lazy(function* () {
@@ -424,12 +424,12 @@ export function filter(pred, coll) {
   });
 }
 
-/*
+/**
 * returns an array of the items in coll for which
 * pred(item) returns true
 *
 * @param {function} predicate check
-* @param {Array|List|Set} collection
+* @param {Array|List|Set|null} collection
 * @return {Array}
 * @example
 * 
@@ -441,27 +441,43 @@ export function filterv(pred, coll) {
   return [...filter(pred, coll)];
 }
 
-/*
-returns a lazy sequence of the items in coll for which
-pred(item) returns false
-
-[...remove(isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])];
-[ 1, 3, 5, 7, 9 ]
-
+/**
+* returns a lazy sequence of the items in coll for which
+* pred(item) returns false
+*
+* @func
+* @param {function} predicate check
+* @param {Array|Map|Set|Object|string|null}
+* @return {LazyIterable}
+* 
+* [...remove(isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])];
+* // => [ 1, 3, 5, 7, 9 ]
+* 
 */
 export function remove(pred, coll) {
   return filter(complement(pred), coll);
 }
 
-/*
-mapIndexed() returns an array of the result of applying f to 0 and the first 
-item of coll, followed by applying f to 1 and the second item in the coll etc
-
-mapIndexed(function (index, item) {
-  return [index, item];
-}, "foobar");
-[ [0, "f"], [1, "o"], [2, "o"], [3, "b"], [4, "a"], [5, "r"] ];
-
+/**
+* returns an array of the result of applying f to 0 and the first 
+* item of coll, followed by applying f to 1 and the second item in the coll etc
+*
+* @func
+* @param {function}
+* @param {Array|Map|Set|Object|string|null}
+* @return {Array}
+* @example
+* 
+* mapIndexed((index, item) => [index, item], "foobar");
+* => [
+*      [0, "f"],
+*      [1, "o"],
+*      [2, "o"],
+*      [3, "b"],
+*      [4, "a"],
+*      [5, "r"],
+*    ];
+* 
 */
 export function mapIndexed(f, coll) {
   let ret = [];
@@ -475,16 +491,21 @@ export function mapIndexed(f, coll) {
   return ret;
 }
 
-/*
-rest() returns a LazyIterable collection containing a possibly empty seq of the items 
-after the first
-
-[...rest([1, 2, 3])];
-[ 2, 3 ]
-
-[...rest(null)];
-[]
-
+/**
+* returns a LazyIterable collection containing a possibly empty seq of the items 
+* after the first
+* 
+* @func
+* @param {Array|Map|Set|Object|string|null}
+* @return {LazyIterable}
+* @example
+*
+* [...rest([1, 2, 3])];
+* // => [ 2, 3 ]
+* 
+* [...rest(null)];
+* // => []
+* 
 */
 export function rest(coll) {
   return lazy(function* () {
@@ -501,14 +522,19 @@ export function rest(coll) {
 }
 
 /* 
-first() returns the first item of collection 
-
-first([1, 2, 3]);
-1
-
-first("abc");
-"a"
-
+* returns the first item of collection 
+*
+* @func
+* @param {Array|Map|Set|Object|string|null}
+* @return {*}
+* @example
+* 
+* first([1, 2, 3]);
+* // => 1
+* 
+* first("abc");
+* // => "a"
+* 
 */
 export function first(coll) {
   var [first] = iterable(coll);
