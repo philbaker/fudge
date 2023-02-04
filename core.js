@@ -3150,7 +3150,7 @@ isEqual() is a helper for eq()
 
 */
 function isEqual(x, y) {
-  if (y !== 0 && not(y)) {
+  if (typeof y === "undefined") {
     return true;
   }
 
