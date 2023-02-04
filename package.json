@@ -1,6 +1,6 @@
 {
   "name": "fudgejs",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Clojure-inspired functions for JavaScript",
   "type": "module",
   "main": "core.js",
