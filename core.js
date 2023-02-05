@@ -144,20 +144,20 @@ export function isList(x) {
 }
 
 /**
-* creates a new List containing args
-* 
-* @func
-* @param {...*}
-* @return {List}
-* @example
-*
-* list("a", "b", "c"); 
-* // => List(3) [ 'a', 'b', 'c' ]
-* 
-* list(1, 2, 3);
-* // => List(3) [ 1, 2, 3 ]
-
-*/
+ * creates a new List containing args
+ *
+ * @func
+ * @param {...*}
+ * @return {List}
+ * @example
+ *
+ * list("a", "b", "c");
+ * // => List(3) [ 'a', 'b', 'c' ]
+ *
+ * list(1, 2, 3);
+ * // => List(3) [ 1, 2, 3 ]
+ *
+ */
 export function list(...args) {
   return new List(...args);
 }
@@ -186,22 +186,22 @@ export function concat(...colls) {
 }
 
 /**
-* returns a LazyIterable of applying concat to the result of 
-* applying map to f and colls
-*
-* @func
-* @param {function}
-* @param {...Array}
-* @return {LazyIterable}
-* @example
-*
-* [...mapcat(reverse, [[3, 2, 1, 0], [6, 5, 4], [9, 8, 7]])];
-* // => [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
-* 
-* [...mapcat(list, ["a", "b", "c"], [1, 2, 3])];
-* // => [ "a", 1, "b", 2, "c", 3 ]
-
-*/
+ * returns a LazyIterable of applying concat to the result of
+ * applying map to f and colls
+ *
+ * @func
+ * @param {function}
+ * @param {...Array}
+ * @return {LazyIterable}
+ * @example
+ *
+ * [...mapcat(reverse, [[3, 2, 1, 0], [6, 5, 4], [9, 8, 7]])];
+ * // => [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+ *
+ * [...mapcat(list, ["a", "b", "c"], [1, 2, 3])];
+ * // => [ "a", 1, "b", 2, "c", 3 ]
+ *
+ */
 export function mapcat(f, ...colls) {
   return concat(...map(f, ...colls));
 }
@@ -233,7 +233,7 @@ export function isSeqable(x) {
  *
  * @func
  * @param {Array|List|Map|Set|Object|string|null}
- * @return {Array|Map|Set|Object|string}
+ * @return {Array|Map|Set|Object|List|string}
  * @example
  *
  * iterable(null);
@@ -662,21 +662,21 @@ export function isReduced(x) {
 }
 
 /**
-* iterates over a collection and applies a function to each
-* element, returning a single result
-
-* @func
-* @param {function}
-* @return {Array|Map|Set|Object|string}
-* @example
-* 
-* reduce(plus, [1, 2, 3, 4, 5]);
-* // => 15
-* 
-* reduce(plus, [1]);
-* // => 1
-
-*/
+ * iterates over a collection and applies a function to each
+ * element, returning a single result
+ *
+ * @func
+ * @param {function}
+ * @return {Array|Map|Set|Object|List|string}
+ * @example
+ *
+ * reduce(plus, [1, 2, 3, 4, 5]);
+ * // => 15
+ *
+ * reduce(plus, [1]);
+ * // => 1
+ *
+ */
 export function reduce(f, arg1, arg2) {
   let coll, val;
 
@@ -712,21 +712,21 @@ export function reduce(f, arg1, arg2) {
 }
 
 /**
-* adds a value to a structure by mutating the original
-* Mutator
-* 
-* @func
-* @param {Array|Map|Object} collection
-* @param {number|string} position to add value
-* @param {*} value
-* @return {Array}
-* @example
-*
-* var arrData = [1, 2, 5, 6, 8, 9];
-* mutAssoc(someData, 0, 77);
-* // => [ 77, 2, 5, 6, 8, 9 ]
-
-*/
+ * adds a value to a structure by mutating the original
+ * Mutator
+ *
+ * @func
+ * @param {Array|Map|Object} collection
+ * @param {number|string} position to add value
+ * @param {*} value
+ * @return {Array}
+ * @example
+ *
+ * var arrData = [1, 2, 5, 6, 8, 9];
+ * mutAssoc(someData, 0, 77);
+ * // => [ 77, 2, 5, 6, 8, 9 ]
+ *
+ */
 export function mutAssoc(coll, key, val, ...kvs) {
   if (kvs.length % 2 !== 0) {
     throw new Error(
@@ -1150,7 +1150,7 @@ export function disj(set, ...xs) {
  * otherwise false. For arrays the key is the index.
  *
  * @func
- * @param {Array|Map|Set|Object}
+ * @param {Array|Map|Set|List|Object}
  * @return {boolean}
  * @example
  *
@@ -1355,7 +1355,7 @@ export function identity(x) {
  * then the second etc
  *
  * @func
- * @param {Array|Map|Set|Object|string|null}
+ * @param {Array|Map|Set|List|Object|string|null}
  * @return {LazyIterable}
  * @example
  *
@@ -1385,18 +1385,18 @@ export function interleave(...colls) {
 }
 
 /*
-* interpose() returns a lazy sequence of the elements of coll separated
-* by sep
-* 
-* @func
-* @param {Array|Map|Set|Object|string|null}
-* @return {LazyIterable}
-* @example
-*
-* [...interpose(", ", ["one", "two", "three"])];
-* // => ["one", ", ", "two", ", ", "three"]
-* 
-*/
+ * interpose() returns a lazy sequence of the elements of coll separated
+ * by sep
+ *
+ * @func
+ * @param {Array|Map|Set|List|Object|string|null}
+ * @return {LazyIterable}
+ * @example
+ *
+ * [...interpose(", ", ["one", "two", "three"])];
+ * // => ["one", ", ", "two", ", ", "three"]
+ *
+ */
 export function interpose(sep, coll) {
   return drop(1, interleave(repeat(sep), coll));
 }
@@ -1405,15 +1405,15 @@ export function interpose(sep, coll) {
  * returns a map containing only those entries in the map whose key is in keys
  *
  * @func
- * @param {Array|Map|Set|Object|string|null}
- * @return {*}
+ * @param {Array|Map|Set|Object|List|string|null}
+ * @param {Array}
+ * @return {Object}
  * @example
  *
  * selectKeys({a: 1, b: 2}, ["a"]);
  * // => {a: 1}
  *
  */
-selectKeys(null, [0]);
 export function selectKeys(coll, keys) {
   const type = typeConst(coll);
 
@@ -1468,14 +1468,18 @@ function _partition(n, step, pad, coll, all) {
   });
 }
 
-/*
-partition() returns a lazy sequence of n items each at offsets
-step apart
-
-[...partition(4, range(20))];
-[ [ 0, 1, 2, 3 ], [ 4, 5, 6, 7 ], [ 8, 9, 10, 11 ], [ 12, 13, 14, 15 ], [ 16, 17, 18, 19 ] ]
-
-*/
+/**
+ * partition() returns a lazy sequence of n items each at offsets step apart
+ * @func
+ * @param {number}
+ * @param {Array|Map|Set|Object|List|string|null}
+ * @return {LazyIterable}
+ * @example
+ *
+ * [...partition(4, range(20))];
+ * // => [[0, 1, 2, 3], [4, 5, 6, 7], [8, 9, 10, 11], [12, 13, 14, 15], [16, 17, 18, 19]]
+ *
+ */
 export function partition(n, ...args) {
   let step = n;
   let pad = [];
@@ -1490,14 +1494,20 @@ export function partition(n, ...args) {
   return _partition(n, step, pad, coll, false);
 }
 
-/*
-partitionAll() returns a lazy sequence of arrays like partition but
-may include partitions with fewer than n items at the end
-
-[...partitionAll(4, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])];
-[ [ 0, 1, 2, 3 ], [ 4, 5, 6, 7 ], [ 8, 9 ] ]
-
-*/
+/**
+ * partitionAll() returns a lazy sequence of arrays like partition but
+ * may include partitions with fewer than n items at the end
+ *
+ * @func
+ * @param {number}
+ * @param {Array|Map|Set|Object|string|null}
+ * @return {Array}
+ * @example
+ *
+ * [...partitionAll(4, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])];
+ * [[0, 1, 2, 3], [4, 5, 6, 7], [8, 9]]
+ *
+ */
 export function partitionAll(n, ...args) {
   let step = n;
   let coll = args[0];
