@@ -841,68 +841,67 @@ function assocInWith(f, fname, coll, keys, val) {
   return chain[0];
 }
 
-
 /**
-* associates a value in a nested structure by mutating value
-* Mutator
-*
-* @func
-* @param {Array|May|object}
-* @return {Array}
-* @example
-* 
-* var pets = [
-*   { name: "George", age: 12 },
-*   { name: "Lola", age: 11 },
-* ];
-* mutAssocIn(pets, [0, "age"], 13);
-* pets
-* // => [
-* //      { name: "George", age: 13 },
-* //      { name: "Lola", age: 11 },
-* //    ];
-*
-*/
+ * associates a value in a nested structure by mutating value
+ * Mutator
+ *
+ * @func
+ * @param {Array|May|object}
+ * @return {Array}
+ * @example
+ *
+ * var pets = [
+ *   { name: "George", age: 12 },
+ *   { name: "Lola", age: 11 },
+ * ];
+ * mutAssocIn(pets, [0, "age"], 13);
+ * pets
+ * // => [
+ * //      { name: "George", age: 13 },
+ * //      { name: "Lola", age: 11 },
+ * //    ];
+ *
+ */
 export function mutAssocIn(coll, keys, val) {
   return assocInWith(mutAssoc, "assocIn!", coll, keys, val);
 }
 
 /**
-* assocIn() associates a value in a nested structure. It returns a new structure
-*
-* @func
-* @param {Array|May|object}
-* @return {Array}
-* @example
-* 
-* assocIn([{name: "George", age: 12}, {name: "Lola", age: 11}], [0, "age"], 13);
-* // => [
-* //      { name: "George", age: 13 },
-* //      { name: "Lola", age: 11 },
-* //    ];
-* 
-*/
+ * assocIn() associates a value in a nested structure. It returns a new structure
+ *
+ * @func
+ * @param {Array|May|object}
+ * @return {Array}
+ * @example
+ *
+ * assocIn([{name: "George", age: 12}, {name: "Lola", age: 11}], [0, "age"], 13);
+ * // => [
+ * //      { name: "George", age: 13 },
+ * //      { name: "Lola", age: 11 },
+ * //    ];
+ *
+ */
 export function assocIn(coll, keys, val) {
   return assocInWith(assoc, "assocIn", coll, keys, val);
 }
 
 /**
-* removes item(s) from an object by key name
-* Mutator
-*
-* @func
-* @param {Object} object
-* @param {...string} keys
-* @return {Object}
-* @example
-* 
-* var dissocObj = {name: "George", salary: "Biscuits"};
-* mutDissoc(dissocObj, "name", "salary");
-* // => {}
-* dissocObj
-* // => {}
-*   
-*/
+ * removes item(s) from an object by key name
+ * Mutator
+ *
+ * @func
+ * @param {Object} object
+ * @param {...string} keys
+ * @return {Object}
+ * @example
+ *
+ * var dissocObj = {name: "George", salary: "Biscuits"};
+ * mutDissoc(dissocObj, "name", "salary");
+ * // => {}
+ * dissocObj
+ * // => {}
+ *
+ */
 export function mutDissoc(obj, ...keys) {
   for (const key of keys) {
     delete obj[key];
@@ -912,18 +911,18 @@ export function mutDissoc(obj, ...keys) {
 }
 
 /**
-* returns a copy of an object with item(s) removed by key name
-* 
-* @func
-* @param {Object} object
-* @param {...string} keys
-* @return {Object}
-* @example
-*
-* dissoc({name: "George", salary: "Biscuits"}, "name", "salary");
-* // => {}
-*
-*/
+ * returns a copy of an object with item(s) removed by key name
+ *
+ * @func
+ * @param {Object} object
+ * @param {...string} keys
+ * @return {Object}
+ * @example
+ *
+ * dissoc({name: "George", salary: "Biscuits"}, "name", "salary");
+ * // => {}
+ *
+ */
 export function dissoc(obj, ...keys) {
   let obj2 = { ...obj };
 
@@ -935,21 +934,21 @@ export function dissoc(obj, ...keys) {
 }
 
 /**
-* takes a set of functions and returns a fn that is the composition
-* of those fns
-*
-* @func
-* @param {...function}
-* @return {*}
-* @example
-* 
-* comp(isZero)(5);
-* // => false
-* 
-* comp(str, plus)(8, 8, 8);
-* // => "24"
-* 
-*/
+ * takes a set of functions and returns a fn that is the composition
+ * of those fns
+ *
+ * @func
+ * @param {...function}
+ * @return {*}
+ * @example
+ *
+ * comp(isZero)(5);
+ * // => false
+ *
+ * comp(str, plus)(8, 8, 8);
+ * // => "24"
+ *
+ */
 export function comp(...fs) {
   if (fs.length === 0) {
     return identity;
@@ -969,24 +968,24 @@ export function comp(...fs) {
   };
 }
 
-/*
-* mutConj(oin) adds to a structure by mutation. The position of the addition
-* depends on the structure type
-* Mutator
-*
-* @func
-* @param {Set|Array|List|Map|Object}
-* @param {*}
-* @return {Set|Array|List|Map|Object}
-* @example
-* 
-* mutConj([1, 2, 3], 4);
-* // => [1, 2, 3, 4]
-* 
-* mutConj({name: "George", coat: "Tabby"}, {age: 12, nationality: "British"})
-* // => {name: "George", coat: "Tabby", age: 12, nationality: "British"}
-* 
-*/
+/**
+ * mutConj(oin) adds to a structure by mutation. The position of the addition
+ * depends on the structure type
+ * Mutator
+ *
+ * @func
+ * @param {Set|Array|List|Map|Object}
+ * @param {*}
+ * @return {Set|Array|List|Map|Object}
+ * @example
+ *
+ * mutConj([1, 2, 3], 4);
+ * // => [1, 2, 3, 4]
+ *
+ * mutConj({name: "George", coat: "Tabby"}, {age: 12, nationality: "British"})
+ * // => {name: "George", coat: "Tabby", age: 12, nationality: "British"}
+ *
+ */
 export function mutConj(...xs) {
   if (xs.length === 0) {
     return vector();
@@ -1038,22 +1037,22 @@ export function mutConj(...xs) {
 }
 
 /**
-* conj() (conjoin) adds to a structure and returns a copy. The position of the 
-* addition depends on the structure type
-*
-* @func
-* @param {Set|Array|List|Map|Object}
-* @param {*}
-* @return {Set|Array|List|Map|Object}
-* @example
-* 
-* conj([1, 2, 3], 4);
-* // => [ 1, 2, 3, 4 ]
-* 
-* conj([1, 2, 3], 4, 5);
-* // => [ 1, 2, 3, 4, 5 ]
-* 
-*/
+ * conj() (conjoin) adds to a structure and returns a copy. The position of the
+ * addition depends on the structure type
+ *
+ * @func
+ * @param {Set|Array|List|Map|Object}
+ * @param {*}
+ * @return {Set|Array|List|Map|Object}
+ * @example
+ *
+ * conj([1, 2, 3], 4);
+ * // => [ 1, 2, 3, 4 ]
+ *
+ * conj([1, 2, 3], 4, 5);
+ * // => [ 1, 2, 3, 4, 5 ]
+ *
+ */
 export function conj(...xs) {
   if (xs.length === 0) {
     return vector();
@@ -1108,15 +1107,20 @@ export function conj(...xs) {
   }
 }
 
-/*
-Mutator
-mutDisj() removes item(s) from a set via mutation
-
-var disjSet = new Set(["a", "b", "c"]);
-mutDisj(disjSet, "b");
-Set(2) { 'a', 'c' }
-
-*/
+/**
+ * removes item(s) from a set via mutation
+ * Mutator
+ *
+ * @func
+ * @param {Set}
+ * @return {Set}
+ * @example
+ *
+ * var disjSet = new Set(["a", "b", "c"]);
+ * mutDisj(disjSet, "b");
+ * // => Set(2) { "a", "c" }
+ *
+ */
 export function mutDisj(set, ...xs) {
   for (const x of xs) {
     set.delete(x);
@@ -1124,26 +1128,36 @@ export function mutDisj(set, ...xs) {
   return set;
 }
 
-/*
-disj() returns a new copy of a set with item(s) removed
-
-disj(new Set(["a", "b", "c"]), "b");
-Set(2) { 'a', 'c' }
-
-*/
+/**
+ * returns a new copy of a set with item(s) removed
+ *
+ * @func
+ * @param {Set}
+ * @return {Set}
+ * @example
+ *
+ * disj(new Set(["a", "b", "c"]), "b");
+ * Set(2) { "a", "c" }
+ *
+ */
 export function disj(set, ...xs) {
   let set1 = new Set([...set]);
   return mutDisj(set1, ...xs);
 }
 
-/*
-itContains() returns true if key is present in the given collection,
-otherwise false. For arrays the key is the index.
-
-itContains({name: "George", salary: "Biscuits"}, "name");
-true
-
-*/
+/**
+ * returns true if key is present in the given collection,
+ * otherwise false. For arrays the key is the index.
+ *
+ * @func
+ * @param {Array|Map|Set|Object}
+ * @return {boolean}
+ * @example
+ *
+ * itContains({name: "George", salary: "Biscuits"}, "name");
+ * true
+ *
+ */
 export function itContains(coll, val) {
   switch (typeConst(coll)) {
     case SET_TYPE:
@@ -1156,53 +1170,56 @@ export function itContains(coll, val) {
   }
 }
 
-/*
-plus() returns the sum of numbers
-
-plus(1, 2, 3);
-6
-
-*/
+/**
+ * returns the sum of numbers
+ *
+ * @func
+ * @param {...number}
+ * @return {number}
+ * @example
+ *
+ * plus(1, 2, 3);
+ * // => 6
+ *
+ */
 export function plus(...xs) {
   return xs.reduce((x, y) => x + y, 0);
 }
 
-/*
-minus() returns the subtraction of numbers 
-
-minus(5, 1, 2);
-2
-
-*/
+/**
+ * returns the subtraction of numbers
+ *
+ * @func
+ * @param {...number}
+ * @return {number}
+ * @example
+ *
+ * minus(5, 1, 2);
+ * // => 2
+ *
+ */
 export function minus(...xs) {
   return xs.reduce((x, y) => x - y);
 }
 
-/*
-divide() returns the division of numbers
-
-divide(6, 3);
-2
-
-divide(10);
-0.1
-
-divide(6, 3, 2);
-1
-
-divide(1, 3);
-0.3333333333333333
-
-divide();
-// error
-
-divide(1, 0);
-Infinity
-
-divide(43.0, 2);
-21.5
-
-*/
+/**
+ * returns the division of numbers
+ *
+ * @func
+ * @param {...number}
+ * @return {number}
+ * @example
+ *
+ * divide(6, 3);
+ * 2
+ *
+ * divide(10);
+ * 0.1
+ *
+ * divide(6, 3, 2);
+ * 1
+ *
+ */
 export function divide(...xs) {
   if (xs.length === 0) {
     throw new Error(`Illegal arity: 0 args passed to divide`);
@@ -1215,71 +1232,71 @@ export function divide(...xs) {
   return xs.reduce((x, y) => x / y);
 }
 
-/*
-quot() returns the quotient of dividing numerator by denominator
-
-quot(10, 3);
-3
-
-quot(11, 3);
-3
-
-quot(12, 3);
-4
-
-*/
+/**
+ * returns the quotient of dividing numerator by denominator
+ *
+ * @func
+ * @param {number}
+ * @return {number
+ * @example
+ *
+ * quot(10, 3);
+ * // => 3
+ *
+ * quot(11, 3);
+ * // => 3
+ *
+ * quot(12, 3);
+ * // => 4
+ *
+ */
 export function quot(a, b) {
   return Math.floor(a / b);
 }
 
-/*
-multiply() returns the product of numbers
-
-multiply();
-1
-
-multiply(6);
-6
-
-multiply(2, 3);
-6
-
-multiply(2, 3, 4);
-24
-
-multiply(0.5, 200);
-100
-
-multiply(8, 0.5);
-4
-
-*/
+/**
+ * returns the product of numbers
+ *
+ * @func
+ * @param {number}
+ * @return {number
+ * @example
+ *
+ * multiply();
+ * 1
+ *
+ * multiply(6);
+ * 6
+ *
+ * multiply(2, 3);
+ * 6
+ *
+ * multiply(2, 3, 4);
+ * 24
+ *
+ */
 export function multiply(...xs) {
   return xs.reduce((x, y) => x * y, 1);
 }
 
-/*
-gt() returns true if numbers are in decreasing order, otherwise false
-
-gt(1, 2);
-false
-
-gt(2, 1);
-true
-
-gt(2, 2);
-false
-
-gt(6, 5, 4, 3, 2)
-true
-
-gt(6, 5, 4, 3, 2, 4)
-false
-
-gt(6, 3, 1)
-true
-
-*/
+/**
+ * greater than (>) returns true if numbers are in decreasing order, otherwise false
+ *
+ * @func
+ * @param {...number}
+ * @return {boolean}
+ * @example
+ *
+ * gt(1, 2);
+ * // => false
+ *
+ * gt(2, 1);
+ * // => true
+ *
+ * gt(6, 5, 4, 3, 2)
+ * // => true
+ *
+ */
 export function gt(...xs) {
   for (let i = 0; i < xs.length - 1; i++) {
     if (xs[i] <= xs[i + 1]) {
@@ -1289,31 +1306,24 @@ export function gt(...xs) {
   return true;
 }
 
-/*
-lt() returns true if numbers are in decreasing order, otherwise false
-
-lt(1, 2);
-true
-
-lt(2, 1);
-false
-
-lt(2, 2);
-false
-
-lt(1.5, 2);
-true
-
-lt(2, 3, 4, 5, 6);
-true
-
-lt(1, 0.5);
-false
-
-lt(2, 3, 4, 5, 6, 1);
-false
-
-*/
+/**
+ * less than (<) returns true if numbers are in decreasing order, otherwise false
+ *
+ * @func
+ * @param {number}
+ * @return {boolean}
+ * @example
+ *
+ * lt(1, 2);
+ * // => true
+ *
+ * lt(2, 1);
+ * // => false
+ *
+ * lt(2, 3, 4, 5, 6);
+ * // => true
+ *
+ */
 export function lt(...xs) {
   for (let i = 0; i < xs.length - 1; i++) {
     if (xs[i] >= xs[i + 1]) {
@@ -1324,25 +1334,35 @@ export function lt(...xs) {
   return true;
 }
 
-/*
-identity() returns its argument
-
-identity([1]);
-[ 1 ]
-
-*/
+/**
+ * returns its argument
+ *
+ * @func
+ * @param {*}
+ * @return {*}
+ * @example
+ *
+ * identity([1]);
+ * // => [1]
+ *
+ */
 export function identity(x) {
   return x;
 }
 
-/*
-interleave() returns a lazy sequence of the first item in each coll,
-then the second etc
-
-[...interleave(["a", "b", "c"], [1, 2, 3])];
-[ 'a', 1, 'b', 2, 'c', 3 ]
-
-*/
+/**
+ * returns a lazy sequence of the first item in each coll,
+ * then the second etc
+ *
+ * @func
+ * @param {Array|Map|Set|Object|string|null}
+ * @return {LazyIterable}
+ * @example
+ *
+ * [...interleave(["a", "b", "c"], [1, 2, 3])];
+ * // => ["a", 1, "b", 2, "c", 3]
+ *
+ */
 export function interleave(...colls) {
   return lazy(function* () {
     const iters = colls.map((coll) => iterator(iterable(coll)));
@@ -1365,25 +1385,35 @@ export function interleave(...colls) {
 }
 
 /*
-interpose() returns a lazy sequence of the elements of coll separated
-by sep
-
-[...interpose(", ", ["one", "two", "three"])];
-[ "one", ", ", "two", ", ", "three" ]
-
+* interpose() returns a lazy sequence of the elements of coll separated
+* by sep
+* 
+* @func
+* @param {Array|Map|Set|Object|string|null}
+* @return {LazyIterable}
+* @example
+*
+* [...interpose(", ", ["one", "two", "three"])];
+* // => ["one", ", ", "two", ", ", "three"]
+* 
 */
 export function interpose(sep, coll) {
   return drop(1, interleave(repeat(sep), coll));
 }
 
-/*
-selectKeys() returns a map containing only those entries in the map
-whose key is in keys
-
-selectKeys({a: 1, b: 2}, ["a"]);
-{ a: 1 }
-
-*/
+/**
+ * returns a map containing only those entries in the map whose key is in keys
+ *
+ * @func
+ * @param {Array|Map|Set|Object|string|null}
+ * @return {*}
+ * @example
+ *
+ * selectKeys({a: 1, b: 2}, ["a"]);
+ * // => {a: 1}
+ *
+ */
+selectKeys(null, [0]);
 export function selectKeys(coll, keys) {
   const type = typeConst(coll);
 
