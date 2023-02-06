@@ -1846,317 +1846,312 @@ describe("lett", function () {
       )
     ).toBe(67);
   });
+});
 
-  describe("and", function () {
-    it("returns the first argument that is falsy or the last arg if all args are truthy", function () {
-      expect(c.and(true, true)).toEqual(true);
+describe("and", function () {
+  it("returns the first argument that is falsy or the last arg if all args are truthy", function () {
+    expect(c.and(true, true)).toEqual(true);
 
-      expect(c.and(true, false)).toEqual(false);
+    expect(c.and(true, false)).toEqual(false);
 
-      expect(c.and([], [])).toEqual([]);
+    expect(c.and([], [])).toEqual([]);
 
-      expect(c.and({}, [])).toEqual([]);
+    expect(c.and({}, [])).toEqual([]);
 
-      expect(c.and(false, null)).toEqual(false);
+    expect(c.and(false, null)).toEqual(false);
 
-      expect(c.and(null, false)).toEqual(null);
+    expect(c.and(null, false)).toEqual(null);
 
-      // strict equality to ensure 0 is not falsy
-      expect(c.and(0, 1)).toEqual(1);
+    // strict equality to ensure 0 is not falsy
+    expect(c.and(0, 1)).toEqual(1);
 
-      expect(c.and(1, 0)).toEqual(0);
+    expect(c.and(1, 0)).toEqual(0);
 
-      expect(c.and(null, null)).toEqual(null);
-    });
+    expect(c.and(null, null)).toEqual(null);
   });
+});
 
-  describe("or", function () {
-    it("returns the first argument that is truthy or the last argument if all arguments are falsy", function () {
-      expect(c.or(true, false, false)).toBe(true);
+describe("or", function () {
+  it("returns the first argument that is truthy or the last argument if all arguments are falsy", function () {
+    expect(c.or(true, false, false)).toBe(true);
 
-      expect(c.or(true, true, true)).toBe(true);
+    expect(c.or(true, true, true)).toBe(true);
 
-      expect(c.or(false, false, false)).toBe(false);
+    expect(c.or(false, false, false)).toBe(false);
 
-      expect(c.or(null, null)).toBe(null);
+    expect(c.or(null, null)).toBe(null);
 
-      expect(c.or(null, false)).toBe(false);
+    expect(c.or(null, false)).toBe(false);
 
-      expect(c.or(false, null)).toBe(null);
+    expect(c.or(false, null)).toBe(null);
 
-      expect(c.or(true, null)).toBe(true);
+    expect(c.or(true, null)).toBe(true);
 
-      expect(c.or(false, 42)).toBe(42);
+    expect(c.or(false, 42)).toBe(42);
 
-      expect(c.or(false, 42, 9999)).toBe(42);
-    });
+    expect(c.or(false, 42, 9999)).toBe(42);
   });
+});
 
-  describe("isInstance", function () {
-    it("checks if x is an instance of c", function () {
-      expect(c.isInstance(String, "hello")).toBe(true);
+describe("isInstance", function () {
+  it("checks if x is an instance of c", function () {
+    expect(c.isInstance(String, "hello")).toBe(true);
 
-      expect(c.isInstance(Number, 5)).toBe(true);
+    expect(c.isInstance(Number, 5)).toBe(true);
 
-      expect(c.isInstance(Number, "5")).toBe(false);
+    expect(c.isInstance(Number, "5")).toBe(false);
 
-      expect(c.isInstance(Number, +"5")).toBe(true);
+    expect(c.isInstance(Number, +"5")).toBe(true);
 
-      expect(c.isInstance(Map, new Map())).toBe(true);
+    expect(c.isInstance(Map, new Map())).toBe(true);
 
-      expect(c.isInstance(Array, [])).toBe(true);
+    expect(c.isInstance(Array, [])).toBe(true);
 
-      expect(c.isInstance(Object, {})).toBe(true);
+    expect(c.isInstance(Object, {})).toBe(true);
 
-      expect(c.isInstance(c.List, c.list())).toBe(true);
+    expect(c.isInstance(c.List, c.list())).toBe(true);
 
-      expect(c.isInstance(Set, new Set())).toBe(true);
+    expect(c.isInstance(Set, new Set())).toBe(true);
 
-      expect(c.isInstance(Set, function () {})).toBe(false);
+    expect(c.isInstance(Set, function () {})).toBe(false);
 
-      expect(c.isInstance(Function, function () {})).toBe(true);
+    expect(c.isInstance(Function, function () {})).toBe(true);
 
-      expect(c.isInstance(Boolean, true)).toBe(true);
-    });
+    expect(c.isInstance(Boolean, true)).toBe(true);
   });
+});
 
-  describe("keys", function () {
-    it("returns all keys from an object", function () {
-      expect(c.keys({ a: 1, b: 2, c: 3 })).toEqual(["a", "b", "c"]);
+describe("keys", function () {
+  it("returns all keys from an object", function () {
+    expect(c.keys({ a: 1, b: 2, c: 3 })).toEqual(["a", "b", "c"]);
 
-      expect(c.keys({})).toBe(null);
+    expect(c.keys({})).toBe(null);
 
-      expect(c.keys(null)).toBe(null);
-    });
+    expect(c.keys(null)).toBe(null);
   });
+});
 
-  describe("vals", function () {
-    it("returns all values from an object", function () {
-      expect(c.vals({ a: 1, b: 2, c: 3 })).toEqual([1, 2, 3]);
+describe("vals", function () {
+  it("returns all values from an object", function () {
+    expect(c.vals({ a: 1, b: 2, c: 3 })).toEqual([1, 2, 3]);
 
-      expect(c.vals({})).toBe(null);
+    expect(c.vals({})).toBe(null);
 
-      expect(c.vals(null)).toBe(null);
-    });
+    expect(c.vals(null)).toBe(null);
   });
+});
 
-  describe("eq", function () {
-    it("compares x, y and args", function () {
-      expect(c.eq(5)).toBe(true);
+describe("eq", function () {
+  it("compares x, y and args", function () {
+    expect(c.eq(5)).toBe(true);
 
-      expect(c.eq(1, 2)).toBe(false);
+    expect(c.eq(1, 2)).toBe(false);
 
-      expect(c.eq(1, 1, 1)).toBe(true);
+    expect(c.eq(1, 1, 1)).toBe(true);
 
-      expect(c.eq(1, 1, 2)).toBe(false);
+    expect(c.eq(1, 1, 2)).toBe(false);
 
-      expect(c.eq(1, 1, 1, 1)).toBe(true);
+    expect(c.eq(1, 1, 1, 1)).toBe(true);
 
-      expect(c.eq(1, 1)).toBe(true);
+    expect(c.eq(1, 1)).toBe(true);
 
-      expect(c.eq(null, null)).toBe(true);
+    expect(c.eq(null, null)).toBe(true);
 
-      expect(c.eq(null, null, null)).toBe(true);
+    expect(c.eq(null, null, null)).toBe(true);
 
-      expect(c.eq(false, false)).toBe(true);
+    expect(c.eq(false, false)).toBe(true);
 
-      expect(c.eq(true, true)).toBe(true);
+    expect(c.eq(true, true)).toBe(true);
 
-      expect(c.eq(undefined, undefined)).toBe(true);
+    expect(c.eq(undefined, undefined)).toBe(true);
 
-      expect(c.eq([1, 2], [1, 2])).toBe(true);
+    expect(c.eq([1, 2], [1, 2])).toBe(true);
 
-      expect(c.eq([1, 2], [1, 2], [1, 2])).toBe(true);
+    expect(c.eq([1, 2], [1, 2], [1, 2])).toBe(true);
 
-      expect(
-        c.eq([1, 2, [3, 4, [{ a: "b" }]]], [1, 2, [3, 4, [{ a: "b" }]]])
-      ).toBe(true);
+    expect(
+      c.eq([1, 2, [3, 4, [{ a: "b" }]]], [1, 2, [3, 4, [{ a: "b" }]]])
+    ).toBe(true);
 
-      expect(
-        c.eq(
-          [1, 2, [3, 4, [{ a: "b" }]]],
-          [1, 2, [3, 4, [{ a: "b" }]]],
-          [1, 2, [3, 4, [{ a: "b" }]]]
-        )
-      ).toBe(true);
+    expect(
+      c.eq(
+        [1, 2, [3, 4, [{ a: "b" }]]],
+        [1, 2, [3, 4, [{ a: "b" }]]],
+        [1, 2, [3, 4, [{ a: "b" }]]]
+      )
+    ).toBe(true);
 
-      expect(
-        c.eq([1, 2, [3, 4, [{ a: "d" }]]], [1, 2, [3, 4, [{ a: "b" }]]])
-      ).toBe(false);
+    expect(
+      c.eq([1, 2, [3, 4, [{ a: "d" }]]], [1, 2, [3, 4, [{ a: "b" }]]])
+    ).toBe(false);
 
-      expect(
-        c.eq(
-          [1, 2, [3, 4, [{ a: "b" }]]],
-          [1, 2, [3, 4, [{ a: "d" }]]],
-          [1, 2, [3, 4, [{ a: "b" }]]]
-        )
-      ).toBe(false);
+    expect(
+      c.eq(
+        [1, 2, [3, 4, [{ a: "b" }]]],
+        [1, 2, [3, 4, [{ a: "d" }]]],
+        [1, 2, [3, 4, [{ a: "b" }]]]
+      )
+    ).toBe(false);
 
-      expect(c.eq([1, 2], [1, 2, 3])).toBe(false);
+    expect(c.eq([1, 2], [1, 2, 3])).toBe(false);
 
-      expect(c.eq({ a: 1, b: 2 }, { a: 1, b: 2 })).toBe(true);
+    expect(c.eq({ a: 1, b: 2 }, { a: 1, b: 2 })).toBe(true);
 
-      expect(c.eq({ a: 1, b: 2 }, { a: 1, b: 2 }, { a: 1, b: 2 })).toBe(true);
+    expect(c.eq({ a: 1, b: 2 }, { a: 1, b: 2 }, { a: 1, b: 2 })).toBe(true);
 
-      expect(c.eq({ a: 1, b: 2 }, { a: 1, b: 2, c: 3 })).toBe(false);
+    expect(c.eq({ a: 1, b: 2 }, { a: 1, b: 2, c: 3 })).toBe(false);
 
-      expect(c.eq({ a: 1, b: 2 }, { a: 1, b: 2, c: 3 }, { a: 1 })).toBe(false);
+    expect(c.eq({ a: 1, b: 2 }, { a: 1, b: 2, c: 3 }, { a: 1 })).toBe(false);
 
-      expect(c.eq({ a: 1, b: 2 }, { a: 2, b: 1 })).toBe(false);
+    expect(c.eq({ a: 1, b: 2 }, { a: 2, b: 1 })).toBe(false);
 
-      expect(c.eq(c.list(1, 2, 3), [1, 2, 3])).toBe(true);
+    expect(c.eq(c.list(1, 2, 3), [1, 2, 3])).toBe(true);
 
-      expect(c.eq(c.list(1, 2, 3), [1, 2, 3], c.list(1, 2, 3))).toBe(true);
+    expect(c.eq(c.list(1, 2, 3), [1, 2, 3], c.list(1, 2, 3))).toBe(true);
 
-      expect(c.eq(c.list(1, 2, 3), c.list(1, 2, 3))).toBe(true);
+    expect(c.eq(c.list(1, 2, 3), c.list(1, 2, 3))).toBe(true);
 
-      expect(c.eq(null, 1)).toBe(false);
+    expect(c.eq(null, 1)).toBe(false);
 
-      expect(c.eq({ a: [1, 2], b: "hello" }, { a: [1, 2], b: "hello" })).toBe(
-        true
-      );
+    expect(c.eq({ a: [1, 2], b: "hello" }, { a: [1, 2], b: "hello" })).toBe(
+      true
+    );
 
-      expect(
-        c.eq(
-          { a: [1, 2], b: "hello" },
-          { a: [1, 2], b: "hello" },
-          { a: [1, 2], b: "hello" }
-        )
-      ).toBe(true);
+    expect(
+      c.eq(
+        { a: [1, 2], b: "hello" },
+        { a: [1, 2], b: "hello" },
+        { a: [1, 2], b: "hello" }
+      )
+    ).toBe(true);
 
-      expect(c.eq(c.set([1, 2, 3]), c.set([1, 2, 3]))).toBe(true);
+    expect(c.eq(c.set([1, 2, 3]), c.set([1, 2, 3]))).toBe(true);
 
-      expect(c.eq(c.set([1, 2, 3]), c.set([1, 2, 3]), c.set([1, 2, 3]))).toBe(
-        true
-      );
+    expect(c.eq(c.set([1, 2, 3]), c.set([1, 2, 3]), c.set([1, 2, 3]))).toBe(
+      true
+    );
 
-      expect(c.eq(c.set([1, 2]), c.set([1, 2, 3]))).toBe(false);
+    expect(c.eq(c.set([1, 2]), c.set([1, 2, 3]))).toBe(false);
 
-      var eqMap = new Map();
-      eqMap.set("a", 1);
-      eqMap.set("b", 2);
-      eqMap.set("c", 3);
+    var eqMap = new Map();
+    eqMap.set("a", 1);
+    eqMap.set("b", 2);
+    eqMap.set("c", 3);
 
-      var eqMap2 = new Map();
-      eqMap2.set("a", 1);
-      eqMap2.set("b", 2);
-      eqMap2.set("c", 3);
+    var eqMap2 = new Map();
+    eqMap2.set("a", 1);
+    eqMap2.set("b", 2);
+    eqMap2.set("c", 3);
 
-      var eqMap3 = new Map();
-      eqMap3.set("a", 1);
-      eqMap3.set("b", 2);
+    var eqMap3 = new Map();
+    eqMap3.set("a", 1);
+    eqMap3.set("b", 2);
 
-      expect(c.eq(eqMap, eqMap2)).toBe(true);
+    expect(c.eq(eqMap, eqMap2)).toBe(true);
 
-      expect(c.eq(eqMap, eqMap, eqMap)).toBe(true);
+    expect(c.eq(eqMap, eqMap, eqMap)).toBe(true);
 
-      expect(c.eq(eqMap, eqMap3)).toBe(false);
+    expect(c.eq(eqMap, eqMap3)).toBe(false);
 
-      expect(c.eq(5, 0)).toBe(false);
-    });
+    expect(c.eq(5, 0)).toBe(false);
   });
+});
 
-  describe("name", function () {
-    it("returns the name of a symbol", function () {
-      expect(c.name(c.symbol("foo"))).toBe("foo");
-    });
+describe("name", function () {
+  it("returns the name of a symbol", function () {
+    expect(c.name(c.symbol("foo"))).toBe("foo");
   });
+});
 
-  describe("everyPred", function () {
-    it("returns true if all predicates are true, false otherwise", function () {
-      expect(c.everyPred(c.isNumber, c.isOdd)(3, 9, 1)).toBe(true);
+describe("everyPred", function () {
+  it("returns true if all predicates are true, false otherwise", function () {
+    expect(c.everyPred(c.isNumber, c.isOdd)(3, 9, 1)).toBe(true);
 
-      expect(c.everyPred(c.isNumber, c.isEven)(3, 9, 1)).toBe(false);
+    expect(c.everyPred(c.isNumber, c.isEven)(3, 9, 1)).toBe(false);
 
-      expect(c.everyPred(c.isNumber, c.isOdd, c.isPos)(3, 9, 1)).toBe(true);
-    });
+    expect(c.everyPred(c.isNumber, c.isOdd, c.isPos)(3, 9, 1)).toBe(true);
   });
+});
 
-  describe("reSeq", function () {
-    it("returns a lazy sequence of successive matches of pattern in string", function () {
-      expect([...c.reSeq(/\d/g, "test 5.9.2")]).toEqual(["5", "9", "2"]);
+describe("reSeq", function () {
+  it("returns a lazy sequence of successive matches of pattern in string", function () {
+    expect([...c.reSeq(/\d/g, "test 5.9.2")]).toEqual(["5", "9", "2"]);
 
-      expect([...c.reSeq(/\w+/g, "this is the story all about how")]).toEqual([
-        "this",
-        "is",
-        "the",
-        "story",
-        "all",
-        "about",
-        "how",
-      ]);
+    expect([...c.reSeq(/\w+/g, "this is the story all about how")]).toEqual([
+      "this",
+      "is",
+      "the",
+      "story",
+      "all",
+      "about",
+      "how",
+    ]);
 
-      expect([...c.reSeq(/(\S+):(\d+)/g, " RX pkts:18 err:5 drop:48")]).toEqual(
-        [
-          ["pkts:18", "pkts", "18"],
-          ["err:5", "err", "5"],
-          ["drop:48", "drop", "48"],
-        ]
-      );
-    });
+    expect([...c.reSeq(/(\S+):(\d+)/g, " RX pkts:18 err:5 drop:48")]).toEqual([
+      ["pkts:18", "pkts", "18"],
+      ["err:5", "err", "5"],
+      ["drop:48", "drop", "48"],
+    ]);
   });
+});
 
-  describe("classOf", function () {
-    it("returns the class of x", function () {
-      expect(c.classOf("hello")).toBe(String);
+describe("classOf", function () {
+  it("returns the class of x", function () {
+    expect(c.classOf("hello")).toBe(String);
 
-      expect(c.classOf(false)).toBe(Boolean);
+    expect(c.classOf(false)).toBe(Boolean);
 
-      expect(c.classOf(1)).toBe(Number);
+    expect(c.classOf(1)).toBe(Number);
 
-      expect(c.classOf(function () {})).toBe(Function);
+    expect(c.classOf(function () {})).toBe(Function);
 
-      expect(c.classOf(new Map())).toBe(Map);
+    expect(c.classOf(new Map())).toBe(Map);
 
-      expect(c.classOf([])).toBe(Array);
+    expect(c.classOf([])).toBe(Array);
 
-      expect(c.classOf({})).toBe(Object);
+    expect(c.classOf({})).toBe(Object);
 
-      expect(c.classOf(new c.List())).toBe(c.List);
+    expect(c.classOf(new c.List())).toBe(c.List);
 
-      expect(c.classOf(new Set())).toBe(Set);
-    });
+    expect(c.classOf(new Set())).toBe(Set);
   });
+});
 
-  describe("iterate", function () {
-    it("returns a lazy sequence of x, f(x), f(f(x)) etc", function () {
-      expect([...c.take(3, c.iterate(c.inc, 5))]).toEqual([5, 6, 7]);
+describe("iterate", function () {
+  it("returns a lazy sequence of x, f(x), f(f(x)) etc", function () {
+    expect([...c.take(3, c.iterate(c.inc, 5))]).toEqual([5, 6, 7]);
 
-      expect([...c.take(10, c.iterate(c.partial(c.plus, 2), 0))]).toEqual([
-        0, 2, 4, 6, 8, 10, 12, 14, 16, 18,
-      ]);
+    expect([...c.take(10, c.iterate(c.partial(c.plus, 2), 0))]).toEqual([
+      0, 2, 4, 6, 8, 10, 12, 14, 16, 18,
+    ]);
 
-      expect([...c.take(20, c.iterate(c.partial(c.plus, 2), 0))]).toEqual([
-        0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36,
-        38,
-      ]);
+    expect([...c.take(20, c.iterate(c.partial(c.plus, 2), 0))]).toEqual([
+      0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38,
+    ]);
 
-      var powersOfTwo = c.iterate(c.partial(c.multiply, 2), 1);
+    var powersOfTwo = c.iterate(c.partial(c.multiply, 2), 1);
 
-      expect(c.nth(powersOfTwo, 10)).toEqual(1024);
+    expect(c.nth(powersOfTwo, 10)).toEqual(1024);
 
-      expect([...c.take(10, powersOfTwo)]).toEqual([
-        1, 2, 4, 8, 16, 32, 64, 128, 256, 512,
-      ]);
+    expect([...c.take(10, powersOfTwo)]).toEqual([
+      1, 2, 4, 8, 16, 32, 64, 128, 256, 512,
+    ]);
 
-      var fib = c.map(
-        c.first,
-        c.iterate(([a, b]) => [b, a + b], [0, 1])
-      );
+    var fib = c.map(
+      c.first,
+      c.iterate(([a, b]) => [b, a + b], [0, 1])
+    );
 
-      expect([...c.take(10, fib)]).toEqual([0, 1, 1, 2, 3, 5, 8, 13, 21, 34]);
-    });
+    expect([...c.take(10, fib)]).toEqual([0, 1, 1, 2, 3, 5, 8, 13, 21, 34]);
   });
+});
 
-  describe("distinct", function () {
-    it("returns a lazy sequence of the elements of coll with duplicates removed", function () {
-      expect([...c.distinct([1, 2, 1, 3, 1, 4, 1, 5])]).toEqual([
-        1, 2, 3, 4, 5,
-      ]);
+describe("distinct", function () {
+  it("returns a lazy sequence of the elements of coll with duplicates removed", function () {
+    expect([...c.distinct([1, 2, 1, 3, 1, 4, 1, 5])]).toEqual([1, 2, 3, 4, 5]);
 
-      expect([...c.distinct(["a", "a", "b", "c"])]).toEqual(["a", "b", "c"]);
+    expect([...c.distinct(["a", "a", "b", "c"])]).toEqual(["a", "b", "c"]);
 
-      expect(c.apply(c.str, c.distinct("tattoo"))).toBe("tao");
-    });
+    expect(c.apply(c.str, c.distinct("tattoo"))).toBe("tao");
   });
 });

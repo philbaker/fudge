@@ -13,9 +13,9 @@ const STRING_TYPE = 9;
 const FUNCTION_TYPE = 10;
 
 /**
- * returns a new empty collection based on type
- * internal function
+ * Internal function which returns a new empty collection based on type
  *
+ * @private
  * @func
  * @param {*} type
  * @return {*}
@@ -38,13 +38,13 @@ function emptyOfType(type) {
         return;
       });
   }
-  return undefined;
+  return null;
 }
 
 /**
- * returns data type based by checking the object
- * Internal function
+ * Internal function which returns data type based by checking the object
  *
+ * @private
  * @func
  * @param {*}
  * @return {number}
@@ -82,7 +82,7 @@ function typeConst(obj) {
     return OBJECT_TYPE;
   }
 
-  return undefined;
+  return null;
 }
 
 function typePrimitive(obj) {
@@ -102,7 +102,7 @@ function typePrimitive(obj) {
     return FUNCTION_TYPE;
   }
 
-  return undefined;
+  return null;
 }
 
 /**
@@ -228,12 +228,13 @@ export function isSeqable(x) {
 }
 
 /**
- * returns an iterable of x, even if it's empty allowing for nil punning
- * Internal function
+ * Internal function whichereturns an iterable of x, even if it's empty
+ * allowing for nil punning
  *
+ * @private
  * @func
  * @param {Array|List|Map|Set|Object|string|null}
- * @return {Array|Map|Set|Object|List|string}
+ * @return {Array|List|Map|Set|Object|List|string}
  * @example
  *
  * iterable(null);
@@ -260,9 +261,9 @@ const IIterable = Symbol("Iterable");
 const IIterableIterator = Symbol.iterator;
 
 /**
- *
  * Internal funtion used for creating lazy sequences
  *
+ * @private
  * @func
  * @param {Array|Object} collection
  * @return {Object}
@@ -317,9 +318,9 @@ class LazyIterable {
 }
 
 /**
- * returns a new instance of LazyIterable
- * Internal function
+ * Internal class which returns a new instance of LazyIterable
  *
+ * @private
  * @func
  * @params {function}
  * @return {LazyIterable}
@@ -667,7 +668,7 @@ export function isReduced(x) {
  *
  * @func
  * @param {function}
- * @return {Array|Map|Set|Object|List|string}
+ * @return {Array|List|Map|Set|Object|string}
  * @example
  *
  * reduce(plus, [1, 2, 3, 4, 5]);
@@ -712,8 +713,7 @@ export function reduce(f, arg1, arg2) {
 }
 
 /**
- * adds a value to a structure by mutating the original
- * Mutator
+ * MUTATOR: adds a value to a structure by mutating the original
  *
  * @func
  * @param {Array|Map|Object} collection
@@ -842,8 +842,7 @@ function assocInWith(f, fname, coll, keys, val) {
 }
 
 /**
- * associates a value in a nested structure by mutating value
- * Mutator
+ * MUTATOR: associates a value in a nested structure by mutating value
  *
  * @func
  * @param {Array|May|object}
@@ -886,8 +885,7 @@ export function assocIn(coll, keys, val) {
 }
 
 /**
- * removes item(s) from an object by key name
- * Mutator
+ * MUTATOR: removes item(s) from an object by key name
  *
  * @func
  * @param {Object} object
@@ -969,9 +967,8 @@ export function comp(...fs) {
 }
 
 /**
- * mutConj(oin) adds to a structure by mutation. The position of the addition
+ * MUTATOR: mutConj(oin) adds to a structure by mutation. The position of the addition
  * depends on the structure type
- * Mutator
  *
  * @func
  * @param {Set|Array|List|Map|Object}
@@ -1108,8 +1105,7 @@ export function conj(...xs) {
 }
 
 /**
- * removes item(s) from a set via mutation
- * Mutator
+ * MUTATOR: removes item(s) from a set via mutation
  *
  * @func
  * @param {Set}
@@ -1137,7 +1133,7 @@ export function mutDisj(set, ...xs) {
  * @example
  *
  * disj(new Set(["a", "b", "c"]), "b");
- * Set(2) { "a", "c" }
+ * // => Set(2) { "a", "c" }
  *
  */
 export function disj(set, ...xs) {
@@ -1155,7 +1151,7 @@ export function disj(set, ...xs) {
  * @example
  *
  * itContains({name: "George", salary: "Biscuits"}, "name");
- * true
+ * // => true
  *
  */
 export function itContains(coll, val) {
@@ -1211,13 +1207,13 @@ export function minus(...xs) {
  * @example
  *
  * divide(6, 3);
- * 2
+ * // => 2
  *
  * divide(10);
- * 0.1
+ * // => 0.1
  *
  * divide(6, 3, 2);
- * 1
+ * // => 1
  *
  */
 export function divide(...xs) {
@@ -1263,16 +1259,16 @@ export function quot(a, b) {
  * @example
  *
  * multiply();
- * 1
+ * // => 1
  *
  * multiply(6);
- * 6
+ * // => 6
  *
  * multiply(2, 3);
- * 6
+ * // => 6
  *
  * multiply(2, 3, 4);
- * 24
+ * // => 24
  *
  */
 export function multiply(...xs) {
@@ -1469,7 +1465,8 @@ function _partition(n, step, pad, coll, all) {
 }
 
 /**
- * partition() returns a lazy sequence of n items each at offsets step apart
+ * returns a lazy sequence of n items each at offsets step apart
+ *
  * @func
  * @param {number}
  * @param {Array|Map|Set|Object|List|string|null}
@@ -1495,17 +1492,17 @@ export function partition(n, ...args) {
 }
 
 /**
- * partitionAll() returns a lazy sequence of arrays like partition but
+ * returns a lazy sequence of arrays like partition but
  * may include partitions with fewer than n items at the end
  *
  * @func
  * @param {number}
- * @param {Array|Map|Set|Object|string|null}
+ * @param {Array|List|Map|Set|Object|string|null}
  * @return {Array}
  * @example
  *
  * [...partitionAll(4, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])];
- * [[0, 1, 2, 3], [4, 5, 6, 7], [8, 9]]
+ * // => [[0, 1, 2, 3], [4, 5, 6, 7], [8, 9]]
  *
  */
 export function partitionAll(n, ...args) {
@@ -1519,27 +1516,36 @@ export function partitionAll(n, ...args) {
   return _partition(n, step, [], coll, true);
 }
 
-/*
-empty() returns an empty coll of the same category as coll or null
-
-empty(list(1, 2));
-List(0) []
-
-*/
+/**
+ * returns an empty coll of the same category as coll or null
+ *
+ * @func
+ * @param {Array|Map|Set|List|Object|null}
+ * @return {Array|Map|Set|List|Object|null}
+ * @example
+ *
+ * empty(list(1, 2));
+ * // => List(0) []
+ *
+ */
 export function empty(coll) {
   const type = typeConst(coll);
 
   return emptyOfType(type);
 }
 
-/*
-merge() returns an object that consists of the rest of the maps
-conjed onto the first
-
-merge({a: 1, b: 2, c: 3}, {b: 9, d: 4});
-{ a: 1, b: 9, c: 3, d: 4 }
-
-*/
+/**
+ * returns an object that consists of the rest of the maps conjed onto the first
+ *
+ * @func
+ * @param {...Array|Map|Set|List|Object|string|null}
+ * @return {Array|Map|Set|List|Object}
+ * @example
+ *
+ * merge({a: 1, b: 2, c: 3}, {b: 9, d: 4});
+ * // => { a: 1, b: 9, c: 3, d: 4 }
+ *
+ */
 export function merge(...args) {
   const firstArg = args[0];
   let obj;
@@ -1552,13 +1558,18 @@ export function merge(...args) {
   return mutConj(obj, ...args.slice(1));
 }
 
-/*
-into() returns a new coll containing values from colls conjoined
-
-into([], [1, 2, 3]);
-[ 1, 2, 3 ]
-
-*/
+/**
+ * returns a new coll containing values from colls conjoined
+ *
+ * @func
+ * @param {...Array|Map|Set|Object|string|null}
+ * @return {Array|Map|Set|Object}
+ * @example
+ *
+ * into([], [1, 2, 3]);
+ * // => [1, 2, 3]
+ *
+ */
 export function into(...args) {
   switch (args.length) {
     case 0:
@@ -1570,46 +1581,62 @@ export function into(...args) {
   }
 }
 
-/*
-inc() returns a number one greater than n
-
-inc(5);
-6
-
-*/
+/**
+ * returns a number one greater than n
+ *
+ * @func
+ * @param {number}
+ * @return {number}
+ * @example
+ *
+ * inc(5);
+ * // => 6
+ *
+ */
 export function inc(n) {
   return n + 1;
 }
 
-/*
-dec() returns a number one less than n
-
-dec(5);
-4
-
-*/
+/**
+ * returns a number one less than n
+ *
+ * dec(5);
+ * // => 4
+ *
+ */
 export function dec(n) {
   return n - 1;
 }
 
-/*
-println() is a wrapper for console.log()
-
-println("Hello", "world");
-(out) Hello world
-
-*/
+/**
+ * a wrapper for console.log()
+ *
+ * @func
+ * @param {*}
+ * @return {undefined}
+ * @example
+ *
+ * println("Hello", "world");
+ * (out) Hello world
+ * // => undefined
+ *
+ */
 export function println(...args) {
   console.log(...args);
 }
 
-/*
-nth() returns the value at the index
-
-nth(["a", "b", "c", "d"], 0);
-"a"
-
-*/
+/**
+ * returns the value at the index
+ *
+ * @func
+ * @param {Array|List|string}
+ * @return {*}
+ * @example
+ *
+ * nth(["a", "b", "c", "d"], 0);
+ * // => "a"
+ *
+ */
 export function nth(coll, index, notFound = null) {
   let i = 0;
 
@@ -1623,14 +1650,20 @@ export function nth(coll, index, notFound = null) {
   return notFound;
 }
 
-/*
-get() returns the value mapped to key, notFound or null if the key 
-is not present
-
-get([1, 2, 3], 1);
-2
-
-*/
+/**
+ * get() returns the value mapped to key, notFound or null if the key
+ * is not present
+ *
+ * @func
+ * @param {Array|List|Map|Set|Object|string} collection
+ * @key {number|string} key
+ * @return {*}
+ * @example
+ *
+ * get([1, 2, 3], 1);
+ * // => 2
+ *
+ */
 export function get(coll, key, notFound = null) {
   let val;
 
@@ -1657,43 +1690,62 @@ export function get(coll, key, notFound = null) {
   return notFound;
 }
 
-/*
-str() returns a string for single values and a concatenation of multiple values
-
-str(1);
-"1"
-
-str(1, 2, 3);
-"123"
-
-*/
+/**
+ * returns a string for single values and a concatenation of multiple values
+ *
+ * @func
+ * @param {...*}
+ * @return {string}
+ * @example
+ *
+ * str(1);
+ * // => "1"
+ *
+ * str(1, 2, 3);
+ * // => "123"
+ *
+ */
 export function str(...xs) {
   return xs.join("");
 }
 
-/*
-not() returns true if x is logical false, false otherwise
-
-not(true);
-false
-
-*/
+/**
+ * returns true if x is logical false, false otherwise
+ *
+ * @func
+ * @param {*}
+ * @return {boolean}
+ * @example
+ *
+ * not(true);
+ * false
+ *
+ */
 export function not(x) {
   return !x;
 }
 
 /*
-isNil() returns true if x is null, false otherwise
-
-isNil(null);
-true
-
-*/
+ * returns true if x is null, false otherwise
+ *
+ * @func
+ * @param {*}
+ * @return {boolean}
+ * @example
+ *
+ * isNil(null);
+ * true
+ *
+ */
 export function isNil(x) {
   return x === null;
 }
 
-function prStr1(x) {
+/*
+Internal function for prStr
+
+*/
+function _prStr(x) {
   return JSON.stringify(x, (_key, val) => {
     switch (typeConst(val)) {
       case SET_TYPE:
@@ -1707,80 +1759,148 @@ function prStr1(x) {
   });
 }
 
-/*
-prStr() turns a collection into a string and returns it
-
-prStr([1, 2, 3, 4, 5]);
-"[1,2,3,4,5]"
-
-prStr({name: "George", salary: "Biscuits"});
-"{"name":"George","salary":"Biscuits"}"
-
-*/
+/**
+ * turns a collection into a string and returns it
+ *
+ * @func
+ * @param {...*}
+ * @return {string}
+ * @example
+ *
+ * prStr([1, 2, 3, 4, 5]);
+ * // => "[1,2,3,4,5]"
+ *
+ * prStr({name: "George", salary: "Biscuits"});
+ * // => "{"name":"George","salary":"Biscuits"}"
+ *
+ */
 export function prStr(...xs) {
-  return xs.map(prStr1).join("");
+  return xs.map(_prStr).join("");
 }
 
-/*
-prn() turns a collectin into a string and prints to console
-returns undefined
-
-prn([1, 2, 3, 4, 5]);
-"[1,2,3,4,5]"
-
-prn({name: "George", salary: "Biscuits"});
-"{"name":"George","salary":"Biscuits"}"
-
-*/
+/**
+ * turns a collection into a string and prints to console
+ * returns undefined
+ *
+ * @func
+ * @param {...*}
+ * @return {undefined}
+ * @example
+ *
+ * prn([1, 2, 3, 4, 5]);
+ * (out) "[1,2,3,4,5]"
+ * // => undefined
+ *
+ * prn({name: "George", salary: "Biscuits"});
+ * (out) "{"name":"George","salary":"Biscuits"}"
+ * // => undefined
+ *
+ */
 export function prn(...xs) {
   println(prStr(...xs));
 }
 
+/*
+Internal function for Atoms
+
+*/
 function Atom(init) {
   this.value = init;
   this._deref = () => this.value;
   this._mutReset = (x) => (this.value = x);
 }
 
-/*
-Atoms provide a way to manage shared, synchronous, independent
-state
-
-var myAtom = atom(0);
-myAtom;
-Atom {
-  value: 0,
-  _deref: [Function (anonymous)],
-  _mutReset: [Function (anonymous)]
-}
-
-myAtom.value;
-0
-
-mutSwap(myAtom, inc);
-1
-
-mutSwap(myAtom, function(n) { return (n + n) * 2 });
-4
-
-mutReset(myAtom, 0);
-
-myAtom.value;
-0
-
-*/
+/**
+ * Atoms provide a way to manage state
+ *
+ * @func
+ * @param {*} value
+ * @return {Atom}
+ * @example
+ *
+ * var myAtom = atom(0);
+ * myAtom;
+ * => Atom {
+ *      value: 0,
+ *      _deref: [Function (anonymous)],
+ *      _mutReset: [Function (anonymous)]
+ *   }
+ *
+ * deref(myAtom);
+ * // => 0
+ *
+ * mutSwap(myAtom, inc);
+ * // => 1
+ *
+ * mutSwap(myAtom, function(n) { return (n + n) * 2 });
+ * // => 4
+ *
+ * mutReset(myAtom, 0);
+ *
+ * deref(myAtom);
+ * // => 0
+ *
+ */
 export function atom(init) {
   return new Atom(init);
 }
 
+/**
+returns the value stored in an atom
+
+* @func
+* @param {Atom}
+* @return {*}
+* @example
+
+var myAtom = atom(0);
+mutSwap(myAtom, inc);
+deref(myAtom);
+// => 1
+
+*/
 export function deref(ref) {
   return ref._deref();
 }
 
+/**
+MUTATOR: resets the value stored in an atom
+
+* @func
+* @param {Array|Map|Set|Object|string|null}
+* @return {*}
+* @example
+
+var myAtom = atom(0);
+mutSwap(myAtom, inc);
+deref(myAtom);
+// => 1
+
+mutReset(myAtom, 0);
+deref(myAtom);
+// => 0
+
+*/
 export function mutReset(atom, val) {
   atom._mutReset(val);
 }
 
+/**
+ * MUTATOR: automatically changes the value of an existing atom by applying f
+ * and returns the new value
+ *
+ * @func
+ * @param {Atom}
+ * @param {function}
+ * @param {...*}
+ * @return {*}
+ * @example
+ *
+ * var myAtom = atom(0);
+ * mutSwap(myAtom, inc);
+ * // => 1
+ *
+ */
 export function mutSwap(atom, f, ...args) {
   const val = f(deref(atom), ...args);
   mutReset(atom, val);
@@ -1788,16 +1908,23 @@ export function mutSwap(atom, f, ...args) {
   return val;
 }
 
-/*
-range() a lazy sequence of numbers from start to end
-
-[...range(10)];
-[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
-
-[...range(-5, 5)];
-[ -5, -4, -3, -2, -1, 0,  1,  2,  3,  4 ]
-
-*/
+/**
+ * returns a lazy sequence of numbers from start to end
+ *
+ * @func
+ * @param {number}
+ * @param {number}
+ * @param {number}
+ * @return {LazyIterable}
+ * @example
+ *
+ * [...range(10)];
+ * // => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+ *
+ * [...range(-5, 5)];
+ * // => [-5, -4, -3, -2, -1, 0,  1,  2,  3,  4]
+ *
+ */
 export function range(begin, end, step) {
   return lazy(function* () {
     let b = begin;
@@ -1820,16 +1947,21 @@ export function range(begin, end, step) {
 }
 
 /*
-reMatches() returns the match, if any, of string to pattern using
-RegExp.prototype.exec()
-
-reMatches(/hello, world/gi, "hello, world");
-'hello, world'
-
-reMatches(/quick\s(?<color>brown).+?(jumps)/dgi, "The Quick Brown Fox Jumps Over The Lazy Dog");
-[ 'Quick Brown Fox Jumps', 'Brown', 'Jumps' ]
-
-*/
+ * returns the match, if any, of string to pattern using RegExp.prototype.exec()
+ *
+ * @func
+ * @param {RegExp}
+ * @param {string}
+ * @return {Array|string}
+ * @example
+ *
+ * reMatches(/hello, world/gi, "hello, world");
+ * // => "hello, world"
+ *
+ * reMatches(/quick\s(?<color>brown).+?(jumps)/dgi, "The Quick Brown Fox Jumps Over The Lazy Dog");
+ * // => ["Quick Brown Fox Jumps", "Brown", "Jumps"]
+ *
+ */
 export function reMatches(re, s) {
   let matches = re.exec(s);
 
@@ -1848,95 +1980,135 @@ export function reMatches(re, s) {
   return null;
 }
 
-/*
-subvec() returns an array of the items in an array from start to end
-
-subvec([1, 2, 3, 4, 5, 6, 7], 2);
-[ 3, 4, 5, 6, 7 ]
-
-subvec([1, 2, 3, 4, 5, 6, 7], 2, 4);
-[ 3, 4 ]
-
-*/
+/**
+ * returns an array of the items in an array from start to end
+ *
+ * @func
+ * @param {Array} array
+ * @param {number} start
+ * @param {number} end
+ * @return {Array}
+ * @example
+ *
+ * subvec([1, 2, 3, 4, 5, 6, 7], 2);
+ * // => [ 3, 4, 5, 6, 7 ]
+ *
+ * subvec([1, 2, 3, 4, 5, 6, 7], 2, 4);
+ * // => [ 3, 4 ]
+ *
+ */
 export function subvec(arr, start, end) {
   return arr.slice(start, end);
 }
 
 /*
-vector() creates a new array containing args
-
-vector();
-[]
-
-vector(1, 2, 3);
-[ 1, 2, 3 ]
-
-*/
+ * returns a new array containing args
+ *
+ * @func
+ * @param {...*}
+ * @return {Array}
+ * @example
+ *
+ * vector();
+ * // => []
+ *
+ * vector(1, 2, 3);
+ * // => [ 1, 2, 3 ]
+ *
+ */
 export function vector(...args) {
   return args;
 }
 
-/*
-isVector() checks if x is an array
-
-isVector([1, 2, 3]);
-true
-
-isVector("hello");
-false
-
-*/
+/**
+ * checks if x is an array
+ *
+ * @func
+ * @param {*}
+ * @return {boolean}
+ * @example
+ *
+ * isVector([1, 2, 3]);
+ * // => true
+ *
+ * isVector("hello");
+ * // => false
+ *
+ */
 export function isVector(x) {
   return typeConst(x) === ARRAY_TYPE;
 }
 
-/*
-mapv() returns the results of map() in an array
-
-mapv(inc, [1, 2, 3, 4, 5]);
-[ 2, 3, 4, 5, 6 ]
-
-*/
+/**
+ * returns the results of map() in an array rather than a lazy sequence
+ *
+ * @func
+ * @param {function}
+ * @param {...Array|List|Map|Set|Object|string|null}
+ * @return {Array}
+ * @example
+ *
+ * mapv(inc, [1, 2, 3, 4, 5]);
+ * // => [ 2, 3, 4, 5, 6 ]
+ *
+ */
 export function mapv(...args) {
   return [...map(...args)];
 }
 
-/*
-vec() creates a new array containing iterable of coll
-
-vec(null);
-[]
-
-vec({a: 1, b: 2, c: 3});
-[[ "a", 1 ], [ "b", 2 ], [ "c", 3 ]]
-
-*/
+/**
+ * creates a new array containing iterable of coll
+ *
+ * @func
+ * @param {Array|Map|List|Set|Object|string|null}
+ * @return {Array}
+ * @example
+ *
+ * vec(null);
+ * []
+ *
+ * vec({a: 1, b: 2, c: 3});
+ * [[ "a", 1 ], [ "b", 2 ], [ "c", 3 ]]
+ *
+ */
 export function vec(coll) {
   return [...iterable(coll)];
 }
 
-/*
-set() returns a set of the distinct elements of coll
-
-set([1, 2, 3, 4, 5]);
-Set(5) { 1, 2, 3, 4, 5 }
-
-set("abcd")
-Set(4) { 'a', 'b', 'c', 'd' }
-
-*/
+/**
+ * returns a set of the distinct elements of coll
+ *
+ * @func
+ * @param {Array|Map|List|Object|string|null}
+ * @return {*}
+ * @example
+ *
+ * set([1, 2, 3, 4, 5]);
+ * // => Set(5) { 1, 2, 3, 4, 5 }
+ *
+ * set("abcd")
+ * // => Set(4) { 'a', 'b', 'c', 'd' }
+ *
+ */
 export function set(coll) {
   return new Set(iterable(coll));
 }
 
-/*
-apply() applies fn f to the argument list formed by prepending intervening 
-arguments to args
-
-apply(str, ["str1", "str2", "str3"]);
-"str1str2str3"
-
-*/
+/**
+ * applies f to the argument list formed by prepending intervening
+ * arguments to args
+ *
+ * @func
+ * @param {function}
+ * @param {...*}
+ * @return {string}
+ * @example
+ *
+ * apply(str, ["str1", "str2", "str3"]);
+ * // => "str1str2str3"
+ *
+ */
+apply(str, [1, 2]);
 export function apply(f, ...args) {
   var xs = args.slice(0, args.length - 1);
   var coll = args[args.length - 1];
@@ -1944,16 +2116,21 @@ export function apply(f, ...args) {
   return f(...xs, ...coll);
 }
 
-/*
-isEven() returns true if x is even
-
-isEven(2);
-true
-
-isEven(null);
-Error
-
-*/
+/**
+ * isEven() returns true if x is even
+ *
+ * @func
+ * @param {number}
+ * @return {boolean}
+ * @example
+ *
+ * isEven(2);
+ * // => true
+ *
+ * isEven(null);
+ * throws error
+ *
+ */
 export function isEven(x) {
   if (typeof x !== "number") {
     throw new Error(`Illegal argument: ${x} is not a number`);
@@ -1962,65 +2139,75 @@ export function isEven(x) {
   return x % 2 === 0;
 }
 
-/*
-isOdd() returns true if x is odd
-
-isOdd(3);
-true
-
-isOdd(null);
-Error
-
-*/
+/**
+ * returns true if x is odd
+ *
+ * @func
+ * @param {number}
+ * @return {boolean}
+ * @example
+ *
+ * isOdd(3);
+ * // => true
+ *
+ * isOdd(null);
+ * throws error
+ *
+ */
 export function isOdd(x) {
   return not(isEven(x));
 }
 
-/*
-complement() takes a fn f and returns a fn that takes the same arguments
-as f, has the same effects, if any, and returns the opposite truth value
-
-var testIsOdd = complement(isEven);
-testIsOdd(3);
-true
-
-*/
+/**
+ * takes a fn f and returns a fn that takes the same arguments
+ * as f, has the same effects, if any, and returns the opposite truth value
+ *
+ * @func
+ * @param {function}
+ * @return {function}
+ * @example
+ *
+ * var testIsOdd = complement(isEven);
+ * testIsOdd(3);
+ * // => true
+ *
+ */
 export function complement(f) {
   return (...args) => not(f(...args));
 }
 
-/*
-constantly returns a function that takes any number of arguments and returns x
-
-var boring = constantly(10);
-boring() 
-
-boring("hello");
-10
-
-*/
+/**
+ * constantly returns a function that takes any number of arguments and returns x
+ *
+ * @func
+ * @param {*}
+ * @return {function}
+ * @example
+ *
+ * var boring = constantly(10);
+ * boring()
+ * // => 10
+ *
+ * boring("hello");
+ * // => 10
+ *
+ */
 export function constantly(x) {
   return (..._) => x;
 }
 
-/*
-isIdentical() tests if two arguments are the equal
-
-isIdentical(1, 1);
-true
-
-*/
-export function isIdentical(x, y) {
-  return x === y;
-}
-
-/*
-repeat() returns a lazy sequence of args
-
-[...repeat(5, "x")];
-[ "x", "x", "x", "x", "x" ]
-
-*/
+/**
+ * returns a lazy sequence of args
+ *
+ * @func
+ * @param {...*}
+ * @return {LazyIterable}
+ * @example
+ *
+ * [...repeat(5, "x")];
+ * // => [ "x", "x", "x", "x", "x" ]
+ *
+ */
 export function repeat(...args) {
   if (args.length === 0 || args.length > 2) {
     throw new Error(`Invalid arity: ${args.length}`);
@@ -2045,17 +2232,23 @@ export function repeat(...args) {
   };
 }
 
-/*
-take() returns a lazy sequence of the first n items in coll, or
-all items if there are fewer than n
-
-[...take(3, [1, 2, 3, 4, 5, 6])];
-[ 1, 2, 3 ]
-
-[...take(3, [1, 2])];
-[ 1, 2 ]
-
-*/
+/**
+ * returns a lazy sequence of the first n items in coll, or
+ * all items if there are fewer than n
+ *
+ * @func
+ * @param {number}
+ * @param {Array|Map|List|Set|Object|string|null}
+ * @return {LazyIterable}
+ * @example
+ *
+ * [...take(3, [1, 2, 3, 4, 5, 6])];
+ * // => [ 1, 2, 3 ]
+ *
+ * [...take(3, [1, 2])];
+ * // => [ 1, 2 ]
+ *
+ */
 export function take(n, coll) {
   return lazy(function* () {
     let i = n - 1;
@@ -2072,14 +2265,20 @@ export function take(n, coll) {
   });
 }
 
-/*
-takeWhile() returns a lazy sequence of successive items from coll
-while pred(item) returns true
-
-[...takeWhile(isNeg, [-2, -1, 0, 1, 2, 3])];
-[ -2, -1 ]
-
-*/
+/**
+ * returns a lazy sequence of successive items from coll
+ * while pred(item) returns true
+ *
+ * @func
+ * @param {function}
+ * @param {Array|Map|List|Set|Object|string|null}
+ * @return {LazyIterable}
+ * @example
+ *
+ * [...takeWhile(isNeg, [-2, -1, 0, 1, 2, 3])];
+ * [ -2, -1 ]
+ *
+ */
 export function takeWhile(pred, coll) {
   return lazy(function* () {
     for (const x of iterable(coll)) {
@@ -2092,13 +2291,19 @@ export function takeWhile(pred, coll) {
   });
 }
 
-/*
-takeNth() returns a lazy sequence of every nth item in coll
-
-[...takeNth(2, range(10))];
-[ 0, 2, 4, 6, 8 ]
-
-*/
+/**
+ * takeNth() returns a lazy sequence of every nth item in coll
+ *
+ * @func
+ * @param {number}
+ * @param {Array|Map|List|Set|Object|string}
+ * @return {Array}
+ * @example
+ *
+ * [...takeNth(2, range(10))];
+ * // => [ 0, 2, 4, 6, 8 ]
+ *
+ */
 export function takeNth(n, coll) {
   if (n <= 0) {
     return repeat(first(coll));
@@ -2116,32 +2321,43 @@ export function takeNth(n, coll) {
   });
 }
 
-/*
-partial() takes a function f and fewer than normal arguments to f. It returns a 
-fn that takes a variable number of additional args. When called, the
-returned function calls f with args plus additional args
-
-var hundredPlus = partial(plus, 100);
-hundredPlus(5);
-105
-
-*/
+/**
+ * takes a function f and fewer than normal arguments to f. It returns a
+ * fn that takes a variable number of additional args. When called, the
+ * returned function calls f with args plus additional args
+ *
+ * @func
+ * @param {function}
+ * @param {*}
+ * @return {*}
+ * @example
+ *
+ * var hundredPlus = partial(plus, 100);
+ * hundredPlus(5);
+ * // => 105
+ *
+ */
 export function partial(f, ...xs) {
   return function (...args) {
     return f(...xs, ...args);
   };
 }
 
-/*
-cycle() returns a lazy sequence of repetitions from items in coll
-
-[...take(5, cycle(["a", "b"]))];
-[ 'a', 'b', 'a', 'b', 'a' ]
-
-[...take(10, cycle(range(0, 3)))];
-[ 0, 1, 2, 0, 1, 2, 0, 1, 2, 0 ]
-
-*/
+/**
+ * returns a lazy sequence of repetitions from items in coll
+ *
+ * @func
+ * @param {Array|Map|List|Set|Object|string|null}
+ * @return {LazyIterable}
+ * @example
+ *
+ * [...take(5, cycle(["a", "b"]))];
+ * // => ["a", "b", "a", "b", "a"]
+ *
+ * [...take(10, cycle(range(0, 3)))];
+ * // => [0, 1, 2, 0, 1, 2, 0, 1, 2, 0]
+ *
+ */
 export function cycle(coll) {
   return lazy(function* () {
     while (true) {
@@ -2150,16 +2366,21 @@ export function cycle(coll) {
   });
 }
 
-/*
-reverse() returns an array with items in reverse order
-
-reverse([1, 2, 3]);
-[ 3, 2, 1 ]
-
-reverse("hello");
-[ "o", "l", "l", "e", "h" ]
-
-*/
+/**
+ * returns an array with items in reverse order
+ *
+ * @func
+ * @param {Array|Map|Set|Object|string|null}
+ * @return {Array}
+ * @example
+ *
+ * reverse([1, 2, 3]);
+ * // => [3, 2, 1]
+ *
+ * reverse("hello");
+ * // => ["o", "l", "l", "e", "h"]
+ *
+ */
 export function reverse(coll) {
   if (coll instanceof Array) {
     return coll.reverse();
@@ -2168,16 +2389,22 @@ export function reverse(coll) {
   }
 }
 
-/*
-sort() returns a sorted sequence of the items in coll
-
-sort([3, 4, 1, 2]);
-[ 1, 2, 3, 4 ]
-
-sort((a, b) => b - a, [3, 4, 1, 2]);
-[ 4, 3, 2, 1 ]
-
-*/
+/**
+ * returns a sorted sequence of the items in coll
+ *
+ * @func
+ * @param {function}
+ * @param {Array|List|Set|string}
+ * @return {Array}
+ * @example
+ *
+ * sort([3, 4, 1, 2]);
+ * // => [1, 2, 3, 4]
+ *
+ * sort((a, b) => b - a, [3, 4, 1, 2]);
+ * // => [4, 3, 2, 1]
+ *
+ */
 export function sort(f, coll) {
   if (coll === undefined) {
     coll = f;
@@ -2187,26 +2414,37 @@ export function sort(f, coll) {
 }
 
 /*
-shuffle() returns a random permutation of coll
-
-shuffle([1, 2, 3, 4]);
-[ 2, 1, 3, 4 ]
-
-*/
+ * returns a random permutation of coll
+ *
+ * @func
+ * @param {Array|List|Set|string}
+ * @return {Array}
+ * @example
+ *
+ * shuffle([1, 2, 3, 4]);
+ * // => [2, 1, 3, 4]
+ *
+ */
 export function shuffle(coll) {
   return [...coll].sort(function () {
     return Math.random() - 0.5;
   });
 }
 
-/*
-some() returns the first true value of pred(x) for any x in coll,
-otherwise null
-
-some(isEven, [1, 2, 3, 4]);
-true
-
-*/
+/**
+ * returns the first true value of pred(x) for any x in coll,
+ * otherwise null
+ *
+ * @func
+ * @param {function}
+ * @param {Array|Map|List|Set|Object|string|null}
+ * @return {*}
+ * @example
+ *
+ * some(isEven, [1, 2, 3, 4]);
+ * // => true
+ *
+ */
 export function some(pred, coll) {
   for (const x of iterable(coll)) {
     const res = pred(x);
@@ -2219,110 +2457,156 @@ export function some(pred, coll) {
   return null;
 }
 
-/*
-randInt() returns a random integer between 0 and n
-
-randInt(30);
-27
-
-randInt(30);
-3
-
-*/
+/**
+ * randInt() returns a random integer between 0 and n
+ *
+ * @func
+ * @param {number}
+ * @return {number}
+ * @example
+ *
+ * randInt(30);
+ * // => 27
+ *
+ * randInt(30);
+ * // => 3
+ *
+ */
 export function randInt(n) {
   return Math.floor(Math.random() * n);
 }
 
-/*
-isTrue() returns true if x is true, false otherwise
-
-isTrue(1 > 0);
-true
-
-*/
+/**
+ * returns true if x is true, false otherwise
+ *
+ * @func
+ * @param {*}
+ * @return {boolean}
+ * @example
+ *
+ * isTrue(1 > 0);
+ * // => true
+ *
+ */
 export function isTrue(x) {
   return x === true;
 }
 
-/*
-isFalse() returns true if x is false, false otherwise
-
-isFalse(1 > 0);
-false
-
-*/
+/**
+ * returns true if x is false, false otherwise
+ *
+ * @func
+ * @param {*}
+ * @return {boolean}
+ * @example
+ *
+ * isFalse(1 > 0);
+ * // => false
+ *
+ */
 export function isFalse(x) {
   return x === false;
 }
 
-/*
-isSome() returns true if x is not null or undefined, false otherwise
-
-isSome(1 < 5);
-true
-
-*/
+/**
+ * returns true if x is not null or undefined, false otherwise
+ *
+ * @func
+ * @param {*}
+ * @return {boolean}
+ * @example
+ *
+ * isSome(1 < 5);
+ * // => true
+ *
+ */
 export function isSome(x) {
   return not(x === null || x === undefined);
 }
 
-/*
-booleans() coerces x to a boolean
-
-booleans("hello");
-true
-
-booleans(0)
-false
-
-*/
+/**
+ * returns x coerced to a boolean
+ *
+ * @func
+ * @param {*}
+ * @return {boolean}
+ * @example
+ *
+ * booleans("hello");
+ * // => true
+ *
+ * booleans(0)
+ * // => false
+ *
+ */
 export function booleans(x) {
   return !!x;
 }
 
-/*
-isZero() returns true if x is zero, false otherwise
-
-isZero(3);
-false
-
-*/
+/**
+ * returns true if x is zero, false otherwise
+ *
+ * @func
+ * @param {*}
+ * @return {boolean}
+ * @example
+ *
+ * isZero(3);
+ * // => false
+ *
+ */
 export function isZero(x) {
   return x === 0;
 }
 
-/*
-isNeg() returns true if x is less than zero, false otherwise
-
-isNeg(-5);
-true
-
-*/
+/**
+ * returns true if x is less than zero, false otherwise
+ *
+ * @func
+ * @param {*}
+ * @return {boolean}
+ * @example
+ *
+ * isNeg(-5);
+ * // => true
+ *
+ */
 export function isNeg(x) {
   return x < 0;
 }
 
-/*
-isPos() returns true if x is greater than zero, false otherwise
-
-isPos(5);
-true
-
-*/
+/**
+ * returns true if x is greater than zero, false otherwise
+ *
+ * @func
+ * @param {*}
+ * @return {boolean}
+ * @example
+ * isPos(5);
+ *
+ * // => true
+ *
+ */
 export function isPos(x) {
   return x > 0;
 }
 
 /*
-drop() returns a lazy sequence of all but the first n items in coll
-
-[...drop(-1, [1, 2, 3, 4])];
-[ 1, 2, 3, 4 ]
-
-[...drop(2, [1, 2, 3, 4])];
-[ 3, 4 ]
-
-*/
+ * returns a lazy sequence of all but the first n items in coll
+ *
+ * @func
+ * @param {number}
+ * @param {...Array|List|Set|Object|string|null}
+ * @return {LazySequence}
+ * @example
+ *
+ * [...drop(-1, [1, 2, 3, 4])];
+ * [ 1, 2, 3, 4 ]
+ *
+ * [...drop(2, [1, 2, 3, 4])];
+ * [ 3, 4 ]
+ *
+ */
 export function drop(n, xs) {
   return lazy(function* () {
     let iter = iterator(iterable(xs));
@@ -2335,17 +2619,23 @@ export function drop(n, xs) {
   });
 }
 
-/*
-dropWhile() returns a lazy sequence of the items in coll starting from
-the first item for which pred(value) returns false
-
-[...dropWhile((x) => 3 > x, [1, 2, 3, 4, 5, 6])];
-[ 3, 4, 5, 6 ]
-
-[...dropWhile((x) => 3 >= x, [1, 2, 3, 4, 5, 6])];
-[ 4, 5, 6 ]
-
-*/
+/**
+ * returns a lazy sequence of the items in coll starting from
+ * the first item for which pred(value) returns false
+ *
+ * @func
+ * @param {function}
+ * @param {Array|Map|List|Set|Object|string|null}
+ * @return {Array}
+ * @example
+ *
+ * [...dropWhile((x) => 3 > x, [1, 2, 3, 4, 5, 6])];
+ * // => [3, 4, 5, 6]
+ *
+ * [...dropWhile((x) => 3 >= x, [1, 2, 3, 4, 5, 6])];
+ * // => [4, 5, 6]
+ *
+ */
 export function dropWhile(pred, xs) {
   return lazy(function* () {
     let iter = iterator(iterable(xs));
@@ -2368,19 +2658,24 @@ export function dropWhile(pred, xs) {
   });
 }
 
-/*
-distinct() returns a lazy sequnce of the elements of coll with duplicates removed
-
-[...distinct([1, 2, 1, 3, 1, 4, 1, 5])];
-[ 1, 2, 3, 4, 5 ]
-
-[...distinct(["a", "a", "b", "c"])];
-[ 'a', 'b', 'c' ]
-
-apply(str, distinct("tattoo"));
-'tao'
-
-*/
+/**
+ * returns a lazy sequnce of the elements of coll with duplicates removed
+ *
+ * @func
+ * @param {Array|Map|List|Set|Object|string|null}
+ * @return {LazyIterable}
+ * @example
+ *
+ * [...distinct([1, 2, 1, 3, 1, 4, 1, 5])];
+ * // => [1, 2, 3, 4, 5]
+ *
+ * [...distinct(["a", "a", "b", "c"])];
+ * // => ["a", "b", "c"]
+ *
+ * apply(str, distinct("tattoo"));
+ * // => "tao"
+ *
+ */
 export function distinct(coll) {
   return lazy(function* () {
     let seen = new Set();
@@ -2394,48 +2689,54 @@ export function distinct(coll) {
   });
 }
 
-/*
-isDistinct() returns true if no two of the arguments are equal, false otherwise
-
-isDistinct(1, 2, 3);
-true
-
-isDistinct(1, 2, 3, 3);
-false
-
-isDistinct(1, 2, 3, 3);
-false
-
-isDistinct(["A", "A", "c"]);
-true
-
-isDistinct("A", "A", "c");
-false
-
-*/
+/**
+ * returns true if no two of the arguments are equal, false otherwise
+ *
+ * @func
+ * @param {*}
+ * @return {boolean}
+ * @example
+ *
+ * isDistinct(1, 2, 3);
+ * // => true
+ *
+ * isDistinct(1, 2, 3, 3);
+ * // => false
+ *
+ * isDistinct(["A", "A", "c"]);
+ * // => true
+ *
+ */
 export function isDistinct(...xs) {
   return xs.every((el, i) => {
     return xs.indexOf(el) === i;
   });
 }
 
-/*
-update() returns a new structure with a value updated by f 
-
-update([1, 2, 3], 0, inc);
-[ 2, 2, 3 ]
-
-update([], 0, function(item) { return str("foo", item); });
-[ 'foo' ]
-
-*/
+/**
+ * returns a new structure with a value updated by f
+ *
+ * @func
+ * @param {Array|Map|Object}
+ * @param {*}
+ * @param {function}
+ * @param {...*}
+ * @return {Array|Map|Object}
+ * @example
+ *
+ * update([1, 2, 3], 0, inc);
+ * // => [2, 2, 3]
+ *
+ * update([], 0, function(item) { return str("foo", item); });
+ * // => ["foo"]
+ *
+ */
 export function update(coll, key, f, ...args) {
   return assoc(coll, key, f(get(coll, key), ...args));
 }
 
 /*
-Mutator
-mutUpdate() updates a collection with a value updated by f 
+MUTATOR: mutUpdate() updates a collection with a value updated by f 
 
 var pet = {name: "George", age: 11};
 mutUpdate(pet, "age", inc);
