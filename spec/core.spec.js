@@ -1821,15 +1821,15 @@ describe("iff", function () {
   });
 });
 
-describe("threadFirst", function () {
+describe("tf", function () {
   it("threads x through the fns with x as the second argument", function () {
-    expect(c.threadFirst("3", parseInt)).toBe(3);
+    expect(c.tf("3", parseInt)).toBe(3);
   });
 });
 
-describe("threadLast", function () {
+describe("tl", function () {
   it("threads x through the fns with x as the last argument", function () {
-    expect(c.threadLast("3", parseInt)).toBe(3);
+    expect(c.tl("3", parseInt)).toBe(3);
   });
 });
 

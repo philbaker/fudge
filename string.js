@@ -1,16 +1,23 @@
+/** @module string */
+
 import { iterable, last } from "./core.js";
 
-/*
-blankQmark() returns true if s is null, empty or contains only whitespace
-
-blankQmark(null);
-true
-
-blankQmark("");
-true
-
-*/
-export function blankQmark(s) {
+/**
+ * returns true if s is null, empty or contains only whitespace
+ *
+ * @func
+ * @param {string}
+ * @return {boolean}
+ * @example
+ *
+ * isBlank(null);
+ * // => true
+ *
+ * isBlank("");
+ * // => true
+ *
+ */
+export function isBlank(s) {
   if (!s) {
     return true;
   }
@@ -26,19 +33,25 @@ export function blankQmark(s) {
   return false;
 }
 
-/*
-join() returns a string of all elements in coll
-
-join([1, 2, 3]);
-"123"
-
-join(", ", [1, 2, 3]);
-"1, 2, 3"
-
-join("-", split("hello world", " "));
-'hello-world'
-
-*/
+/**
+ * returns a string of all elements in coll
+ *
+ * @func
+ * @param {*}
+ * @param {*}
+ * @return {string}
+ * @example
+ *
+ * join([1, 2, 3]);
+ * // => "123"
+ *
+ * join(", ", [1, 2, 3]);
+ * // => "1, 2, 3"
+ *
+ * join("-", split("hello world", " "));
+ * // => "hello-world"
+ *
+ */
 export function join(sep, coll) {
   if (coll === undefined) {
     coll = sep;
@@ -64,13 +77,18 @@ export function join(sep, coll) {
   return ret;
 }
 
-/*
-trim() removes whitespace from both ends of a string
-
-trim("   a    ");
-"a"
-
-*/
+/**
+ * removes whitespace from both ends of a string
+ *
+ * @func
+ * @param {string}
+ * @return {string}
+ * @example
+ *
+ * trim("   a    ");
+ * "a"
+ *
+ */
 export function trim(s) {
   return s.trim();
 }
@@ -79,43 +97,50 @@ export function replace(s, m, re) {
   return s.replaceAll(m, re);
 }
 
-/*
-split() splits a string on regular expression. JavaScript's limit works 
-differently to Java's. This implementation mimics Java's. 
-
-split("Hello world", " ");
-[ 'Hello', 'world' ]
-
-split("JavaScript is awesome!", " ")
-[ 'JavaScript', 'is', 'awesome!' ]
-
-split("q1w2e3r4t5y6u7i8o9p0", /\d+/);
-[ "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "" ]
-
-split("q1w2e3r4t5y6u7i8o9p0", /\d+/, -1);
-[ 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '']
-
-split("q1w2e3r4t5y6u7i8o9p0", /\d+/, 5); 
-[ 'q', 'w', 'e', 'r', 't5y6u7i8o9p0' ]
-
-split("q1w2e3r4t5y6u7i8o9p0", /\d+/, -1); 
-[ 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '' ]
-
-split("fooxbarybaz", /[xy]/, 2)
-[ 'foo', 'barybaz' ]
-
-split(" q1w2 ", "");
-[ " ", "q", "1", "w", "2", " " ]
-
-split("a", "b");
-[ "a" ]
-
-split("hello world", " ");
-
-split("foo--bar--baz", "--");
-[ 'foo', 'bar', 'baz' ]
-
-*/
+/**
+ * splits a string on regular expression. JavaScript's limit works
+ * differently to Java's. This implementation mimics Java's.
+ *
+ * @func
+ * @param {string}
+ * @return {string|RegExp}
+ * @return {number}
+ * @example
+ *
+ * split("Hello world", " ");
+ * // => ["Hello", "world"]
+ *
+ * split("JavaScript is awesome!", " ")
+ * // => ["JavaScript", "is", "awesome!"]
+ *
+ * split("q1w2e3r4t5y6u7i8o9p0", /\d+/);
+ * // => ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p", ""]
+ *
+ * split("q1w2e3r4t5y6u7i8o9p0", /\d+/, -1);
+ * // => ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p", ""]
+ *
+ * split("q1w2e3r4t5y6u7i8o9p0", /\d+/, 5);
+ * // => ["q", "w", "e", "r", "t5y6u7i8o9p0"]
+ *
+ * split("q1w2e3r4t5y6u7i8o9p0", /\d+/, -1);
+ * // => ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p", ""]
+ *
+ * split("fooxbarybaz", /[xy]/, 2)
+ * // => ["foo", "barybaz"]
+ *
+ * split(" q1w2 ", "");
+ * // => [" ", "q", "1", "w", "2", " "]
+ *
+ * split("a", "b");
+ * // => ["a"]
+ *
+ * split("hello world", " ");
+ * // => ["hello", "world"]
+ *
+ * split("foo--bar--baz", "--");
+ * // => ["foo", "bar", "baz"]
+ *
+ */
 export function split(s, re, limit) {
   if (limit === undefined) {
     return split(s, re, 0);
@@ -156,30 +181,40 @@ export function split(s, re, limit) {
   return parts;
 }
 
-/*
-lowerCase() returns a string set to lower case
-
-lowerCase("Hello");
-'hello'
-
-lowerCase("ABCD");
-'abcd'
-
-*/
+/**
+ * returns a string set to lower case
+ *
+ * @func
+ * @param {string}
+ * @return {string}
+ * @example
+ *
+ * lowerCase("Hello");
+ * // => "hello"
+ *
+ * lowerCase("ABCD");
+ * // => "abcd"
+ *
+ */
 export function lowerCase(s) {
   return s.toLowerCase();
 }
 
-/*
-upperCase() returns a string set to upper case
-
-upperCase("Hello");
-'HELLO'
-
-upperCase("abcd");
-'ABCD'
-
-*/
+/**
+ * returns a string set to upper case
+ *
+ * @func
+ * @param {string}
+ * @return {string}
+ * @example
+ *
+ * upperCase("Hello");
+ * // => "HELLO"
+ *
+ * upperCase("abcd");
+ * // => "ABCD"
+ *
+ * */
 export function upperCase(s) {
   return s.toUpperCase();
 }

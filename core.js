@@ -1,6 +1,9 @@
-/*
-Core data types
-*/
+/**
+ * Core data types
+ *
+ * @private
+ *
+ */
 const MAP_TYPE = 1;
 const ARRAY_TYPE = 2;
 const OBJECT_TYPE = 3;
@@ -17,7 +20,7 @@ const FUNCTION_TYPE = 10;
  *
  * @private
  * @func
- * @param {*} type
+ * @param {*}
  * @return {*}
  *
  */
@@ -85,20 +88,36 @@ function typeConst(obj) {
   return null;
 }
 
-function typePrimitive(obj) {
-  if (typeof obj === "boolean") {
+/**
+ * Internal function which returns primitive type by checking x
+ *
+ * @private
+ * @func
+ * @param {*}
+ * @return {number}
+ * @example
+ *
+ * typePrimitive(false);
+ * // => 7
+ *
+ * typePrimitive(1);
+ * // => 8
+ *
+ */
+function typePrimitive(x) {
+  if (typeof x === "boolean") {
     return BOOLEAN_TYPE;
   }
 
-  if (typeof obj === "number") {
+  if (typeof x === "number") {
     return NUMBER_TYPE;
   }
 
-  if (typeof obj === "string") {
+  if (typeof x === "string") {
     return STRING_TYPE;
   }
 
-  if (typeof obj === "function") {
+  if (typeof x === "function") {
     return FUNCTION_TYPE;
   }
 
@@ -111,11 +130,16 @@ function typePrimitive(obj) {
  * It's useful to have a seperate structure because the lists behave differently to
  * vectors in some functions
  *
+ * Exported for tests, not intended for direct use
+ *
+ * @private
+ * @class
+ * @param {...*}
  * @return {List}
  * @example
  *
  * new List(1, 2, 3);
- * // => List(3) [ 1, 2, 3 ]
+ * // => List(3) [1, 2, 3]
  *
  */
 export class List extends Array {
@@ -152,10 +176,10 @@ export function isList(x) {
  * @example
  *
  * list("a", "b", "c");
- * // => List(3) [ 'a', 'b', 'c' ]
+ * // => List(3) ["a", "b", "c"]
  *
  * list(1, 2, 3);
- * // => List(3) [ 1, 2, 3 ]
+ * // => List(3) [1, 2, 3]
  *
  */
 export function list(...args) {
@@ -166,15 +190,15 @@ export function list(...args) {
  * returns a lazy sequence of the concatenation of elements in colls
  *
  * @func
- * @param {...Array} collections to concat
+ * @param {...Array}
  * @return {LazyIterable}
  * @example
  *
  * [...concat([1, 2], [3, 4])];
- * // => [ 1, 2, 3, 4 ]
+ * // => [1, 2, 3, 4]
  *
  * [...concat(["a", "b"], null, [1, [2, 3], 4])];
- * // => [ 'a', 'b', 1, [ 2, 3 ], 4 ]
+ * // => ["a", "b", 1, [2, 3], 4]
  *
  */
 export function concat(...colls) {
@@ -196,10 +220,10 @@ export function concat(...colls) {
  * @example
  *
  * [...mapcat(reverse, [[3, 2, 1, 0], [6, 5, 4], [9, 8, 7]])];
- * // => [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+ * // => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
  *
  * [...mapcat(list, ["a", "b", "c"], [1, 2, 3])];
- * // => [ "a", 1, "b", 2, "c", 3 ]
+ * // => ["a", 1, "b", 2, "c", 3]
  *
  */
 export function mapcat(f, ...colls) {
@@ -265,7 +289,7 @@ const IIterableIterator = Symbol.iterator;
  *
  * @private
  * @func
- * @param {Array|Object} collection
+ * @param {Array|Object}
  * @return {Object}
  * @example
  *
@@ -282,12 +306,12 @@ function iterator(coll) {
  * it's empty.
  *
  * @func
- * @param {*} collection
- * @return {Array|null} iterable of collection
+ * @param {*}
+ * @return {Array|null}
  * @example
  *
  * seq([1, 2]);
- * // => [ 1, 2 ]
+ * // => [1, 2]
  *
  * seq(null);
  * // => null
@@ -306,6 +330,8 @@ export function seq(x) {
 /**
  * Enables lazy evaluation of sequences
  *
+ * @private
+ *
  */
 class LazyIterable {
   constructor(gen) {
@@ -318,7 +344,7 @@ class LazyIterable {
 }
 
 /**
- * Internal class which returns a new instance of LazyIterable
+ * Internal function which returns a new instance of LazyIterable
  *
  * @private
  * @func
@@ -335,16 +361,16 @@ function lazy(f) {
  * coll is the rest
  *
  * @func
- * @param {*} value to prepend to collection
- * @param {Array|List|Map|Set|Object|string|null} collection
+ * @param {*}
+ * @param {Array|List|Map|Set|Object|string|null}
  * @return {LazyIterable}
  * @example
  *
  * [...cons(1, [2, 3, 4, 5, 6])];
- * // => [ 1, 2, 3, 4, 5, 6 ]
+ * // => [1, 2, 3, 4, 5, 6]
  *
  * [...cons([1, 2], [4, 5, 6])];
- * // => [ [ 1, 2 ], 4, 5, 6 ]
+ * // => [[1, 2], 4, 5, 6]
  *
  */
 export function cons(x, coll) {
@@ -358,16 +384,16 @@ export function cons(x, coll) {
  * applies a given function to each element of a collection
  *
  * @func
- * @param {function} function applied to each element in collection
- * @param {...Array|List|Map|Set|Object|string|null} collection
+ * @param {function}
+ * @param {...Array|List|Map|Set|Object|string|null}
  * @return {LazyIterable}
  * @example
  *
  * [...map(inc, [1, 2, 3, 4, 5])];
- * // => [ 2, 3, 4, 5, 6 ]
+ * // => [2, 3, 4, 5, 6]
  *
  * [...map(last, {x: 1, y: 2, z: 3})];
- * // => [ 1, 2, 3 ]
+ * // => [1, 2, 3]
  *
  */
 export function map(f, ...colls) {
@@ -407,12 +433,12 @@ export function map(f, ...colls) {
  * pred(item) returns true
  *
  * @func
- * @param {function} predicate check
+ * @param {function} predicate
  * @param {Array|List|Set|null} collection
  * @example
  *
  * [...filter(isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])];
- * // => [ 0, 2, 4, 6, 8, 10 ]
+ * // => [0, 2, 4, 6, 8, 10]
  *
  */
 export function filter(pred, coll) {
@@ -435,7 +461,7 @@ export function filter(pred, coll) {
  * @example
  *
  * filterv(isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
- * [ 0, 2, 4, 6, 8, 10 ]
+ * // => [0, 2, 4, 6, 8, 10]
  *
  */
 export function filterv(pred, coll) {
@@ -452,7 +478,7 @@ export function filterv(pred, coll) {
  * @return {LazyIterable}
  *
  * [...remove(isEven, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])];
- * // => [ 1, 3, 5, 7, 9 ]
+ * // => [1, 3, 5, 7, 9]
  *
  */
 export function remove(pred, coll) {
@@ -502,7 +528,7 @@ export function mapIndexed(f, coll) {
  * @example
  *
  * [...rest([1, 2, 3])];
- * // => [ 2, 3 ]
+ * // => [2, 3]
  *
  * [...rest(null)];
  * // => []
@@ -589,7 +615,7 @@ export function ffirst(coll) {
  * // => 5
  *
  * last({one: 1, two: 2, three: 3});
- * // => [ "three", 3 ]
+ * // => ["three", 3]
  *
  */
 export function last(coll) {
@@ -607,10 +633,12 @@ export function last(coll) {
   }
 }
 
-/*
-Internal class for reduce()
-
-*/
+/**
+ * Internal class for reduce()
+ *
+ * @private
+ *
+ */
 class Reduced {
   value;
   constructor(x) {
@@ -716,15 +744,15 @@ export function reduce(f, arg1, arg2) {
  * MUTATOR: adds a value to a structure by mutating the original
  *
  * @func
- * @param {Array|Map|Object} collection
- * @param {number|string} position to add value
+ * @param {Array|Map|Object}
+ * @param {number|string}
  * @param {*} value
  * @return {Array}
  * @example
  *
  * var arrData = [1, 2, 5, 6, 8, 9];
  * mutAssoc(someData, 0, 77);
- * // => [ 77, 2, 5, 6, 8, 9 ]
+ * // => [77, 2, 5, 6, 8, 9]
  *
  */
 export function mutAssoc(coll, key, val, ...kvs) {
@@ -763,14 +791,14 @@ export function mutAssoc(coll, key, val, ...kvs) {
  * returns a new structure with a modified values
  *
  * @func
- * @param {Array|Map|Object} collection
- * @param {number|string} position to add value
+ * @param {Array|Map|Object}
+ * @param {number|string}
  * @param {*} value
  * @return {Array}
  * @example
  *
  * assoc([1, 2, 5, 6, 8, 9], 0, 77);
- * // => [ 77, 2, 5, 6, 8, 9 ]
+ * // => [77, 2, 5, 6, 8, 9]
  *
  */
 export function assoc(coll, key, val, ...kvs) {
@@ -792,11 +820,13 @@ export function assoc(coll, key, val, ...kvs) {
   }
 }
 
-/*
-Internal function
-allows for modification (mutation or copy) of nested structures
-
-*/
+/**
+ * Internal function
+ * allows for modification (mutation or copy) of nested structures
+ *
+ * @private
+ *
+ */
 function assocInWith(f, fname, coll, keys, val) {
   var baseType = typeConst(coll);
 
@@ -1044,10 +1074,10 @@ export function mutConj(...xs) {
  * @example
  *
  * conj([1, 2, 3], 4);
- * // => [ 1, 2, 3, 4 ]
+ * // => [1, 2, 3, 4]
  *
  * conj([1, 2, 3], 4, 5);
- * // => [ 1, 2, 3, 4, 5 ]
+ * // => [1, 2, 3, 4, 5]
  *
  */
 export function conj(...xs) {
@@ -1255,7 +1285,7 @@ export function quot(a, b) {
  *
  * @func
  * @param {number}
- * @return {number
+ * @return {number}
  * @example
  *
  * multiply();
@@ -1426,11 +1456,13 @@ export function selectKeys(coll, keys) {
   return ret;
 }
 
-/*
-Internal function
-_partition() is a helper function for partition and partitionAll
-
-*/
+/**
+ * Internal function
+ * _partition() is a helper function for partition and partitionAll
+ *
+ * @private
+ *
+ */
 function _partition(n, step, pad, coll, all) {
   return lazy(function* () {
     let p = [];
@@ -1600,6 +1632,11 @@ export function inc(n) {
 /**
  * returns a number one less than n
  *
+ * @func
+ * @param {number}
+ * @return {number}
+ * @example
+ *
  * dec(5);
  * // => 4
  *
@@ -1651,12 +1688,11 @@ export function nth(coll, index, notFound = null) {
 }
 
 /**
- * get() returns the value mapped to key, notFound or null if the key
- * is not present
+ * returns the value mapped to key, notFound or null if the key is not present
  *
  * @func
- * @param {Array|List|Map|Set|Object|string} collection
- * @key {number|string} key
+ * @param {Array|List|Map|Set|Object|string}
+ * @key {number|string}
  * @return {*}
  * @example
  *
@@ -1718,7 +1754,7 @@ export function str(...xs) {
  * @example
  *
  * not(true);
- * false
+ * // => false
  *
  */
 export function not(x) {
@@ -1734,17 +1770,19 @@ export function not(x) {
  * @example
  *
  * isNil(null);
- * true
+ * // => true
  *
  */
 export function isNil(x) {
   return x === null;
 }
 
-/*
-Internal function for prStr
-
-*/
+/**
+ * Internal function for prStr
+ *
+ * @private
+ *
+ */
 function _prStr(x) {
   return JSON.stringify(x, (_key, val) => {
     switch (typeConst(val)) {
@@ -1800,10 +1838,12 @@ export function prn(...xs) {
   println(prStr(...xs));
 }
 
-/*
-Internal function for Atoms
-
-*/
+/**
+ * Internal function for Atoms
+ *
+ * @private
+ *
+ */
 function Atom(init) {
   this.value = init;
   this._deref = () => this.value;
@@ -1820,11 +1860,11 @@ function Atom(init) {
  *
  * var myAtom = atom(0);
  * myAtom;
- * => Atom {
- *      value: 0,
- *      _deref: [Function (anonymous)],
- *      _mutReset: [Function (anonymous)]
- *   }
+ * // => Atom {
+ * //      value: 0,
+ * //      _deref: [Function (anonymous)],
+ * //      _mutReset: [Function (anonymous)]
+ * //   }
  *
  * deref(myAtom);
  * // => 0
@@ -1846,41 +1886,41 @@ export function atom(init) {
 }
 
 /**
-returns the value stored in an atom
-
-* @func
-* @param {Atom}
-* @return {*}
-* @example
-
-var myAtom = atom(0);
-mutSwap(myAtom, inc);
-deref(myAtom);
-// => 1
-
-*/
+ * returns the value stored in an atom
+ *
+ * @func
+ * @param {Atom}
+ * @return {*}
+ * @example
+ *
+ * var myAtom = atom(0);
+ * mutSwap(myAtom, inc);
+ * deref(myAtom);
+ * // => 1
+ *
+ */
 export function deref(ref) {
   return ref._deref();
 }
 
 /**
-MUTATOR: resets the value stored in an atom
-
-* @func
-* @param {Array|Map|Set|Object|string|null}
-* @return {*}
-* @example
-
-var myAtom = atom(0);
-mutSwap(myAtom, inc);
-deref(myAtom);
-// => 1
-
-mutReset(myAtom, 0);
-deref(myAtom);
-// => 0
-
-*/
+ * MUTATOR: resets the value stored in an atom
+ *
+ * @func
+ * @param {Array|Map|Set|Object|string|null}
+ * @return {*}
+ * @example
+ *
+ * var myAtom = atom(0);
+ * mutSwap(myAtom, inc);
+ * deref(myAtom);
+ * // => 1
+ *
+ * mutReset(myAtom, 0);
+ * deref(myAtom);
+ * // => 0
+ *
+ */
 export function mutReset(atom, val) {
   atom._mutReset(val);
 }
@@ -1991,17 +2031,17 @@ export function reMatches(re, s) {
  * @example
  *
  * subvec([1, 2, 3, 4, 5, 6, 7], 2);
- * // => [ 3, 4, 5, 6, 7 ]
+ * // => [3, 4, 5, 6, 7]
  *
  * subvec([1, 2, 3, 4, 5, 6, 7], 2, 4);
- * // => [ 3, 4 ]
+ * // => [3, 4]
  *
  */
 export function subvec(arr, start, end) {
   return arr.slice(start, end);
 }
 
-/*
+/**
  * returns a new array containing args
  *
  * @func
@@ -2013,7 +2053,7 @@ export function subvec(arr, start, end) {
  * // => []
  *
  * vector(1, 2, 3);
- * // => [ 1, 2, 3 ]
+ * // => [1, 2, 3]
  *
  */
 export function vector(...args) {
@@ -2049,7 +2089,7 @@ export function isVector(x) {
  * @example
  *
  * mapv(inc, [1, 2, 3, 4, 5]);
- * // => [ 2, 3, 4, 5, 6 ]
+ * // => [2, 3, 4, 5, 6]
  *
  */
 export function mapv(...args) {
@@ -2068,7 +2108,7 @@ export function mapv(...args) {
  * []
  *
  * vec({a: 1, b: 2, c: 3});
- * [[ "a", 1 ], [ "b", 2 ], [ "c", 3 ]]
+ * [["a", 1], ["b", 2], ["c", 3]]
  *
  */
 export function vec(coll) {
@@ -2205,7 +2245,7 @@ export function constantly(x) {
  * @example
  *
  * [...repeat(5, "x")];
- * // => [ "x", "x", "x", "x", "x" ]
+ * // => ["x", "x", "x", "x", "x"]
  *
  */
 export function repeat(...args) {
@@ -2243,10 +2283,10 @@ export function repeat(...args) {
  * @example
  *
  * [...take(3, [1, 2, 3, 4, 5, 6])];
- * // => [ 1, 2, 3 ]
+ * // => [1, 2, 3]
  *
  * [...take(3, [1, 2])];
- * // => [ 1, 2 ]
+ * // => [1, 2]
  *
  */
 export function take(n, coll) {
@@ -2276,7 +2316,7 @@ export function take(n, coll) {
  * @example
  *
  * [...takeWhile(isNeg, [-2, -1, 0, 1, 2, 3])];
- * [ -2, -1 ]
+ * // => [-2, -1]
  *
  */
 export function takeWhile(pred, coll) {
@@ -2292,16 +2332,16 @@ export function takeWhile(pred, coll) {
 }
 
 /**
- * takeNth() returns a lazy sequence of every nth item in coll
+ * returns a lazy sequence of every nth item in coll
  *
  * @func
  * @param {number}
  * @param {Array|Map|List|Set|Object|string}
- * @return {Array}
+ * @return {LazyIterable}
  * @example
  *
  * [...takeNth(2, range(10))];
- * // => [ 0, 2, 4, 6, 8 ]
+ * // => [0, 2, 4, 6, 8]
  *
  */
 export function takeNth(n, coll) {
@@ -2328,8 +2368,8 @@ export function takeNth(n, coll) {
  *
  * @func
  * @param {function}
- * @param {*}
- * @return {*}
+ * @param {...*}
+ * @return {function}
  * @example
  *
  * var hundredPlus = partial(plus, 100);
@@ -2413,7 +2453,7 @@ export function sort(f, coll) {
   return [...coll].sort(f);
 }
 
-/*
+/**
  * returns a random permutation of coll
  *
  * @func
@@ -2591,7 +2631,7 @@ export function isPos(x) {
   return x > 0;
 }
 
-/*
+/**
  * returns a lazy sequence of all but the first n items in coll
  *
  * @func
@@ -2601,10 +2641,10 @@ export function isPos(x) {
  * @example
  *
  * [...drop(-1, [1, 2, 3, 4])];
- * [ 1, 2, 3, 4 ]
+ * // => [1, 2, 3, 4]
  *
  * [...drop(2, [1, 2, 3, 4])];
- * [ 3, 4 ]
+ * // => [3, 4]
  *
  */
 export function drop(n, xs) {
@@ -2735,29 +2775,40 @@ export function update(coll, key, f, ...args) {
   return assoc(coll, key, f(get(coll, key), ...args));
 }
 
-/*
-MUTATOR: mutUpdate() updates a collection with a value updated by f 
-
-var pet = {name: "George", age: 11};
-mutUpdate(pet, "age", inc);
-pet
-{ name: 'George', age: 12 }
-
-*/
+/**
+ * MUTATOR: updates a collection with a value updated by f
+ *
+ * @func
+ * @param {Array|Map|Object}
+ * @return {Array|Map|Object}
+ * @example
+ *
+ * var pet = {name: "George", age: 11};
+ * mutUpdate(pet, "age", inc);
+ * pet
+ * // => {name: 'George', age: 12}
+ *
+ */
 export function mutUpdate(coll, key, f, ...args) {
   const val = get(coll, key);
 
   return mutAssoc(coll, key, f(val, ...args));
 }
 
-/*
-groupBy() returns an object of the elements of coll keyed by the
-result of f on each element
-
-groupBy(isOdd, range(10));
-{ false: [ 0, 2, 4, 6, 8 ], true: [ 1, 3, 5, 7, 9 ] }
-
-*/
+/**
+ * returns an object of the elements of coll keyed by the
+ * result of f on each element
+ *
+ * @func
+ * @param {function}
+ * @param {Array|List|Set|null}
+ * @return {Object}
+ * @example
+ *
+ * groupBy(isOdd, range(10));
+ * // => {false: [0, 2, 4, 6, 8], true: [1, 3, 5, 7, 9]}
+ *
+ */
 export function groupBy(f, coll) {
   const res = {};
 
@@ -2769,14 +2820,19 @@ export function groupBy(f, coll) {
   return res;
 }
 
-/*
-frequencies() returns an object from distinct items in coll
-to the number of times they appear
-
-frequencies(["a", "b", "a", "a"]);
-{ a: 3, b: 1 }
-
-*/
+/**
+ * returns an object from distinct items in coll
+ * to the number of times they appear
+ *
+ * @func
+ * @param {Array|Map|List|Set|Object|string|null}
+ * @return {Object}
+ * @example
+ *
+ * frequencies(["a", "b", "a", "a"]);
+ * // => {a: 3, b: 1}
+ *
+ */
 export function frequencies(coll) {
   const res = {};
   const uf = fnil(inc, 0);
@@ -2788,13 +2844,13 @@ export function frequencies(coll) {
   return res;
 }
 
-/*
-butlast() returns a sequence of all but the last item in coll
-
-butlast([1, 2, 3]);
-[ 1, 2 ]
-
-*/
+/**
+ * returns a sequence of all but the last item in coll
+ *
+ * butlast([1, 2, 3]);
+ * // => [1, 2]
+ *
+ */
 export function butlast(coll) {
   let x = [...iterable(coll)];
   x.pop();
@@ -2802,48 +2858,69 @@ export function butlast(coll) {
   return x.length > 0 ? x : null;
 }
 
-/*
-dropLast() returns a lazy sequence of all but the last n items in coll
-
-[...dropLast([1, 2, 3, 4])];
-[ 1, 2, 3 ]
-
-*/
+/**
+ * returns a lazy sequence of all but the last n items in coll
+ *
+ * @func
+ * @param {Array|Map|List|Set|Object|string|null}
+ * @return {LazyIterable}
+ * @example
+ *
+ * [...dropLast([1, 2, 3, 4])];
+ * // => [1, 2, 3]
+ *
+ */
 export function dropLast(...args) {
   let [n, coll] = args.length > 1 ? args : [1, args[0]];
 
   return map((x, _) => x, coll, drop(n, coll));
 }
 
-/*
-splitAt() returns an array of [take(n, coll), drop(n, coll)]
-
-splitAt(2, [1, 2, 3, 4, 5]);
-[ [ 1, 2 ], [ 3, 4, 5 ] ]
-
-*/
+/**
+ * returns an array of [take(n, coll), drop(n, coll)]
+ *
+ * @func
+ * @param {Array|Map|List|Set|Object|string|null}
+ * @return {Array}
+ * @example
+ *
+ * splitAt(2, [1, 2, 3, 4, 5]);
+ * // => [[1, 2], [3, 4, 5]]
+ *
+ */
 export function splitAt(n, coll) {
   return [[...take(n, coll)], [...drop(n, coll)]];
 }
 
-/*
-splitWith() returns an array of [takeWhile(pred, coll), dropWhile(pred, coll)]
-
-splitWith(isOdd, [1, 3, 5, 6, 7, 9]);
-[ [ 1, 3, 5 ], [ 6, 7, 9 ] ]
-
-*/
+/**
+ * returns an array of [takeWhile(pred, coll), dropWhile(pred, coll)]
+ *
+ * @func
+ * @param {function}
+ * @param {Array|Map|List|Set|Object|string|null}
+ * @return {Array}
+ * @example
+ *
+ * splitWith(isOdd, [1, 3, 5, 6, 7, 9]);
+ * // => [[1, 3, 5], [6, 7, 9]]
+ *
+ */
 export function splitWith(pred, coll) {
   return [[...takeWhile(pred, coll)], [...dropWhile(pred, coll)]];
 }
 
-/*
-count() returns the number of items in the collection
-
-count([1, 2, 3]);
-3
-
-*/
+/**
+ * returns the number of items in the collection
+ *
+ * @func
+ * @param {*}
+ * @return {number}
+ * @example
+ *
+ * count([1, 2, 3]);
+ * // => 3
+ *
+ */
 export function count(coll) {
   if (!coll) {
     return 0;
@@ -2864,21 +2941,28 @@ export function count(coll) {
   return ret;
 }
 
-/*
-getIn() returns a selected value from a nested structure
-
-var pet = {
-  name: "George",
-  profile: {
-    name: "George V",
-    address: { city: "London", street: "Tabby lane" },
-  },
-}
-
-getIn(pet, ["profile", "name"]);
-'George V'
-
-*/
+/**
+ * returns a selected value from a nested structure
+ *
+ * @func
+ * @param {Array|Map|List|Set|Object}
+ * @param {Array}
+ * @param {*}
+ * @return {*}
+ * @example
+ *
+ * var pet = {
+ *   name: "George",
+ *   profile: {
+ *     name: "George V",
+ *     address: { city: "London", street: "Tabby Lane" },
+ *   },
+ * }
+ *
+ * getIn(pet, ["profile", "name"]);
+ * // => "George V"
+ *
+ */
 export function getIn(coll, path, notFound = null) {
   let entry = coll;
 
@@ -2893,35 +2977,49 @@ export function getIn(coll, path, notFound = null) {
   return entry;
 }
 
-/*
-updateIn() updates a value in a nested structure
-
-var pets = [{name: "George", age: 11}, {name: "Lola", age: 10}];
-updateIn(pets, [1, "age"], inc);
-[ { name: 'George', age: 11 }, { name: 'Lola', age: 11 } ]
-
-*/
+/**
+ * updates a value in a nested structure
+ *
+ * @func
+ * @param {Array|Map|List|Set|Object}
+ * @param {Array}
+ * @param {function}
+ * @param {...*}
+ * @return {Array|Map|List|Set|Object}
+ *
+ * @example
+ * var pets = [{name: "George", age: 11}, {name: "Lola", age: 10}];
+ * updateIn(pets, [1, "age"], inc);
+ * // => [{name: "George", age: 11}, {name: "Lola", age: 11}]
+ *
+ */
 export function updateIn(coll, path, f, ...args) {
   return assocIn(coll, path, f(getIn(coll, path), ...args));
 }
 
-/*
-fnil() takes a function f, and returns a function that calls f, replacing
-a null first argument to f with the supplied value x
-
-function sayHello(name) {
-  return str("Hello ", name);
-}
-
-var sayHelloWithDefaults = fnil(sayHello, "world");
-
-sayHelloWithDefaults(null);
-'Hello world'
-
-sayHelloWithDefaults("universe");
-'Hello universe'
-
-*/
+/**
+ * takes a function f, and returns a function that calls f, replacing
+ * a null first argument to f with the supplied value x
+ *
+ * @func
+ * @param {function}
+ * @param {*}
+ * @return {function}
+ * @example
+ *
+ * function sayHello(name) {
+ *   return str("Hello ", name);
+ * }
+ *
+ * var sayHelloWithDefaults = fnil(sayHello, "world");
+ *
+ * sayHelloWithDefaults(null);
+ * // => "Hello world"
+ *
+ * sayHelloWithDefaults("universe");
+ * // => "Hello universe"
+ *
+ */
 export function fnil(f, ...xs) {
   return function (...args) {
     for (let i = 0; i < args.length; i++) {
@@ -2934,17 +3032,23 @@ export function fnil(f, ...xs) {
   };
 }
 
-/*
-isEvery() returns true if pred(x) is true for every x in coll,
-otherwise false
-
-isEvery(isEven, [2, 4, 6]);
-true
-
-isEvery(isEven, [1, 2, 3]);
-false
-
-*/
+/**
+ * returns true if pred(x) is true for every x in coll,
+ * otherwise false
+ *
+ * @func
+ * @param {function}
+ * @param {Array|Map|List|Set|Object|string|null}
+ * @return {boolean}
+ * @example
+ *
+ * isEvery(isEven, [2, 4, 6]);
+ * // => true
+ *
+ * isEvery(isEven, [1, 2, 3]);
+ * // => false
+ *
+ */
 export function isEvery(pred, coll) {
   for (let x of iterable(coll)) {
     if (!pred(x)) {
@@ -2955,38 +3059,51 @@ export function isEvery(pred, coll) {
   return true;
 }
 
-/*
-isNotEvery() returns false if pred(x) is true for every x in coll,
-otherwise true
-
-isNotEvery(isEven, [2, 4, 6]);
-false
-
-isNotEvery(isEven, [1, 2, 3]);
-true
-
-*/
+/**
+ * returns false if pred(x) is true for every x in coll,
+ * otherwise true
+ *
+ * @func
+ * @param {function}
+ * @param {Array|Map|List|Set|Object|string|null}
+ * @return {boolean}
+ * @example
+ *
+ * isNotEvery(isEven, [2, 4, 6]);
+ * // => false
+ *
+ * isNotEvery(isEven, [1, 2, 3]);
+ * // => true
+ *
+ */
 export function isNotEvery(pred, coll) {
   return !isEvery(pred, coll);
 }
 
-/*
-isNotAny() returns false if pred(x) is true for any x in coll,
-otherwise true
-
-isNotAny(isOdd, [2, 4, 6]);
-true
-
-*/
+/**
+ * returns false if pred(x) is true for any x in coll, otherwise true
+ *
+ * @func
+ * @param {function}
+ * @param {Array|Map|List|Set|Object|string|null}
+ * @return {boolean}
+ * @example
+ *
+ * isNotAny(isOdd, [2, 4, 6]);
+ * // => true
+ *
+ */
 export function isNotAny(pred, coll) {
   return !some(pred, coll);
 }
 
-/*
-Internal function
-_repeatedly() is a helper for repeatedly()
-
-*/
+/**
+ * Internal function
+ * _repeatedly() is a helper for repeatedly()
+ *
+ * @private
+ *
+ */
 function _repeatedly(f) {
   return lazy(function* () {
     while (true) {
@@ -2995,14 +3112,19 @@ function _repeatedly(f) {
   });
 }
 
-/*
-repeatedly() takes a function of no args and returns it with n calls
-to it
-
-[...repeatedly(5, () => randInt(11))];
-[ 7, 7, 7, 6, 4 ]
-
-*/
+/**
+ * takes a function of no args and returns it with n calls to it
+ *
+ * @func
+ * @param {number}
+ * @return {function}
+ * @return {LazyIterable}
+ * @example
+ *
+ * [...repeatedly(5, () => randInt(11))];
+ * // => [7, 7, 7, 6, 4]
+ *
+ */
 export function repeatedly(n, f) {
   if (f === undefined) {
     f = n;
@@ -3018,13 +3140,19 @@ export function repeatedly(n, f) {
   }
 }
 
-/*
-keep() returns a lazy sequence of the non-nil results of f(item)
-
-[...keep(isEven, range(1, 10))];
-[ false, true,  false, true,  false, true, false, true,  false ]
-
-*/
+/**
+ * returns a lazy sequence of the non-nil results of f(item)
+ *
+ * @func
+ * @param {function}
+ * @param {Array|Map|List|Set|Object|string|null}
+ * @return {LazyIterable}
+ * @example
+ *
+ * [...keep(isEven, range(1, 10))];
+ * // => [false, true, false, true, false, true, false, true, false]
+ *
+ */
 export function keep(pred, coll) {
   return lazy(function* () {
     for (const x of iterable(coll)) {
@@ -3037,50 +3165,68 @@ export function keep(pred, coll) {
   });
 }
 
-/*
-replace() turns collection with any elements equal to a key in smap replaced with the
-corresponding val in smap
-
-replace(["zeroth", "first", "second", "third", "fourth"], [0, 2, 4, 0])
-[ 'zeroth', 'second', 'fourth', 'zeroth' ]
-
-*/
-export function replace(smap, coll) {
-  let mapf = coll instanceof Array ? mapv : map;
+/**
+ * turns collection with any elements equal to a key in coll1 replaced with the
+ * corresponding val in coll1
+ *
+ * @func
+ * @param {*}
+ * @param {*}
+ * @return {*}
+ * @example
+ *
+ * replace(["zeroth", "first", "second", "third", "fourth"], [0, 2, 4, 0])
+ * // => ["zeroth", "second", "fourth", "zeroth"]
+ *
+ */
+export function replace(coll1, coll2) {
+  let mapf = coll2 instanceof Array ? mapv : map;
 
   return mapf((x) => {
-    const repl = smap[x];
+    const repl = coll1[x];
 
     if (repl !== undefined) {
       return repl;
     } else {
       return x;
     }
-  }, coll);
+  }, coll2);
 }
 
-/*
-isEmpty() returns true if coll has no items
-
-isEmpty(list());
-true
-
-*/
+/**
+ * returns true if coll has no items
+ *
+ * @func
+ * @param {Array|Map|List|Set|Object|string|null}
+ * @return {boolean}
+ * @example
+ *
+ * isEmpty(list());
+ * // => true
+ *
+ */
 export function isEmpty(coll) {
   return seq(coll) ? false : true;
 }
 
-/*
-ifNot() evaluates test. If false evaluates and returns then or
-otherwise (if supplied)
-
-
-ifNot(isEmpty([1, 2]), first([1, 2]));
-1
-
-ifNot(isEmpty([]), first([1, 2]));
-
-*/
+/**
+ * evaluates test. If false evaluates and returns then or
+ * otherwise (if supplied)
+ *
+ * @func
+ * @param {*}
+ * @param {*}
+ * @param {*}
+ * @return {*}
+ * @example
+ *
+ * ifNot(isEmpty([1, 2]), first([1, 2]));
+ * // => 1
+ *
+ * ifNot(isEmpty([]), first([1, 2]));
+ * // => null
+ *
+ */
 export function ifNot(test, then, otherwise = null) {
   if (!test) {
     return then;
@@ -3089,19 +3235,25 @@ export function ifNot(test, then, otherwise = null) {
   return otherwise;
 }
 
-/*
-isInstance() checks if x is an instance of c
-
-isInstance(String, "hello");
-true
-
-isInstance(Number, 5);
-true
-
-isInstance(Number, "5");
-false
-
-*/
+/**
+ * checks if x is an instance of c
+ *
+ * @func
+ * @param {Class}
+ * @param {*}
+ * @return {boolean}
+ * @example
+ *
+ * isInstance(String, "hello");
+ * // => true
+ *
+ * isInstance(Number, 5);
+ * // => true
+ *
+ * isInstance(Number, "5");
+ * // => false
+ *
+ */
 export function isInstance(c, x) {
   var a = typeConst(x);
   var b = typePrimitive(x);
@@ -3136,19 +3288,24 @@ export function isInstance(c, x) {
   return false;
 }
 
-/*
-keys() returns all keys from an object
-
-keys({a: 1, b: 2, c: 3});
-[ "a", "b", "c" ]
-
-keys({});
-null
-
-keys(null);
-null
-
-*/
+/**
+ * keys() returns all keys from a collection
+ *
+ * @func
+ * @param {Array|Map|List|Set|Object|string|null}
+ * @return {Array|null}
+ * @example
+ *
+ * keys({a: 1, b: 2, c: 3});
+ * // => ["a", "b", "c"]
+ *
+ * keys({});
+ * // => null
+ *
+ * keys(null);
+ * // => null
+ *
+ */
 export function keys(x) {
   if (isEmpty(x)) {
     return null;
@@ -3157,19 +3314,24 @@ export function keys(x) {
   return Object.keys(x);
 }
 
-/*
-vals() returns all values from an object
-
-vals({a: 1, b: 2, c: 3});
-[ 1, 2, 3 ]
-
-vals({});
-null
-
-vals(null);
-null
-
-*/
+/**
+ * returns all values from an object
+ *
+ * @func
+ * @param {Array|Map|List|Set|Object|string|null}
+ * @return {Array|null}
+ * @example
+ *
+ * vals({a: 1, b: 2, c: 3});
+ * // => [1, 2, 3]
+ *
+ * vals({});
+ * // => null
+ *
+ * vals(null);
+ * // => null
+ *
+ */
 export function vals(x) {
   if (isEmpty(x)) {
     return null;
@@ -3178,63 +3340,86 @@ export function vals(x) {
   return Object.values(x);
 }
 
-/*
-threadFirst() threads x through the fns. Inserts x as the second item in the first
-function. It will do the same for following functions.
-
-threadFirst("3", parseInt);
-3
-
-*/
-export function threadFirst(x, ...fns) {
+/**
+ * thread first threads x through the fns. Inserts x as the second item in the first
+ * function. It will do the same for following functions.
+ *
+ * @func
+ * @param {*}
+ * @param {...function}
+ * @return {*}
+ * @example
+ *
+ * tf("3", parseInt);
+ * // => 3
+ *
+ */
+export function tf(x, ...fns) {
   return fns.reduce((acc, fn) => fn(acc), x);
 }
 
-/*
-threadLast() threads x through the fns. Inserts x as the last item in the first
-function. It will do the same for following functions
-
-threadLast("3", parseInt);
-3
-
-*/
-export function threadLast(x, ...fns) {
+/**
+ * thread last threads x through the fns. Inserts x as the last item in the first
+ * function. It will do the same for following functions
+ *
+ * @func
+ * @param {*}
+ * @param {...function}
+ * @return {*}
+ * @example
+ *
+ * tl("3", parseInt);
+ * // => 3
+ *
+ */
+export function tl(x, ...fns) {
   return fns.reduceRight((acc, fn) => fn(acc), x);
 }
 
-/*
-iff() evaluates the test and returns then if true, otherwise if false
-
-iff(1 > 2, "hello", "world");
-"world"
-
-iff(3 > 2, str("hello", " world"), "world");
-"hello world"
-
-iff(1 * 2 === 2, (() => 3 * 2)(), 7);
-6
-
-*/
+/**
+ * evaluates the test and returns then if true, otherwise if false
+ *
+ * @func
+ * @param {*}
+ * @param {*}
+ * @param {*}
+ * @return {*}
+ * @example
+ *
+ * iff(1 > 2, "hello", "world");
+ * "world"
+ *
+ * iff(3 > 2, str("hello", " world"), "world");
+ * "hello world"
+ *
+ * iff(1 * 2 === 2, (() => 3 * 2)(), 7);
+ * 6
+ *
+ */
 export function iff(test, then, otherwise) {
   return test ? then : otherwise;
 }
 
-/*
-cond() takes a set of test / expression pairs. It evaluates each test one at a 
-time returning the result for the first true test
-
-function posNegOrZero(n) {
-  return cond(
-    [() => n < 0, () => "negative"],
-    [() => n > 0, () => "positive"],
-    [() => "else", () => "zero"]
-  )();
-}
-
-posNegOrZero(5);
-"positive"
-
-*/
+/**
+ * takes a set of test / expression pairs. It evaluates each test one at a
+ * time returning the result for the first true test
+ *
+ * @func
+ * @param {...Array}
+ * @return {function
+ * @example
+ *
+ * function posNegOrZero(n) {
+ *   return cond(
+ *     [() => n < 0, () => "negative"],
+ *     [() => n > 0, () => "positive"],
+ *     [() => "else", () => "zero"]
+ *   )();
+ * }
+ * posNegOrZero(5);
+ * // => "positive"
+ *
+ */
 export function cond(...xs) {
   return function (...args) {
     for (let i = 0; i < xs.length; i++) {
@@ -3249,14 +3434,20 @@ export function cond(...xs) {
   };
 }
 
-/*
-lett() groups variables in a single scope
-
-lett([["x", 3], ["y", 4], ["z", 55]], (xs) => {
-  return (xs.x * xs.y) + xs.z;
-});
-
-*/
+/**
+ * groups variables in a single scope
+ *
+ * @func
+ * @param {Array}
+ * @param {function}
+ * @return {*}
+ * @example
+ *
+ * lett([["x", 3], ["y", 4], ["z", 55]], (xs) => {
+ *   return (xs.x * xs.y) + xs.z;
+ * });
+ *
+ */
 export function lett(bindings, f) {
   return (() => {
     const scope = {};
@@ -3269,43 +3460,25 @@ export function lett(bindings, f) {
   })();
 }
 
-/*
-and() evaluates expressions from left to right and returns the first
-argument that is falsy or the last arg if all args are truthy
-
-and(true, true);
-true
-
-and(true, false);
-false
-
-and(list(), list());
-List(0) []
-
-and([], []);
-[]
-
-and({}, []);
-[]
-
-and(false, null);
-false
-
-and(null, false);
-null
-
-and(0, 1);
-1
-
-and(1, 0);
-0
-
-and(null, null);
-null
-
-null === false
-
-*/
+/**
+ * evaluates expressions from left to right and returns the first
+ * argument that is falsy or the last arg if all args are truthy
+ *
+ * @func
+ * @param {...*}
+ * @return {*}
+ * @example
+ *
+ * and(true, true);
+ * // => true
+ *
+ * and([], []);
+ * // => []
+ *
+ * and(0, 1);
+ * // => 1
+ *
+ */
 export function and(...args) {
   for (let i = 0; i < args.length; i++) {
     if (args[i] === null || args[i] === undefined || args[i] === false) {
@@ -3316,38 +3489,25 @@ export function and(...args) {
   return args[args.length - 1];
 }
 
-/*
-or() returns the first argument that is truthy or the last argument
-if all arguments are falsy
-
-or(true, false, false);
-true
-
-or(true, true, true);
-true
-
-or(false, false, false);
-false
-
-or(null, null);
-null
-
-or(null, false);
-false
-
-or(false, null);
-null
-
-or(true, null);
-true
-
-or(false, 42);
-42
-
-or(false, 42, 9999);
-42
-
-*/
+/**
+ * returns the first argument that is truthy or the last argument
+ * if all arguments are falsy
+ *
+ * @func
+ * @param {...*}
+ * @return {*}
+ * @example
+ *
+ * or(true, false, false);
+ * // => true
+ *
+ * or(null, null);
+ * // => null
+ *
+ * or(false, 42);
+ * // => 42
+ *
+ */
 export function or(...args) {
   for (let i = 0; i < args.length; i++) {
     if (args[i] !== false && args[i] !== undefined && args[i] !== null) {
@@ -3358,256 +3518,121 @@ export function or(...args) {
   return args[args.length - 1];
 }
 
-/*
-isNumber() returns true if x is a number
-
-isNumber(1);
-true
-
-isNumber("1");
-false
-
-isNumber(undefined);
-false
-
-isNumber(+"1");
-true
-
-*/
+/**
+ * returns true if x is a number
+ *
+ * @func
+ * @param {*}
+ * @return {boolean}
+ * @example
+ *
+ * isNumber(1);
+ * // => true
+ *
+ * isNumber("1");
+ * // => false
+ *
+ * isNumber(+"1");
+ * // => true
+ *
+ */
 export function isNumber(x) {
   return typeof x === "number";
 }
 
-/*
-isString() returns true if x is a string
-
-isString(5);
-false
-
-isString(true);
-false
-
-*/
+/**
+ * returns true if x is a string
+ *
+ * @func
+ * @param {*}
+ * @return {boolean}
+ * @example
+ *
+ * isString(5);
+ * // => false
+ *
+ * isString(true);
+ * // => false
+ *
+ */
 export function isString(x) {
   return typeof x === "string";
 }
 
-/*
-isMap() returns true if x is a Map
-note that this is a JavaScript Map rather than an Object
-
-isMap([]);
-false
-
-isMap(new Map());
-true
-
-isMap({});
-false
-
-*/
+/**
+ * returns true if x is a Map
+ *
+ * @func
+ * @param {*}
+ * @return {boolean}
+ * @example
+ *
+ * isMap([]);
+ * // => false
+ *
+ * isMap(new Map());
+ * // => true
+ *
+ * isMap({});
+ * // => false
+ *
+ */
 export function isMap(x) {
   return typeConst(x) === MAP_TYPE;
 }
 
-/*
-isObject() returns true if x is an Object
-
-isObject([]);
-false
-
-isObject(list());
-false
-
-isObject("abcdef");
-false
-
-isObject({a: 2});
-true
-
-*/
+/**
+ * returns true if x is an Object
+ *
+ * @func
+ * @param {*}
+ * @return {boolean}
+ * @example
+ *
+ * isObject([]);
+ * // => false
+ *
+ * isObject(list());
+ * // => false
+ *
+ * isObject({a: 2});
+ * // => true
+ *
+ */
 export function isObject(x) {
   return typeConst(x) === OBJECT_TYPE;
 }
 
-/*
-isSet() returns true if x is a Set
-
-isSet("abc");
-false
-
-isSet({});
-false
-
-isSet([]);
-false
-
-isSet(list());
-false
-
-isSet(set());
-true
-
-*/
+/**
+ * returns true if x is a Set
+ *
+ * @func
+ * @param {*}
+ * @return {boolean}
+ * @example
+ *
+ * isSet("abc");
+ * false
+ *
+ * isSet({});
+ * false
+ *
+ * isSet(set());
+ * true
+ *
+ */
 export function isSet(x) {
   return typeConst(x) === SET_TYPE;
 }
 
-/*
-eq() compares x, y and args
-
-eq(5);
-true
-
-eq(1, 2);
-false
-
-eq(1, 1, 1);
-true
-
-eq(1, 1, 2);
-false
-
-eq(1, 1, 1, 1);
-true
-
-eq(1, 1);
-true
-
-eq(null, null);
-true
-
-eq(null, null, null);
-true
-
-eq(false, false);
-true
-
-eq(true, true);
-true
-
-eq(undefined, undefined);
-true
-
-eq([1, 2], [1, 2]);
-true
-
-eq([1, 2], [1, 2], [1, 2]);
-true
-
-eq([1, 2, [3, 4, [{a: "b"}]]], [1, 2, [3, 4, [{a: "b"}]]]);
-true
-
-eq([1, 2, [3, 4, [{a: "b"}]]], [1, 2, [3, 4, [{a: "b"}]]], [1, 2, [3, 4, [{a: "b"}]]]);
-true
-
-eq([1, 2, [3, 4, [{a: "d"}]]], [1, 2, [3, 4, [{a: "b"}]]]);
-false
-
-eq([1, 2, [3, 4, [{a: "b"}]]], [1, 2, [3, 4, [{a: "d"}]]], [1, 2, [3, 4, [{a: "b"}]]]);
-false
-
-eq([1, 2], [1, 2, 3]);
-false
-
-eq({a: 1, b: 2}, {a: 1, b: 2});
-true
-
-eq({a: 1, b: 2}, {a: 1, b: 2}, {a: 1, b: 2});
-true
-
-eq({a: 1, b: 2}, {a: 1, b: 2, c: 3});
-false
-
-eq({a: 1, b: 2}, {a: 1, b: 2, c: 3}, {a: 1});
-false
-
-eq({a:1, b:2 }, {a: 2, b: 1});
-false
-
-eq(list(1, 2, 3), [1, 2, 3]);
-true
-
-eq(list(1, 2, 3), [1, 2, 3], list(1, 2, 3));
-true
-
-eq(list(1, 2, 3), list(1, 2, 3));
-true
-
-eq(null, 1);
-false
-
-eq({a: [1, 2], b: "hello"}, {a: [1, 2], b: "hello"});
-true
-
-eq({a: [1, 2], b: "hello"}, {a: [1, 2], b: "hello"}, {a: [1, 2], b: "hello"});
-true
-
-eq(set([1, 2, 3]), set([1, 2, 3]));
-true
-
-eq(set([1, 2, 3]), set([1, 2, 3]), set([1, 2, 3]));
-true
-
-eq(set([1, 2]), set([1, 2, 3]));
-false
-
-eq(map(1, 2), set([1, 2, 3]));
-false
-
-var eqMap = new Map();
-eqMap.set("a", 1);
-eqMap.set("b", 2);
-eqMap.set("c", 3);
-
-var eqMap2 = new Map();
-eqMap2.set("a", 1);
-eqMap2.set("b", 2);
-eqMap2.set("c", 3);
-
-var eqMap3 = new Map();
-eqMap3.set("a", 1);
-eqMap3.set("b", 2);
-
-eq(eqMap, eqMap2);
-true
-
-eq(eqMap, eqMap, eqMap);
-true
-
-eq(eqMap, eqMap3);
-false
-
-eq(() => 1 + 1, 2);
-eq(1 + 1, 2);
-
-eq(5, 0);
-false
-
-*/
-export function eq(x, y, ...args) {
-  if (not(isEmpty(args))) {
-    let compare = [x, y, ...args];
-    let firstv = first(compare);
-
-    for (let i = 0; i < compare.length; i++) {
-      if (!isEqual(firstv, compare[i])) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-  return isEqual(x, y);
-}
-
-/*
-Internal function
-isEqual() is a helper for eq()
-
-*/
-function isEqual(x, y) {
+/**
+ * Internal function
+ * _eq() is a helper for eq()
+ *
+ * @private
+ *
+ */
+function _eq(x, y) {
   if (typeof y === "undefined") {
     return true;
   }
@@ -3692,72 +3717,142 @@ function isEqual(x, y) {
   return x === y;
 }
 
-/*
-notEq() is the same as not(eq(x, y))
+/**
+ * compares x, y and args. Allows comparison of nested arrays and objects
+ *
+ * @func
+ * @param {*}
+ * @param {*}
+ * @param {...*}
+ * @return {boolean}
+ * @example
+ *
+ * eq(5);
+ * // => true
+ *
+ * eq(1, 2);
+ * // => false
+ *
+ * eq(1, 1, 1);
+ * // => true
+ *
+ * eq([1, 2], [1, 2], [1, 2]);
+ * // => true
+ *
+ * eq([1, 2, [3, 4, [{a: "b"}]]], [1, 2, [3, 4, [{a: "b"}]]]);
+ * // => true
+ *
+ */
+export function eq(x, y, ...args) {
+  if (not(isEmpty(args))) {
+    let compare = [x, y, ...args];
+    let firstv = first(compare);
 
-notEq(1);
-false
+    for (let i = 0; i < compare.length; i++) {
+      if (!_eq(firstv, compare[i])) {
+        return false;
+      }
+    }
 
-notEq(1, 2);
-true
+    return true;
+  }
 
-notEq([1, 2], [3, 4]);
-true
+  return _eq(x, y);
+}
 
-*/
+/**
+ * the same as not(eq(x, y))
+ *
+ * @func
+ * @param {*}
+ * @param {*}
+ * @param {...*}
+ * @return {boolean}
+ * @example
+ *
+ * notEq(1);
+ * // => false
+ *
+ * notEq(1, 2);
+ * // => true
+ *
+ * notEq([1, 2], [3, 4]);
+ * // => true
+ *
+ */
 export function notEq(x, y, ...args) {
   return not(eq(x, y, ...args));
 }
 
-/*
-int() coerces x to an integer 
-
-int(1);
-1
-
-int(1.2);
-1
-
-*/
+/**
+ * coerces x to an integer
+ *
+ * @func
+ * @param {string|number}
+ * @return {number}
+ * @example
+ *
+ * int(1);
+ * // => 1
+ *
+ * int(1.2);
+ * // => 1
+ *
+ */
 export function int(x) {
   return parseInt(x);
 }
 
-/*
-symbol() returns a Symbol with the given name
-
-symbol("foo");
-Symbol(foo)
-
-*/
+/**
+ * returns a Symbol with the given name
+ *
+ * @func
+ * @param {string}
+ * @return {Symbol}
+ * @example
+ *
+ * symbol("foo");
+ * Symbol(foo)
+ *
+ */
 export function symbol(name) {
   return Symbol(name);
 }
 
-/*
-name() returns the name of a Symbol
-
-name(symbol("foo"));
-'foo'
-
-*/
+/**
+ * returns the name of a Symbol
+ *
+ * @func
+ * @param {Symbol}
+ * @return {string}
+ * @example
+ *
+ * name(symbol("foo"));
+ * // => "foo"
+ *
+ */
 export function name(symbol) {
   return symbol.toString().slice(7, -1);
 }
 
-/*
-everyPred() returns true if all predicates are true, false otherwise
-
-everyPred(isNumber, isOdd)(3, 9, 1);
-true
-
-everyPred(isNumber, isEven)(3, 9, 1);
-false
-
-everyPred(isNumber, isOdd, isPos)(3, 9, 1);
-true
-
-*/
+/**
+ * returns function which returns true if all predicates are true, false otherwise
+ *
+ * @func
+ * @param {...function}
+ * @return {function}
+ * @example
+ *
+ * everyPred(isNumber, isOdd)(3, 9, 1);
+ * // true
+ *
+ * everyPred(isNumber, isEven)(3, 9, 1);
+ * // false
+ *
+ * everyPred(isNumber, isOdd, isPos)(3, 9, 1);
+ * // true
+ *
+ */
 export function everyPred(...predicates) {
   return function (...args) {
     for (let i = 0; i < predicates.length; i++) {
@@ -3769,20 +3864,25 @@ export function everyPred(...predicates) {
   };
 }
 
-/*
-reSeq() returns a lazy sequence of successive matches of pattern
-in string 
-
-[...reSeq(/\d/g, "test 5.9.2")];
-[ '5', '9', '2' ]
-
-[...reSeq(/\w+/g, "this is the story all about how")];
-[ 'this', 'is', 'the',  'story', 'all',  'about', 'how' ]
-
-[...reSeq(/(\S+):(\d+)/g, " RX pkts:18 err:5 drop:48")];
-[["pkts:18", "pkts", "18"], ["err:5", "err", "5"], ["drop:48", "drop", "48"]]
-
-*/
+/**
+ * returns a lazy sequence of successive matches of pattern in a string
+ *
+ * @func
+ * @param {RegExp}
+ * @param {string}
+ * @return {LazyIterable}
+ * @example
+ *
+ * [...reSeq(/\d/g, "test 5.9.2")];
+ * // => ["5", "9", "2"]
+ *
+ * [...reSeq(/\w+/g, "this is the story all about how")];
+ * // => ["this", "is", "the",  "story", "all",  "about", "how"]
+ *
+ * [...reSeq(/(\S+):(\d+)/g, " RX pkts:18 err:5 drop:48")];
+ * // => [["pkts:18", "pkts", "18"], ["err:5", "err", "5"], ["drop:48", "drop", "48"]]
+ *
+ */
 export function reSeq(pattern, string) {
   let match;
 
@@ -3801,60 +3901,67 @@ export function reSeq(pattern, string) {
   });
 }
 
-/*
-float() coerces x to a float
-
-float("1.5");
-1.5
-
-float(1);
-1
-
-float(1.4442);
-1.4442
-
-float("hello");
-NaN
-
-*/
+/**
+ * coerces x to a float
+ *
+ * @func
+ * @param {string|number}
+ * @return {number}
+ * @example
+ *
+ * float("1.5");
+ * // => 1.5
+ *
+ * float(1);
+ * // => 1
+ *
+ * float(1.4442);
+ * // => 1.4442
+ *
+ */
 export function float(x) {
   return parseFloat(x);
 }
 
-/*
-class() returns the class of x
-
-classOf("hello");
-[Function: String]
-
-classOf(false);
-[Function: Boolean]
-
-classOf(1);
-[Function: Number]
-
-classOf(function() {});
-[Function: Function]
-
-classOf(new Map());
-[Function: Map]
-
-classOf([]);
-[Function: Array]
-
-classOf({});
-[Function: Object]
-
-classOf(new List());
-[class List extends Array]
-
-classOf(new Set);
-[Function: Set]
-
-classOf(new LazyIterable);
-[class LazyIterable]
-
-*/
+/**
+ * returns the class of x
+ *
+ * @func
+ * @param {*}
+ * @return {Class}
+ * @example
+ *
+ * classOf("hello");
+ * // => [Function: String]
+ *
+ * classOf(false);
+ * // => [Function: Boolean]
+ *
+ * classOf(1);
+ * // => [Function: Number]
+ *
+ * classOf(function() {});
+ * // => [Function: Function]
+ *
+ * classOf(new Map());
+ * // => [Function: Map]
+ *
+ * classOf([]);
+ * // => [Function: Array]
+ *
+ * classOf({});
+ * // => [Function: Object]
+ *
+ * classOf(new List());
+ * // => [class List extends Array]
+ *
+ * classOf(new Set);
+ * // => [Function: Set]
+ *
+ * classOf(new LazyIterable);
+ * // => [class LazyIterable]
+ *
+ */
 export function classOf(x) {
   var a = typeConst(x);
   var b = typePrimitive(x);
@@ -3902,32 +4009,36 @@ export function classOf(x) {
   return null;
 }
 
-/*
-iterate() returns a lazy sequence of x, f(x), f(f(x)) etc
-
-[...take(3, iterate(inc, 5))];
-
-[...take(10, iterate(partial(plus, 2), 0))];
-[ 0,  2,  4,  6,  8, 10, 12, 14, 16, 18 ]
-
-[...take(20, iterate(partial(plus, 2), 0))];
-[ 0,  2,  4,  6,  8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38 ]
-
-var powersOfTwo = iterate(partial(multiply, 2), 1);
-
-nth(powersOfTwo, 10);
-1024
-
-[...take(10, powersOfTwo)];
-[ 1,  2,   4,   8,  16, 32, 64, 128, 256, 512 ]
-
-[...take(3, iterate(([a, b]) => [b, a + b]))];
-
-var fib = map(first, iterate(([a, b]) => [b, a + b], [0, 1]));
-[...take(10, fib)];
-[ 0, 1,  1,  2,  3, 5, 8, 13, 21, 34 ]
-
-*/
+/**
+ * returns a lazy sequence of x, f(x), f(f(x)) etc
+ *
+ * @func
+ * @param {function}
+ * @param {number}
+ * @return {LazyIterable}
+ * @example
+ *
+ * [...take(3, iterate(inc, 5))];
+ * // => [5, 6, 7]
+ *
+ * [...take(10, iterate(partial(plus, 2), 0))];
+ * // => [0,  2,  4,  6,  8, 10, 12, 14, 16, 18]
+ *
+ * [...take(20, iterate(partial(plus, 2), 0))];
+ * // => [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38]
+ *
+ * var powersOfTwo = iterate(partial(multiply, 2), 1);
+ * nth(powersOfTwo, 10);
+ * // => 1024
+ *
+ * [...take(10, powersOfTwo)];
+ * // => [1,  2, 4, 8, 16, 32, 64, 128, 256, 512]
+ *
+ * var fib = map(first, iterate(([a, b]) => [b, a + b], [0, 1]));
+ * [...take(10, fib)];
+ * // => [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
+ *
+ */
 export function iterate(f, x) {
   return lazy(function* () {
     let result = x;

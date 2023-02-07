@@ -1,19 +1,19 @@
 import * as c from "../core.js";
 import * as s from "../string.js";
 
-describe("blankQmark", function () {
+describe("isBlank", function () {
   it("returns true if s is null, empty or contains only whitespace", function () {
-    expect(s.blankQmark(null)).toBe(true);
+    expect(s.isBlank(null)).toBe(true);
 
-    expect(s.blankQmark("")).toBe(true);
+    expect(s.isBlank("")).toBe(true);
 
-    expect(s.blankQmark("   ")).toBe(true);
+    expect(s.isBlank("   ")).toBe(true);
 
-    expect(s.blankQmark("  a  ")).toBe(false);
+    expect(s.isBlank("  a  ")).toBe(false);
 
-    expect(s.blankQmark(false)).toBe(true);
+    expect(s.isBlank(false)).toBe(true);
 
-    expect(s.blankQmark("\n")).toBe(true);
+    expect(s.isBlank("\n")).toBe(true);
   });
 });
 
@@ -28,7 +28,7 @@ describe("join", function () {
     );
 
     expect(
-      s.join(", ", c.remove(s.blankQmark, ["spam", null, "eggs", "", "spam"]))
+      s.join(", ", c.remove(s.isBlank, ["spam", null, "eggs", "", "spam"]))
     ).toBe("spam, eggs, spam");
   });
 });
