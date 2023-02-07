@@ -1,7 +1,8 @@
 # Fudge
 
-Fudge is based on [Squint](https://github.com/squint-cljs/squint) with some modifications
-to make it suitable for direct use in JavaScript. 
+Fudge is a library of Clojure-inspired functions for JavaScript. it is based on 
+[Squint](https://github.com/squint-cljs/squint) with some modifications to make 
+it suitable for direct use in JavaScript. 
 
 ## Status
 This project is experimental and there will likely be breaking changes. Do not
@@ -9,6 +10,9 @@ use in production.
 
 ## Install
 `npm i fudgejs`
+
+## Docs
+https://philbaker.dev/fudge/index.html
 
 ## Inspired by
 - [Squint](https://github.com/squint-cljs/squint)
