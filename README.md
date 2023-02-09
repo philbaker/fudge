@@ -14,6 +14,9 @@ use in production.
 ## Docs
 https://philbaker.dev/fudge/index.html
 
+## REPL
+Experiment with Fudge functions in the REPL by running `node repl.js`. 
+
 ## Inspired by
 - [Squint](https://github.com/squint-cljs/squint)
 - [Clojure](https://github.com/clojure/clojure)
