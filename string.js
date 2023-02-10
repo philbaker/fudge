@@ -93,8 +93,25 @@ export function trim(s) {
   return s.trim();
 }
 
-export function replace(s, m, re) {
-  return s.replaceAll(m, re);
+/**
+ * replaces all instances of match with replacement in s
+ *
+ * @func
+ * @param {string}
+ * @param {string|RegExp}
+ * @param {string}
+ * @return {string}
+ * @example
+ *
+ * replace("The color is red", /red/g, "blue");
+ * // => "The color is blue"
+ *
+ * replace("banana and mango", "an", "um");
+ * // => "bumuma umd mumgo"
+ *
+ */
+export function replace(s, match, replacement) {
+  return s.replaceAll(match, replacement);
 }
 
 /**
@@ -214,7 +231,7 @@ export function lowerCase(s) {
  * upperCase("abcd");
  * // => "ABCD"
  *
- * */
+ */
 export function upperCase(s) {
   return s.toUpperCase();
 }
