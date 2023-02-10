@@ -239,6 +239,11 @@ export function upperCase(s) {
 /**
  * return true if s ends with substring
  *
+ * @func
+ * @param {string}
+ * @return {string}
+ * @example
+ *
  * endsWith("Minsun", "sun");
  * // true
  *
