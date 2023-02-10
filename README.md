@@ -39,6 +39,9 @@ Experiment with Fudge functions in the REPL by running `node repl.js`.
 - [Atomic](https://github.com/mlanza/atomic)
 - [Functional core, imperative shell](https://www.destroyallsoftware.com/screencasts/catalog/functional-core-imperative-shell)
 
+## Generate docs
+```jsdoc core.js -c jsdoc.json -r README.md```
+
 ## License
 
 Copyright © 2023 Phil Baker

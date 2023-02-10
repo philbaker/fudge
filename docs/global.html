@@ -1206,7 +1206,7 @@ butlast([1, 2, 3]);
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core.js.html">core.js</a>, <a href="core.js.html#line3965">line 3965</a>
+        <a href="core.js.html">core.js</a>, <a href="core.js.html#line4031">line 4031</a>
     </li></ul></dd>
     
 
@@ -4914,7 +4914,7 @@ the first item for which pred(value) returns false
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core.js.html">core.js</a>, <a href="core.js.html#line3746">line 3746</a>
+        <a href="core.js.html">core.js</a>, <a href="core.js.html#line3812">line 3812</a>
     </li></ul></dd>
     
 
@@ -5099,7 +5099,7 @@ eq([1, 2, [3, 4, [{a: "b"}]]], [1, 2, [3, 4, [{a: "b"}]]]);
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core.js.html">core.js</a>, <a href="core.js.html#line3856">line 3856</a>
+        <a href="core.js.html">core.js</a>, <a href="core.js.html#line3922">line 3922</a>
     </li></ul></dd>
     
 
@@ -6000,7 +6000,7 @@ first("abc");
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core.js.html">core.js</a>, <a href="core.js.html#line3922">line 3922</a>
+        <a href="core.js.html">core.js</a>, <a href="core.js.html#line3988">line 3988</a>
     </li></ul></dd>
     
 
@@ -8066,7 +8066,7 @@ iff(1 * 2 === 2, (() => 3 * 2)(), 7);
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core.js.html">core.js</a>, <a href="core.js.html#line3802">line 3802</a>
+        <a href="core.js.html">core.js</a>, <a href="core.js.html#line3868">line 3868</a>
     </li></ul></dd>
     
 
@@ -9371,6 +9371,340 @@ isEvery(isEven, [1, 2, 3]);
     
 
     
+    <h4 class="name" id="isFloat"><span class="type-signature"></span>isFloat<span class="signature">(x)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    returns true if x is a number
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="core.js.html">core.js</a>, <a href="core.js.html#line3583">line 3583</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>isFloat(1);
+// => true
+
+isFloat("1");
+// => false
+
+isFloat(+"1");
+// => true</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="isFn"><span class="type-signature"></span>isFn<span class="signature">(x)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    returns true if x is a function
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="core.js.html">core.js</a>, <a href="core.js.html#line3690">line 3690</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>isFn(() => 1 + 1);
+// => true
+
+isFn(isNil);
+// => true
+
+isFn(1);
+// => false</code></pre>
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="isInstance"><span class="type-signature"></span>isInstance<span class="signature">(c, x)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
     
 
@@ -9551,6 +9885,173 @@ isInstance(Number, 5);
 // => true
 
 isInstance(Number, "5");
+// => false</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="isInteger"><span class="type-signature"></span>isInteger<span class="signature">(x)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    returns true if x is an integer
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="core.js.html">core.js</a>, <a href="core.js.html#line3561">line 3561</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>isInteger(1);
+// => true
+
+isInteger(1.0);
+// => true
+
+isInteger(3.4);
 // => false</code></pre>
 
 
@@ -9825,7 +10326,7 @@ isList("hello");
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core.js.html">core.js</a>, <a href="core.js.html#line3580">line 3580</a>
+        <a href="core.js.html">core.js</a>, <a href="core.js.html#line3624">line 3624</a>
     </li></ul></dd>
     
 
@@ -10728,7 +11229,7 @@ isNumber(+"1");
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core.js.html">core.js</a>, <a href="core.js.html#line3602">line 3602</a>
+        <a href="core.js.html">core.js</a>, <a href="core.js.html#line3646">line 3646</a>
     </li></ul></dd>
     
 
@@ -11564,7 +12065,7 @@ isReduced(reduced("foo"));
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core.js.html">core.js</a>, <a href="core.js.html#line3624">line 3624</a>
+        <a href="core.js.html">core.js</a>, <a href="core.js.html#line3668">line 3668</a>
     </li></ul></dd>
     
 
@@ -11892,7 +12393,7 @@ true</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core.js.html">core.js</a>, <a href="core.js.html#line3558">line 3558</a>
+        <a href="core.js.html">core.js</a>, <a href="core.js.html#line3602">line 3602</a>
     </li></ul></dd>
     
 
@@ -12739,7 +13240,7 @@ otherwise false. For arrays the key is the index.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core.js.html">core.js</a>, <a href="core.js.html#line4042">line 4042</a>
+        <a href="core.js.html">core.js</a>, <a href="core.js.html#line4108">line 4108</a>
     </li></ul></dd>
     
 
@@ -16943,7 +17444,7 @@ pet
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core.js.html">core.js</a>, <a href="core.js.html#line3834">line 3834</a>
+        <a href="core.js.html">core.js</a>, <a href="core.js.html#line3900">line 3900</a>
     </li></ul></dd>
     
 
@@ -17339,7 +17840,7 @@ pet
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core.js.html">core.js</a>, <a href="core.js.html#line3783">line 3783</a>
+        <a href="core.js.html">core.js</a>, <a href="core.js.html#line3849">line 3849</a>
     </li></ul></dd>
     
 
@@ -19711,7 +20212,7 @@ randInt(30);
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core.js.html">core.js</a>, <a href="core.js.html#line3886">line 3886</a>
+        <a href="core.js.html">core.js</a>, <a href="core.js.html#line3952">line 3952</a>
     </li></ul></dd>
     
 
@@ -23388,7 +23889,7 @@ subvec([1, 2, 3, 4, 5, 6, 7], 2, 4);
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core.js.html">core.js</a>, <a href="core.js.html#line3818">line 3818</a>
+        <a href="core.js.html">core.js</a>, <a href="core.js.html#line3884">line 3884</a>
     </li></ul></dd>
     
 
@@ -25594,13 +26095,13 @@ vector(1, 2, 3);
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-string.html">string</a></li></ul><h3>Global</h3><ul><li><a href="global.html#and">and</a></li><li><a href="global.html#assoc">assoc</a></li><li><a href="global.html#assocIn">assocIn</a></li><li><a href="global.html#atom">atom</a></li><li><a href="global.html#booleans">booleans</a></li><li><a href="global.html#butlast">butlast</a></li><li><a href="global.html#classOf">classOf</a></li><li><a href="global.html#comp">comp</a></li><li><a href="global.html#complement">complement</a></li><li><a href="global.html#concat">concat</a></li><li><a href="global.html#cond">cond</a></li><li><a href="global.html#conj">conj</a></li><li><a href="global.html#cons">cons</a></li><li><a href="global.html#constantly">constantly</a></li><li><a href="global.html#count">count</a></li><li><a href="global.html#cycle">cycle</a></li><li><a href="global.html#dec">dec</a></li><li><a href="global.html#deref">deref</a></li><li><a href="global.html#disj">disj</a></li><li><a href="global.html#dissoc">dissoc</a></li><li><a href="global.html#distinct">distinct</a></li><li><a href="global.html#divide">divide</a></li><li><a href="global.html#drop">drop</a></li><li><a href="global.html#dropLast">dropLast</a></li><li><a href="global.html#dropWhile">dropWhile</a></li><li><a href="global.html#empty">empty</a></li><li><a href="global.html#eq">eq</a></li><li><a href="global.html#everyPred">everyPred</a></li><li><a href="global.html#ffirst">ffirst</a></li><li><a href="global.html#filter">filter</a></li><li><a href="global.html#filterv">filterv</a></li><li><a href="global.html#first">first</a></li><li><a href="global.html#float">float</a></li><li><a href="global.html#fnil">fnil</a></li><li><a href="global.html#frequencies">frequencies</a></li><li><a href="global.html#get">get</a></li><li><a href="global.html#getIn">getIn</a></li><li><a href="global.html#groupBy">groupBy</a></li><li><a href="global.html#gt">gt</a></li><li><a href="global.html#identity">identity</a></li><li><a href="global.html#ifNot">ifNot</a></li><li><a href="global.html#iff">iff</a></li><li><a href="global.html#inc">inc</a></li><li><a href="global.html#int">int</a></li><li><a href="global.html#interleave">interleave</a></li><li><a href="global.html#into">into</a></li><li><a href="global.html#isDistinct">isDistinct</a></li><li><a href="global.html#isEmpty">isEmpty</a></li><li><a href="global.html#isEven">isEven</a></li><li><a href="global.html#isEvery">isEvery</a></li><li><a href="global.html#isFalse">isFalse</a></li><li><a href="global.html#isInstance">isInstance</a></li><li><a href="global.html#isList">isList</a></li><li><a href="global.html#isMap">isMap</a></li><li><a href="global.html#isNeg">isNeg</a></li><li><a href="global.html#isNotAny">isNotAny</a></li><li><a href="global.html#isNotEvery">isNotEvery</a></li><li><a href="global.html#isNumber">isNumber</a></li><li><a href="global.html#isObject">isObject</a></li><li><a href="global.html#isOdd">isOdd</a></li><li><a href="global.html#isPos">isPos</a></li><li><a href="global.html#isReduced">isReduced</a></li><li><a href="global.html#isSeqable">isSeqable</a></li><li><a href="global.html#isSet">isSet</a></li><li><a href="global.html#isSome">isSome</a></li><li><a href="global.html#isString">isString</a></li><li><a href="global.html#isTrue">isTrue</a></li><li><a href="global.html#isVector">isVector</a></li><li><a href="global.html#isZero">isZero</a></li><li><a href="global.html#itContains">itContains</a></li><li><a href="global.html#iterate">iterate</a></li><li><a href="global.html#keep">keep</a></li><li><a href="global.html#keys">keys</a></li><li><a href="global.html#last">last</a></li><li><a href="global.html#lett">lett</a></li><li><a href="global.html#list">list</a></li><li><a href="global.html#lt">lt</a></li><li><a href="global.html#map">map</a></li><li><a href="global.html#mapIndexed">mapIndexed</a></li><li><a href="global.html#mapcat">mapcat</a></li><li><a href="global.html#mapv">mapv</a></li><li><a href="global.html#merge">merge</a></li><li><a href="global.html#minus">minus</a></li><li><a href="global.html#multiply">multiply</a></li><li><a href="global.html#mutAssoc">mutAssoc</a></li><li><a href="global.html#mutAssocIn">mutAssocIn</a></li><li><a href="global.html#mutConj">mutConj</a></li><li><a href="global.html#mutDisj">mutDisj</a></li><li><a href="global.html#mutDissoc">mutDissoc</a></li><li><a href="global.html#mutReset">mutReset</a></li><li><a href="global.html#mutSwap">mutSwap</a></li><li><a href="global.html#mutUpdate">mutUpdate</a></li><li><a href="global.html#name">name</a></li><li><a href="global.html#not">not</a></li><li><a href="global.html#notEq">notEq</a></li><li><a href="global.html#nth">nth</a></li><li><a href="global.html#or">or</a></li><li><a href="global.html#partial">partial</a></li><li><a href="global.html#partition">partition</a></li><li><a href="global.html#partitionAll">partitionAll</a></li><li><a href="global.html#plus">plus</a></li><li><a href="global.html#prStr">prStr</a></li><li><a href="global.html#println">println</a></li><li><a href="global.html#prn">prn</a></li><li><a href="global.html#quot">quot</a></li><li><a href="global.html#randInt">randInt</a></li><li><a href="global.html#range">range</a></li><li><a href="global.html#reSeq">reSeq</a></li><li><a href="global.html#reduce">reduce</a></li><li><a href="global.html#reduced">reduced</a></li><li><a href="global.html#remove">remove</a></li><li><a href="global.html#repeat">repeat</a></li><li><a href="global.html#repeatedly">repeatedly</a></li><li><a href="global.html#replace">replace</a></li><li><a href="global.html#rest">rest</a></li><li><a href="global.html#reverse">reverse</a></li><li><a href="global.html#second">second</a></li><li><a href="global.html#selectKeys">selectKeys</a></li><li><a href="global.html#seq">seq</a></li><li><a href="global.html#set">set</a></li><li><a href="global.html#shuffle">shuffle</a></li><li><a href="global.html#some">some</a></li><li><a href="global.html#sort">sort</a></li><li><a href="global.html#splitAt">splitAt</a></li><li><a href="global.html#splitWith">splitWith</a></li><li><a href="global.html#str">str</a></li><li><a href="global.html#subvec">subvec</a></li><li><a href="global.html#symbol">symbol</a></li><li><a href="global.html#take">take</a></li><li><a href="global.html#takeNth">takeNth</a></li><li><a href="global.html#takeWhile">takeWhile</a></li><li><a href="global.html#tf">tf</a></li><li><a href="global.html#tl">tl</a></li><li><a href="global.html#update">update</a></li><li><a href="global.html#updateIn">updateIn</a></li><li><a href="global.html#vals">vals</a></li><li><a href="global.html#vec">vec</a></li><li><a href="global.html#vector">vector</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-string.html">string</a></li></ul><h3>Global</h3><ul><li><a href="global.html#and">and</a></li><li><a href="global.html#assoc">assoc</a></li><li><a href="global.html#assocIn">assocIn</a></li><li><a href="global.html#atom">atom</a></li><li><a href="global.html#booleans">booleans</a></li><li><a href="global.html#butlast">butlast</a></li><li><a href="global.html#classOf">classOf</a></li><li><a href="global.html#comp">comp</a></li><li><a href="global.html#complement">complement</a></li><li><a href="global.html#concat">concat</a></li><li><a href="global.html#cond">cond</a></li><li><a href="global.html#conj">conj</a></li><li><a href="global.html#cons">cons</a></li><li><a href="global.html#constantly">constantly</a></li><li><a href="global.html#count">count</a></li><li><a href="global.html#cycle">cycle</a></li><li><a href="global.html#dec">dec</a></li><li><a href="global.html#deref">deref</a></li><li><a href="global.html#disj">disj</a></li><li><a href="global.html#dissoc">dissoc</a></li><li><a href="global.html#distinct">distinct</a></li><li><a href="global.html#divide">divide</a></li><li><a href="global.html#drop">drop</a></li><li><a href="global.html#dropLast">dropLast</a></li><li><a href="global.html#dropWhile">dropWhile</a></li><li><a href="global.html#empty">empty</a></li><li><a href="global.html#eq">eq</a></li><li><a href="global.html#everyPred">everyPred</a></li><li><a href="global.html#ffirst">ffirst</a></li><li><a href="global.html#filter">filter</a></li><li><a href="global.html#filterv">filterv</a></li><li><a href="global.html#first">first</a></li><li><a href="global.html#float">float</a></li><li><a href="global.html#fnil">fnil</a></li><li><a href="global.html#frequencies">frequencies</a></li><li><a href="global.html#get">get</a></li><li><a href="global.html#getIn">getIn</a></li><li><a href="global.html#groupBy">groupBy</a></li><li><a href="global.html#gt">gt</a></li><li><a href="global.html#identity">identity</a></li><li><a href="global.html#ifNot">ifNot</a></li><li><a href="global.html#iff">iff</a></li><li><a href="global.html#inc">inc</a></li><li><a href="global.html#int">int</a></li><li><a href="global.html#interleave">interleave</a></li><li><a href="global.html#into">into</a></li><li><a href="global.html#isDistinct">isDistinct</a></li><li><a href="global.html#isEmpty">isEmpty</a></li><li><a href="global.html#isEven">isEven</a></li><li><a href="global.html#isEvery">isEvery</a></li><li><a href="global.html#isFalse">isFalse</a></li><li><a href="global.html#isFloat">isFloat</a></li><li><a href="global.html#isFn">isFn</a></li><li><a href="global.html#isInstance">isInstance</a></li><li><a href="global.html#isInteger">isInteger</a></li><li><a href="global.html#isList">isList</a></li><li><a href="global.html#isMap">isMap</a></li><li><a href="global.html#isNeg">isNeg</a></li><li><a href="global.html#isNotAny">isNotAny</a></li><li><a href="global.html#isNotEvery">isNotEvery</a></li><li><a href="global.html#isNumber">isNumber</a></li><li><a href="global.html#isObject">isObject</a></li><li><a href="global.html#isOdd">isOdd</a></li><li><a href="global.html#isPos">isPos</a></li><li><a href="global.html#isReduced">isReduced</a></li><li><a href="global.html#isSeqable">isSeqable</a></li><li><a href="global.html#isSet">isSet</a></li><li><a href="global.html#isSome">isSome</a></li><li><a href="global.html#isString">isString</a></li><li><a href="global.html#isTrue">isTrue</a></li><li><a href="global.html#isVector">isVector</a></li><li><a href="global.html#isZero">isZero</a></li><li><a href="global.html#itContains">itContains</a></li><li><a href="global.html#iterate">iterate</a></li><li><a href="global.html#keep">keep</a></li><li><a href="global.html#keys">keys</a></li><li><a href="global.html#last">last</a></li><li><a href="global.html#lett">lett</a></li><li><a href="global.html#list">list</a></li><li><a href="global.html#lt">lt</a></li><li><a href="global.html#map">map</a></li><li><a href="global.html#mapIndexed">mapIndexed</a></li><li><a href="global.html#mapcat">mapcat</a></li><li><a href="global.html#mapv">mapv</a></li><li><a href="global.html#merge">merge</a></li><li><a href="global.html#minus">minus</a></li><li><a href="global.html#multiply">multiply</a></li><li><a href="global.html#mutAssoc">mutAssoc</a></li><li><a href="global.html#mutAssocIn">mutAssocIn</a></li><li><a href="global.html#mutConj">mutConj</a></li><li><a href="global.html#mutDisj">mutDisj</a></li><li><a href="global.html#mutDissoc">mutDissoc</a></li><li><a href="global.html#mutReset">mutReset</a></li><li><a href="global.html#mutSwap">mutSwap</a></li><li><a href="global.html#mutUpdate">mutUpdate</a></li><li><a href="global.html#name">name</a></li><li><a href="global.html#not">not</a></li><li><a href="global.html#notEq">notEq</a></li><li><a href="global.html#nth">nth</a></li><li><a href="global.html#or">or</a></li><li><a href="global.html#partial">partial</a></li><li><a href="global.html#partition">partition</a></li><li><a href="global.html#partitionAll">partitionAll</a></li><li><a href="global.html#plus">plus</a></li><li><a href="global.html#prStr">prStr</a></li><li><a href="global.html#println">println</a></li><li><a href="global.html#prn">prn</a></li><li><a href="global.html#quot">quot</a></li><li><a href="global.html#randInt">randInt</a></li><li><a href="global.html#range">range</a></li><li><a href="global.html#reSeq">reSeq</a></li><li><a href="global.html#reduce">reduce</a></li><li><a href="global.html#reduced">reduced</a></li><li><a href="global.html#remove">remove</a></li><li><a href="global.html#repeat">repeat</a></li><li><a href="global.html#repeatedly">repeatedly</a></li><li><a href="global.html#replace">replace</a></li><li><a href="global.html#rest">rest</a></li><li><a href="global.html#reverse">reverse</a></li><li><a href="global.html#second">second</a></li><li><a href="global.html#selectKeys">selectKeys</a></li><li><a href="global.html#seq">seq</a></li><li><a href="global.html#set">set</a></li><li><a href="global.html#shuffle">shuffle</a></li><li><a href="global.html#some">some</a></li><li><a href="global.html#sort">sort</a></li><li><a href="global.html#splitAt">splitAt</a></li><li><a href="global.html#splitWith">splitWith</a></li><li><a href="global.html#str">str</a></li><li><a href="global.html#subvec">subvec</a></li><li><a href="global.html#symbol">symbol</a></li><li><a href="global.html#take">take</a></li><li><a href="global.html#takeNth">takeNth</a></li><li><a href="global.html#takeWhile">takeWhile</a></li><li><a href="global.html#tf">tf</a></li><li><a href="global.html#tl">tl</a></li><li><a href="global.html#update">update</a></li><li><a href="global.html#updateIn">updateIn</a></li><li><a href="global.html#vals">vals</a></li><li><a href="global.html#vec">vec</a></li><li><a href="global.html#vector">vector</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Tue Feb 07 2023 19:56:41 GMT+0000 (Greenwich Mean Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Fri Feb 10 2023 21:48:44 GMT+0000 (Greenwich Mean Time)
 </footer>
 
 <script> prettyPrint(); </script>
