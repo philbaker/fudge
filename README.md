@@ -15,7 +15,7 @@ use in production.
 
 Import functions from core.js and string.js as needed
 
-```
+```javascript
 import { not } from "fudgejs/core.js";
 import { trim } from "fudgejs/string.js";
 
