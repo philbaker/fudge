@@ -144,6 +144,9 @@ import {
   float,
   classOf,
   iterate,
+  isFn,
+  isInteger,
+  isFloat,
 } from "./core.js";
 
 import {
@@ -154,6 +157,7 @@ import {
   split,
   lowerCase,
   upperCase,
+  endsWith,
 } from "./string.js";
 
 const r = repl.start();
@@ -304,6 +308,9 @@ Object.assign(
     float,
     classOf,
     iterate,
+    isFn,
+    isInteger,
+    isFloat,
     isBlank,
     join,
     trim,
@@ -311,6 +318,7 @@ Object.assign(
     split,
     lowerCase,
     upperCase,
+    endsWith,
   },
   isList,
   list,
@@ -455,11 +463,15 @@ Object.assign(
   float,
   classOf,
   iterate,
+  isFn,
+  isInteger,
+  isFloat,
   isBlank,
   join,
   trim,
   strReplace,
   split,
   lowerCase,
-  upperCase
+  upperCase,
+  endsWith
 );

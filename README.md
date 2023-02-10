@@ -11,8 +11,22 @@ use in production.
 ## Install
 `npm i fudgejs`
 
-## Docs
-https://philbaker.dev/fudge/index.html
+## Usage
+
+Import functions from core.js and string.js as needed
+
+```
+import { not } from "fudgejs/core.js";
+import { trim } from "fudgejs/string.js";
+
+not(true);
+// false
+
+trim(" hello   ");
+// 'hello'
+```
+
+All functions are listed at https://philbaker.dev/fudge/index.html
 
 ## REPL
 Experiment with Fudge functions in the REPL by running `node repl.js`. 

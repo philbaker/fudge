@@ -235,3 +235,20 @@ export function lowerCase(s) {
 export function upperCase(s) {
   return s.toUpperCase();
 }
+
+/**
+ * return true if s ends with substring
+ *
+ * endsWith("Minsun", "sun");
+ * // true
+ *
+ * endsWith("Minsun", "suns");
+ * // false
+ *
+ * endsWith("Minsun", "un")
+ * // true
+ *
+ */
+export function endsWith(s, substring) {
+  return s.endsWith(substring);
+}

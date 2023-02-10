@@ -3541,6 +3541,50 @@ export function isNumber(x) {
 }
 
 /**
+ * returns true if x is an integer
+ *
+ * @func
+ * @param {*}
+ * @return {boolean}
+ * @example
+ *
+ * isInteger(1);
+ * // => true
+ *
+ * isInteger(1.0);
+ * // => true
+ *
+ * isInteger(3.4);
+ * // => false
+ *
+ */
+export function isInteger(x) {
+  return Number.isInteger(x);
+}
+
+/**
+ * returns true if x is a number
+ *
+ * @func
+ * @param {*}
+ * @return {boolean}
+ * @example
+ *
+ * isFloat(1);
+ * // => true
+ *
+ * isFloat("1");
+ * // => false
+ *
+ * isFloat(+"1");
+ * // => true
+ *
+ */
+export function isFloat(x) {
+  return isNumber(x);
+}
+
+/**
  * returns true if x is a string
  *
  * @func
@@ -3623,6 +3667,28 @@ export function isObject(x) {
  */
 export function isSet(x) {
   return typeConst(x) === SET_TYPE;
+}
+
+/**
+ * returns true if x is a function
+ *
+ * @func
+ * @param {*}
+ * @return {boolean}
+ * @example
+ *
+ * isFn(() => 1 + 1);
+ * // => true
+ *
+ * isFn(isNil);
+ * // => true
+ *
+ * isFn(1);
+ * // => false
+ *
+ */
+export function isFn(x) {
+  return typePrimitive(x) === FUNCTION_TYPE;
 }
 
 /**
