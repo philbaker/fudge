@@ -147,6 +147,9 @@ import {
   isFn,
   isInteger,
   isFloat,
+  reductions,
+  max,
+  min,
 } from "./core.js";
 
 import {
@@ -319,6 +322,9 @@ Object.assign(
     lowerCase,
     upperCase,
     endsWith,
+    reductions,
+    max,
+    min,
   },
   isList,
   list,
@@ -473,5 +479,8 @@ Object.assign(
   split,
   lowerCase,
   upperCase,
-  endsWith
+  endsWith,
+  reductions,
+  max,
+  min
 );

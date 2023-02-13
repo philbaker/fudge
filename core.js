@@ -741,6 +741,42 @@ export function reduce(f, arg1, arg2) {
 }
 
 /**
+ * returns a lazy sequence of the intermediate values of the reduction
+ *
+ * @func
+ * @param {function}
+ * @param {Array|List}
+ * @param {Array|List}
+ * @return {LazyIterable}
+ * @example
+ *
+ * [...reductions(plus, [1, 2, 3, 4, 5])];
+ * // => [1, 3, 6, 10, 15]
+ *
+ * [...reductions(conj, [], list(1, 2, 3))];
+ * // => [[], [1], [1, 2], [1, 2, 3]]
+ *
+ */
+export function reductions(f, init, coll) {
+  if (coll === undefined) {
+    coll = iterable(init);
+    init = coll[0];
+    coll = coll.slice(1);
+  }
+
+  return lazy(function* () {
+    let acc = init === undefined ? 0 : init;
+
+    yield acc;
+
+    for (const item of coll) {
+      acc = f(acc, item);
+      yield acc;
+    }
+  });
+}
+
+/**
  * MUTATOR: adds a value to a structure by mutating the original
  *
  * @func
@@ -4114,4 +4150,58 @@ export function iterate(f, x) {
       result = f(result);
     }
   });
+}
+
+/**
+ * Returns the greatest of the numbers
+ *
+ * @func
+ * @param {...number}
+ * @return {number}
+ * @example
+ *
+ * max(1, 2, 3, 4, 5);
+ * // => 5
+ *
+ * apply(max, [1, 2, 3, 4, 3]);
+ * // => 4
+ *
+ */
+export function max(...args) {
+  let val = args[0];
+
+  for (let i = 0; i < args.length; i++) {
+    if (args[i] > val) {
+      val = args[i];
+    }
+  }
+
+  return val;
+}
+
+/**
+ * Returns the least of the numbers
+ *
+ * @func
+ * @param {...number}
+ * @return {number}
+ * @example
+ *
+ * min(1, 2, 3, 4, 5);
+ * // => 1
+ *
+ * min(5, 4, 3, 2, 1);
+ * // => 1
+ *
+ */
+export function min(...args) {
+  let val = args[0];
+
+  for (let i = 0; i < args.length; i++) {
+    if (args[i] < val) {
+      val = args[i];
+    }
+  }
+
+  return val;
 }

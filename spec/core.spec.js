@@ -550,6 +550,36 @@ describe("reduce", function () {
   });
 });
 
+describe("reductions", function () {
+  it("returns a lazy sequence of the intermediate values of the reduction", function () {
+    expect([...c.reductions(c.plus, null)]).toEqual([0]);
+
+    expect([...c.reductions(c.plus, [])]).toEqual([0]);
+
+    expect([...c.reductions(c.plus, [1, 1, 1, 1])]).toEqual([1, 2, 3, 4]);
+
+    expect([...c.reductions(c.plus, [1, 2, 3])]).toEqual([1, 3, 6]);
+
+    expect([...c.reductions(c.conj, [], c.list(1, 2, 3))]).toEqual([
+      [],
+      [1],
+      [1, 2],
+      [1, 2, 3],
+    ]);
+
+    expect([...c.reductions(c.plus, [1, 2, 3, 4, 5])]).toEqual([
+      1, 3, 6, 10, 15,
+    ]);
+
+    expect([...c.reductions(c.conj, [1, 2], [3, 4, 5])]).toEqual([
+      [1, 2],
+      [1, 2, 3],
+      [1, 2, 3, 4],
+      [1, 2, 3, 4, 5],
+    ]);
+  });
+});
+
 describe("mutAssoc", function () {
   it("adds a value to a map via mutation", function () {
     var mapData = new Map();
@@ -2153,5 +2183,25 @@ describe("distinct", function () {
     expect([...c.distinct(["a", "a", "b", "c"])]).toEqual(["a", "b", "c"]);
 
     expect(c.apply(c.str, c.distinct("tattoo"))).toBe("tao");
+  });
+});
+
+describe("max", function () {
+  it("returns the greatest of the numbers", function () {
+    expect(c.max(5, 4, 3, 2, 1)).toBe(5);
+
+    expect(c.apply(c.max, c.list(4, 3, 5, 6, 2))).toBe(6);
+
+    expect(c.reduce(c.max, [1, 2, 3, 4, 5, 6, 7, 6, 5, 4, 3])).toBe(7);
+  });
+});
+
+describe("min", function () {
+  it("returns the least of the numbers", function () {
+    expect(c.min(1, 2, 3, 4, 5)).toBe(1);
+
+    expect(c.min(5, 4, 3, 2, 1)).toBe(1);
+
+    expect(c.min(100)).toBe(100);
   });
 });
