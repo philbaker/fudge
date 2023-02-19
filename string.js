@@ -94,6 +94,38 @@ export function trim(s) {
 }
 
 /**
+ * removes whitespace from the start of a string
+ *
+ * @func
+ * @param {string}
+ * @return {string}
+ * @example
+ *
+ * trim("   a");
+ * "a"
+ *
+ */
+export function triml(s) {
+  return s.trimStart();
+}
+
+/**
+ * removes whitespace from the end of a string
+ *
+ * @func
+ * @param {string}
+ * @return {string}
+ * @example
+ *
+ * trim("a    ");
+ * "a"
+ *
+ */
+export function trimr(s) {
+  return s.trimEnd();
+}
+
+/**
  * replaces all instances of match with replacement in s
  *
  * @func
@@ -256,4 +288,23 @@ export function upperCase(s) {
  */
 export function endsWith(s, substring) {
   return s.endsWith(substring);
+}
+
+/**
+ * return true if s starts with substring
+ *
+ * @func
+ * @param {string}
+ * @return {string}
+ * @example
+ *
+ * startsWith("abcde", "a");
+ * // => true
+ *
+ * startsWith("abcde", "b");
+ * // => false
+ *
+ */
+export function startsWith(s, substring) {
+  return s.startsWith(substring);
 }

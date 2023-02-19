@@ -33,6 +33,34 @@ describe("join", function () {
   });
 });
 
+describe("trim", function () {
+  it("removes whitespace from both ends of a string", function () {
+    expect(s.trim("   a    ")).toBe("a");
+  });
+});
+
+describe("triml", function () {
+  it("removes whitespace from the start of a string", function () {
+    expect(s.triml("   a")).toBe("a");
+  });
+});
+
+describe("trimr", function () {
+  it("removes whitespace from the end of a string", function () {
+    expect(s.trimr("a    ")).toBe("a");
+  });
+});
+
+describe("replace", function () {
+  it("replaces all instances of match with replacement in s", function () {
+    expect(s.replace("The color is red", /red/g, "blue")).toBe(
+      "The color is blue"
+    );
+
+    expect(s.replace("banana and mango", "an", "um")).toBe("bumuma umd mumgo");
+  });
+});
+
 describe("split", function () {
   it("works", function () {
     expect(s.split("q1w2e3r4t5y6u7i8o9p0", /\d+/)).toEqual([
@@ -101,5 +129,33 @@ describe("upperCase", function () {
     expect(s.upperCase("Hello")).toBe("HELLO");
 
     expect(s.upperCase("abcd")).toBe("ABCD");
+  });
+});
+
+describe("endsWith", function () {
+  it("returns true if s ends with substring", function () {
+    expect(s.endsWith("Minsun", "sun")).toBe(true);
+
+    expect(s.endsWith("Minsun", "suns")).toBe(false);
+
+    expect(s.endsWith("Minsun", "un")).toBe(true);
+  });
+});
+
+describe("startsWith", function () {
+  it("return true if s starts with substring", function () {
+    expect(s.startsWith("abcde", "a")).toBe(true);
+
+    expect(s.startsWith("abcde", "ab")).toBe(true);
+
+    expect(s.startsWith("abcde", "abc")).toBe(true);
+
+    expect(s.startsWith("abcde", "b")).toBe(false);
+
+    expect(s.startsWith("abcde", "bc")).toBe(false);
+
+    expect(s.startsWith("a", "ab")).toBe(false);
+
+    expect(s.startsWith("ab", "abc")).toBe(false);
   });
 });

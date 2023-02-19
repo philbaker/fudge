@@ -4205,3 +4205,27 @@ export function min(...args) {
 
   return val;
 }
+
+/**
+ * returns an object with keys mapped to corresponding values
+ *
+ * @func
+ * @param {Array}
+ * @param {Array}
+ * @return {Object}
+ * @example
+ *
+ * zipmap(["a", "b", "c"], [1, 2, 3]);
+ * // => {a: 1, b: 2, c: 3}
+ *
+ */
+export function zipmap(k, v) {
+  const result = {};
+  const length = Math.min(k.length, v.length);
+
+  for (let i = 0; i < length; i++) {
+    result[k[i]] = v[i];
+  }
+
+  return result;
+}
