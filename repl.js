@@ -150,6 +150,7 @@ import {
   reductions,
   max,
   min,
+  zipmap,
 } from "./core.js";
 
 import {
@@ -161,6 +162,9 @@ import {
   lowerCase,
   upperCase,
   endsWith,
+  startsWith,
+  triml,
+  trimr,
 } from "./string.js";
 
 const r = repl.start();
@@ -325,6 +329,10 @@ Object.assign(
     reductions,
     max,
     min,
+    startsWith,
+    triml,
+    trimr,
+    zipmap,
   },
   isList,
   list,
@@ -482,5 +490,9 @@ Object.assign(
   endsWith,
   reductions,
   max,
-  min
+  min,
+  startsWith,
+  triml,
+  trimr,
+  zipmap
 );
