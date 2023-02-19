@@ -2205,3 +2205,13 @@ describe("min", function () {
     expect(c.min(100)).toBe(100);
   });
 });
+
+describe("zipmap", function () {
+  it("returns an object with keys mapped to corresponding values", function () {
+    expect(c.zipmap(["a", "b", "c"], [1, 2, 3])).toEqual({ a: 1, b: 2, c: 3 });
+
+    expect(c.zipmap(["a", "b", "c"], [1, 2])).toEqual({ a: 1, b: 2});
+
+    expect(c.zipmap(["a", "b"], [1, 2, 3])).toEqual({ a: 1, b: 2});
+  });
+});
